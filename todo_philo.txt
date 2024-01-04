@@ -1,4 +1,10 @@
-jbccj
-vrvjervre
-vrevenvre
-vreverv
+#include <pthread.h>
+
+gcc -g -pthread main.c -o main
+(nao e uma biblioteca standard no compilador)
+
+Threads
+
+processos vs Threads
+
+mutex
