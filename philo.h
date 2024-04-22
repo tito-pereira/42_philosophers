@@ -1,29 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 12:32:33 by tibarbos          #+#    #+#             */
-/*   Updated: 2023/04/23 17:26:56 by tibarbos         ###   ########.fr       */
+/*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
+/*   Updated: 2024/04/22 16:49:16 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef PHILO_H
+#define PHILO_H
 
-int	ft_isalnum(int c)
-{
-	if ((c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'))
-		return (1);
-	return (0);
-}
+#include <stdio.h>
+#include <stdlib.h>
 
-/*int main()
-{
-    char    c = '\n';
-    printf("%d", ft_isalnum(c));
-    printf("\n");
-}*/
+#endif

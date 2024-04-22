@@ -1,13 +1,21 @@
-#include <pthread.h>
+Program name philo
+Turn in files Makefile, *.h, *.c, in directory philo/
+Makefile NAME, all, clean, fclean, re
+Arguments number_of_philosophers time_to_die time_to_eat
+time_to_sleep
+[number_of_times_each_philosopher_must_eat]
+External functs. memset, printf, malloc, free, write,
+usleep, gettimeofday, pthread_create,
+pthread_detach, pthread_join, pthread_mutex_init,
+pthread_mutex_destroy, pthread_mutex_lock,
+pthread_mutex_unlock
+Libft authorized No
+Description Philosophers with threads and mutexes
 
-gcc -g -pthread main.c -o main
-(nao e uma biblioteca standard no compilador)
+-> NO LIBFT
+-> ALL IN PHILO DIRECTORY
 
-In this project, you will learn the basics of threading a process.
-You will see how to create threads and you will discover mutexes.
-
-usando mais ou menos a logica de processos, pipes, waits, fazer um plano para
-os philosophers
+..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|
 
 Here are the things you need to know if you want to succeed this assignment:
 • One or more philosophers sit at a round table.
@@ -62,7 +70,8 @@ after the actual death of the philosopher.
 • Again, philosophers should avoid dying!
 Your program must not have any data races.
 
-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-.-
+..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|
+
 . round table
 . n° forks == n° philosophers
 . only one action at a time:
@@ -82,3 +91,71 @@ with the main thread
     - forks available
 (each thread will update the number of available forks, be it +2 or -2, so,
 the number of forks will work like a "global" variable)
+
+the number of available forks will probably be a shared variable between all the
+different threads / philosophers and, as such, will be protected by a mutex
+(if i have the ability to manage the behaviour of said mutex, i will probably
+see which philosophers as been the longest without eating and give him the
+mutex lock)
+
+vai ser mais complicado do que isso:
+• There is one fork between each pair of philosophers. Therefore, if there are several
+philosophers, each philosopher has a fork on their left side and a fork on their right
+side. If there is only one philosopher, there should be only one fork on the table.
+• To prevent philosophers from duplicating forks, you should protect the forks state
+with a mutex for each of them.
+
+cada garfo vai ter uma posicao fisica e ser representado por variaveis diferentes
+provavelmente cada philosopher vai ter um pointer para left fork && right fork
+e sao esses os unicos mutexes aos quais ele pode aceder
+provavelmente int = 0 / 1, flags que ativam consoante cada fork esteja disponivel
+-> se precisam de dois garfos para comer, entao significa que se so houver 1
+philosopher ele morre de fome porque so ha um garfo certo?
+
+.....
+- the function gettimeofday() will probable be used on the status messages when
+we inform about each philosophers actions and to check if they get past the
+allowed time to do the actions like eating, sleeping, thinking, etc
+
+- how to create threads on a loop video (will use this because i will receive
+the number of philosophers as an argument)
+
+Since a thread is represented by a single function, and that each philosopher
+should be represented by a single thread, that means each philosopher
+will be represented by a function.
+Given the looping nature of each philosopher life cycle:
+"eat -> sleep -> think", we can already assume an infinite coding loop that
+will execute these functions until the expected loop number is met:
+◦ number_of_times_each_philosopher_must_eat (optional argument)
+or until they cannot meet the stipulations and they, something, for
+example, like this
+
+void    *philosopher(t_times *times) {
+    ez;
+}
+
+.....
+<args>: provavelmente uma struct que contem todos os tempos passados
+como argumentos ao executar o programa philosophers
+
+struct	s_times() {
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
+};
+typedef	t_times	struct s_times;
+
+(using size_t because, since the time will be given in
+milisseconds, we will probably deal with big numbers)
+.....
+
+usleep() function will be used to probably actually wait in
+<time to sleep> milisseconds before printing each status message
+and move on to the next action;
+the death_checker will be started right at the beginning of the program
+and reset after each meal
+how can i do this?
+.probably a size_t will store a gettimeofday(); make a usleep until death time;
+and interrupt a usleep at the end of each meal (with a break or a continue
+or something)
+a thread inside a thread? uma thread para cada death_clock?

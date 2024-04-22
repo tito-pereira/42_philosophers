@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/16 12:45:45 by tibarbos          #+#    #+#             */
-/*   Updated: 2023/04/23 19:48:41 by tibarbos         ###   ########.fr       */
+/*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
+/*   Updated: 2024/04/22 17:01:43 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "philo.h"
 
-int	ft_tolower(int c)
+/*
+Arguments:
+- number_of_philosophers
+- time_to_die
+- time_to_eat
+- time_to_sleep
+- number_of_times_each_philosopher_must_eat (optional)
+*/
+
+int	main(int ac, char **av)
 {
-	if (c >= 'A' && c <= 'Z')
-		c += 32;
-	return (c);
+	//stuff;
 }
-
-/*int main()
-{
-    char    c = 'G';
-    printf("%c\n", ft_tolower(c));
-}*/
