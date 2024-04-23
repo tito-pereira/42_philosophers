@@ -192,6 +192,8 @@ free(philo);
 ...
 pthread_t   philo[philo_num];
 crio static ou c malloc? dá par dar free a este tipo de unidades?
+tenho q aceder dentro da struct e dar free a todos os pointers individuais
+dentro, por isso nao, defino static
 
 so far so good. falta ver:
 -> como gerir os tempos e death cycle;
@@ -235,10 +237,10 @@ message:
 get_timestamp = (gettimeofday() - all->begin_time)
 char **status;
 status = malloc(4 * sizeof(char *));
-status[0] = ;
-status[1] = ;
-status[2] = ;
-status[3] = ;
+status[0] = "is eating\n";
+status[1] = "is sleeping\n";
+status[2] = "";
+status[3] = "";
 printf("%d, %d, %s.\n", get_timestamp, philo_num, status);
 
 timestamp: ms passados desde o inicio do minishell
@@ -257,3 +259,32 @@ void	eating_status(int philo_no)
 	pthread_mutex_unlock(fork_left);
 	pthread_mutex_unlock(fork_right);
 }
+
+int	*forks;
+forks = malloc(all->philo_num * sizeof(int));
+int i = -1;
+while (forks && forks[++i] != NULL) {
+	pthread_mutex_init();
+}
+
+while (death_status == 0) {
+	eating_status();
+	usleep(all->time_to_eat);
+	thinking_status();
+	// usleep(); (meto logo os meus gajos a comer, nao espero ate a ultima)
+	sleeping_status();
+	usleep(all->time_to_sleep);
+}
+
+mutex protected -> 1 mutex por cada fork, 1 mutex para mensagens normais,
+1 mutex para death_messages
+no mutex de mensagem normal, so printar se a flag de death_messages estiver desligado
+
+(V) acho que a questao das mensagens ja resolvi
+(X) life_cycle && death_cycle
+
+life_cycle loop
+passar args para cada thread de philosopher
+
+para ter um real-time death clock, preciso de manter um loop continuamente ativo
+isso requer uma thread extra por filosofo
