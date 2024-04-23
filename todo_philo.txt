@@ -70,6 +70,14 @@ after the actual death of the philosopher.
 • Again, philosophers should avoid dying!
 Your program must not have any data races.
 
+The specific rules for the mandatory part are:
+• Each philosopher should be a thread.
+• There is one fork between each pair of philosophers. Therefore, if there are several
+philosophers, each philosopher has a fork on their left side and a fork on their right
+side. If there is only one philosopher, there should be only one fork on the table.
+• To prevent philosophers from duplicating forks, you should protect the forks state
+with a mutex for each of them. 
+
 ..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|
 
 . round table
@@ -149,6 +157,9 @@ typedef	t_times	struct s_times;
 milisseconds, we will probably deal with big numbers)
 .....
 
+memset() ?
+void *memset(void *ptr, int value, size_t num);
+
 usleep() function will be used to probably actually wait in
 <time to sleep> milisseconds before printing each status message
 and move on to the next action;
@@ -159,3 +170,90 @@ how can i do this?
 and interrupt a usleep at the end of each meal (with a break or a continue
 or something)
 a thread inside a thread? uma thread para cada death_clock?
+
+philo = thread = function
+->(creating threads in a loop, np);
+->(passing arguments to a thread/function);
+
+pointer associado a uma funcao?
+varias threads vao tentar access garfos diferentes, por isso os garfos
+vao ter de ser criados na main thread, protegidos com mutex, e accessed
+so depois
+
+int *forks;
+forks = malloc(philo_num * sizeof(int));
+
+cada philo pode acessar ao fork[num] + fork[num - 1]
+unless philo[0] que so pode acessar ao fork[num];
+
+pthread_t   *philo;
+philo = malloc(philo_num * sizeof(pthread_t));
+free(philo);
+...
+pthread_t   philo[philo_num];
+crio static ou c malloc? dá par dar free a este tipo de unidades?
+
+so far so good. falta ver:
+-> como gerir os tempos e death cycle;
+usleep(time_to_sleep);
+"finished sleeping"
+usleep(time_to_think);
+"finished thinking"
+usleep(time_to_eat);
+"finished eating"
+-> como actually gerir as locks dos mutexes para cada thread/philo;
+acho que basta meter pthread_mutex_lock(); para o respetivo int* na thread correspondente;
+e eles automaticamente fazem isso;
+
+acho que o tempo de thinking sou eu que decido e tenho que gerir,
+provavelmente tenho que fazer calculos de acordo com o time do die
+e time to eat e consoante isso decidir quando parar de pensar
+
+eat        | sleep       think	eat
+[t_eat]    | [t_sleep]	.		[t_eat]
+|[t_die]		.		.		| (start eating times)
+
+start think
+
+death_cycle:
+while (1)
+usleep([time_to_die]);
+->something to reset (continue?)
+kill_philo();
+nope, isto em si tambem requer uma thread
+
+posso dar launch a um death_cycle e entretanto dar-lhe break
+
+...
+status messages:
+. so pode haver uma status message de cada vez;
+. se calhar esperar
+. em caso de morte, a status message de morte nao pode demorar
+mais de 10ms a aparecer;
+
+message:
+get_timestamp = (gettimeofday() - all->begin_time)
+char **status;
+status = malloc(4 * sizeof(char *));
+status[0] = ;
+status[1] = ;
+status[2] = ;
+status[3] = ;
+printf("%d, %d, %s.\n", get_timestamp, philo_num, status);
+
+timestamp: ms passados desde o inicio do minishell
+nao podem ser os filosofos a mandar mensagem, mas sim informar do status
+
+void	eating_status(int philo_no)
+{
+	pthread_mutex_lock(fork_left);
+	fork_left = philo_no;
+	pthread_mutex_lock(fork_right);
+	fork_right = philo_no;
+	pthread_mutex_lock(message_board);
+	if (fork_left == philo_no && fork_right == philo_no)
+		printf("get_timestamp() philo_no eating message");
+	pthread_mutex_unlock(message_board);
+	pthread_mutex_unlock(fork_left);
+	pthread_mutex_unlock(fork_right);
+}
