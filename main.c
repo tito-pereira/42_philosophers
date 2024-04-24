@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 11:22:54 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:32:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,31 @@ Arguments:
 - av[2] time_to_eat
 - av[3] time_to_sleep
 - av[4] number_of_times_each_philosopher_must_eat (optional)
+*/
+
+/*
+typedef struct	s_person
+{
+	int		nbr;
+	int		death_status;
+	size_t	time_of_death;
+	size_t	last_ate;
+	int		times_to_eat;
+}   t_person;
+
+typedef struct	s_all
+{
+	int 		philo_num;
+	int 		*forks;
+	size_t		begin_time;
+    size_t		time_to_die;
+	size_t		time_to_eat;
+	size_t		time_to_sleep;
+	int			eat_no;
+	int			norm_msg;
+	int			death_msg;
+	t_person	*people;
+}   t_all;
 */
 
 void	starvation(t_person *person, t_all *all)
@@ -62,28 +87,18 @@ terminar e quando retorna ao loop simplesmente sai dele
 -> pass variables into a thread
 -> gettimeofday()
 -> usleep()
+-> finalizar o mecanismo de life && death_cycles + frees
 -> correct thread & mutex syntax
-*/
-
-/*
-por default, inicializar o times to eat para -1
-assim, caso nao haja a opcao, essa condicao vai ser sempre falsa e,
-caso haja opcao, eventualmente vai ser verdadeira
-*/
-
-/*
-typedef struct	s_all
-{
-	int philo_num;
-	int *forks;
-	size_t	begin_time;
-    size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	int		eat_no;
-	int		norm_msg;
-	int		death_msg;
-}   t_all;
+pthread_t				<>;
+pthread_init			;
+pthread_join			;
+...
+pthread_mutex_t			<name>;
+pthread_mutex_init		(<name>, NULL);
+pthread_mutex_destroy	(<name>);
+...
+pthread_mutex_lock		;
+pthread_mutex_lock		;
 */
 
 int	create_all(char **av, t_all *all)
@@ -93,6 +108,7 @@ int	create_all(char **av, t_all *all)
 	if (av[4] && av[4] < 0)
 		return(0);
 	all = malloc(sizeof(t_all));
+	all->forks = NULL;
 	all->philo_num = av[0];
 	all->begin_time = gettimeofday();
 	all->time_to_die = av[1];
@@ -101,11 +117,55 @@ int	create_all(char **av, t_all *all)
 	all->eat_no = -1;
 	if (av[4])
 		all->eat_no = av[4];
-	all->norm_msg;
-	all->death_msg;
+	all->norm_msg = 0;
+	all->death_msg = 0;
 	all->people = malloc(all->philo_num * sizeof(t_person));
 	return(1);
 }
+
+void	manage_forks(t_all *all, int option)
+{
+	pthread_mutex_t	forks[all->philo_num];
+	int				i;
+
+	i = -1;
+	if (option == 1)
+	{
+		all->forks = malloc(all->philo_num * sizeof(int *));
+		while (++i < all->philo_num)
+			pthread_mutex_init(&forks[i], NULL);
+	}
+	else if (option == 2)
+	{
+		while (++i < all->philo_num)
+			pthread_mutex_destroy(&forks[i]);
+		free_db(all->forks);
+	}
+}
+// Option 1: Creates all the forks and their mutexes;
+// Option 2: Destroys all the forks and their mutexes;
+
+void	manage_people(t_all *all, int option)
+{
+	int	i;
+
+	i = -1;
+	if (option == 1)
+	{
+		all->people = malloc(all->philo_num * sizeof(t_person));
+		while (++i < all->philo_num)
+		{
+			all->people[i].death_status = 0;
+			all->people[i].time_of_death = 0;
+			all->people[i].last_ate = 0;
+			all->people[i].times_to_eat = -1;
+		}
+	}
+	else if (option == 2)
+		free(all->people);
+}
+// Option 1: Creates all the t_person structs;
+// Option 2: Destroys all the t_person structs;
 
 int	main(int ac, char **av)
 {
@@ -119,8 +179,11 @@ int	main(int ac, char **av)
 			printf("Invalid arguments.\n");
 			return(0);
 		}
-		create_people();
-		free_people();
+		manage_forks(&all, 1);
+		manage_people(&all, 1);
+		//philos
+		manage_forks(&all, 2);
+		manage_people(&all, 2);
 	}
 	else
 		printf("Wrong number or invalid arguments.\n");
