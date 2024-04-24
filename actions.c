@@ -6,29 +6,43 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/23 16:41:45 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:58:37 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	eating_status(int philo_no)
+size_t	get_time()
 {
-	pthread_mutex_lock(fork_left);
-	fork_left = philo_no;
-	pthread_mutex_lock(fork_right);
-	fork_right = philo_no;
-	pthread_mutex_lock(message_board);
+	ez;
+}
+
+void	death_status(t_all *all, int ph_nmb)
+{
+	pthread_mutex_lock(&all->mtx_msg[1]);
+	//all->death_msg = 1;
+	printf("%d Philosopher %d has died.\n", get_time(), ph_nmb);
+	//all->death_msg = 0;
+	pthread_mutex_unlock(&all->mtx_msg[1]);
+}
+
+void	eat_status(t_all *all, int ph_nmb)
+{
+	pthread_mutex_lock(all->forks[ph_nmb - 1]);
+	all->forks[ph_nmb - 1] = ph_nmb;
+	pthread_mutex_lock(all->forks[ph_nmb - 2]);
+	all->forks[ph_nmb - 2] = ph_nmb;
+	pthread_mutex_lock(&all->mtx_msg[0]);
 	if (fork_left == philo_no && fork_right == philo_no)
 		printf("get_timestamp() philo_no eating message");
-	pthread_mutex_unlock(message_board);
+	pthread_mutex_unlock(&all->mtx_msg[0]);
 	pthread_mutex_unlock(fork_left);
 	pthread_mutex_unlock(fork_right);
 }
 
 void	sleep_status(t_all *all, int ph_nmb)
 {
-	pthread_mutex_lock(norm_msg);
+	pthread_mutex_lock(&all->mtx_msg[0]);
 	while (1)
 	{
 		if (death_msg == 0)
@@ -37,26 +51,19 @@ void	sleep_status(t_all *all, int ph_nmb)
 			break ;
 		}
 	}
-	pthread_mutex_unlock(norm_msg);
+	pthread_mutex_unlock(&all->mtx_msg[0]);
 }
 
-void	think_status(int ph_nmb)
+void	think_status(t_all *all, int ph_nmb)
 {
-	pthread_mutex_lock(norm_msg);
+	pthread_mutex_lock(&all->mtx_msg[0]);
 	while (1)
 	{
-		if (death_msg == 0)
+		if (all->death_msg == 0)
 		{
 			printf("%d Philosopher %d is thinking.\n", get_time(), ph_nmb);
 			break ;
 		}
 	}
-	pthread_mutex_unlock(norm_msg);
-}
-
-void	death_status(int ph_nmb)
-{
-	pthread_mutex_lock(death_msg);
-	printf("%d Philosopher %d has died.\n", get_time(), ph_nmb);
-	pthread_mutex_unlock(death_msg);
+	pthread_mutex_unlock(&all->mtx_msg[0]);
 }
