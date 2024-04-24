@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/23 17:18:18 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:05:11 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct	s_person
 	int		death_status;
 	size_t	time_of_death;
 	size_t	last_ate;
+	int		times_to_eat;
 }   t_person;
 
 typedef struct	s_all

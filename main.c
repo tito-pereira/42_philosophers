@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/23 17:30:20 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:22:54 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,30 @@ Arguments:
 - av[4] number_of_times_each_philosopher_must_eat (optional)
 */
 
-void	starvation()
+void	starvation(t_person *person, t_all *all)
 {
+	size_t	hunger;
+
+	hunger = 0;
 	while (person->death_status == 0)
 	{
-		hunger = gettimeofday() - person->last_ate
-		death_status = 1;
+		hunger = gettimeofday() - person->last_ate;
+		if (hunger > all->time_to_eat)
+			person->death_status = 1;
 	}
 }
 
-void	the_philo(t_all *all, int nbr)
+void	the_philosopher(t_all *all, int nbr)
 {
 	t_person	*person;
 	pthread_t	t;
 	int			i;
 
-	i = 0;
+	i = -1;
 	create_person(nbr, &person);
 	all->people[nbr] = person;
 	pthread_create(&t, starvation);
-	while (i != all->times_to_eat && person->death_status == 0)
+	while (++i != all->times_to_eat && person->death_status == 0)
 	{
 		eating_status(nbr, person->last_ate);
 		usleep(all->time_to_eat);
@@ -48,7 +52,18 @@ void	the_philo(t_all *all, int nbr)
 		sleep_status(nbr);
 		usleep(all->time_to_sleep);
 	}
+	free_person();
 }
+/*
+-> a minha duvida é, se eu abruptamente mudar o death_status para 0,
+se causa problemas no loop, memoria etc, ou se o loop espera pela funcao
+terminar e quando retorna ao loop simplesmente sai dele
+
+-> pass variables into a thread
+-> gettimeofday()
+-> usleep()
+-> correct thread & mutex syntax
+*/
 
 /*
 por default, inicializar o times to eat para -1
@@ -104,7 +119,10 @@ int	main(int ac, char **av)
 			printf("Invalid arguments.\n");
 			return(0);
 		}
+		create_people();
+		free_people();
 	}
 	else
 		printf("Wrong number or invalid arguments.\n");
+	return(0);
 }
