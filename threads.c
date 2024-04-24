@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 18:35:46 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:02:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,6 @@ void	*the_philo(t_all *all, int nbr)
 		usleep(all->time_to_sleep * 1000);
 	}
 }
-
-/*
-para garantir uma resposta mais rapida, sugeriram sinchronization
-mechanisms como atomic operations
-
-o meu problema atual vai ser garantir esta resposta rapida e basicamente
-interromper a execucao do life_cycle
-se calhar usar o death status como uma atomic operation para declarar logo
-a morte de um philosopher, enquanto que o life_cycle naturalmente encontra
-o death_status e termina tudo
-
-os status basicamente abrem e fecham os mutexes das status messages e
-printam nas, nada mais nada menos
-*/
 
 void	wake_up_philo(t_all *all)
 {

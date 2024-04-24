@@ -269,15 +269,17 @@ while (death_status == 0) {
 	usleep(all->time_to_sleep);
 }
 
-mutex protected -> 1 mutex por cada fork, 1 mutex para mensagens normais,
-1 mutex para death_messages
-no mutex de mensagem normal, so printar se a flag de death_messages estiver desligado
+/*
+para garantir uma resposta mais rapida, sugeriram sinchronization
+mechanisms como atomic operations
 
-(V) acho que a questao das mensagens ja resolvi
-(X) life_cycle && death_cycle
+o meu problema atual vai ser garantir esta resposta rapida e basicamente
+interromper a execucao do life_cycle
+se calhar usar o death status como uma atomic operation para declarar logo
+a morte de um philosopher, enquanto que o life_cycle naturalmente encontra
+o death_status e termina tudo
 
-life_cycle loop
-passar args para cada thread de philosopher
-
-para ter um real-time death clock, preciso de manter um loop continuamente ativo
-isso requer uma thread extra por filosofo
+É o meu grande priblema neste projeto. Eles pedem otimizacao do tempo de
+reacao da morte de um philosopher, mas nao me deixam usar atomic
+operations.. ou deixam?
+*/

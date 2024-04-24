@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 18:25:24 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:22:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,12 @@ typedef struct	s_all
 -> pass variables into a thread (level1 the philo, level 2 starvation)
 PRECISO DE PASSAR 2 VARIAVEIS SENAO N VAI FUNCIONAR
 
--> adjust forks number. only 1 philosopher dies condition on eat_status
-should he be stuck trying to eat? should he move on?
-
--> possible infinite loop conditions waiting for status, especially eating
-
+--- AFTER TESTING ---
+-> 1 philosopher behaviour correct?
 -> atomic ops ou nao ha nada a fazer;
+(caso eu comece a ter stresses com as death messages)
 -> bonus e semaphores
+(caso eu decida fazer bonus)
 
 pthread_t				<>;
 pthread_init			;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 18:12:53 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 00:21:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	death_status(t_all *all, int ph_nmb)
 
 void	eat_status(t_all *all, int ph_nmb)
 {
+	if (ph_nmb == 1)
+		return ;
 	pthread_mutex_lock(all->forks[ph_nmb - 1]);
 	all->forks[ph_nmb - 1] = ph_nmb;
 	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
@@ -52,15 +54,33 @@ void	eat_status(t_all *all, int ph_nmb)
 	all->forks[ph_nmb - 2] = ph_nmb;
 	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
 	pthread_mutex_lock(&all->mtx_msg[0]);
-	//while (forks != ph_nmb), then, break;
-	if (all->forks[ph_nmb - 2] == ph_nmb && all->forks[ph_nmb - 2] == ph_nmb)
-		printf("%d %d is eating", get_time(NULL), ph_nmb);
+	while (all->forks[ph_nmb - 1] != all->forks[ph_nmb - 2])
+	{
+		if (all->forks[ph_nmb - 2] == ph_nmb && all->forks[ph_nmb - 2] == ph_nmb)
+		{
+			printf("%d %d is eating", get_time(NULL), ph_nmb);
+			break;
+		}
+	}
 	all->people[ph_nmb - 1].last_ate = get_time(NULL);
 	pthread_mutex_unlock(&all->mtx_msg[0]);
 	pthread_mutex_unlock(all->forks[ph_nmb - 1]);
 	pthread_mutex_unlock(all->forks[ph_nmb - 2]);
 }
-// atualizar o last_ate
+/*
+se calhar ate posso retirar o while inteiro e deixar so o printf visto
+que so chega a esse comando depois de ter ganho as duas locks de mutex
+
+vou meter o alone philo a simplesmente bazar daqui e apenas dormir e
+pensar, em vez de ficar aqui impancado porque nao tenho como
+interromper este loop
+
+f-1, p1, f0
+-.-.-.-.-.-
+f 0, p2, f1
+f 1, p3, f2
+f 2, p4, f3
+*/
 
 void	sleep_status(t_all *all, int ph_nmb)
 {
