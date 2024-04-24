@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 17:44:11 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:25:24 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ typedef struct	s_all
 
 /*
 -> pass variables into a thread (level1 the philo, level 2 starvation)
--> gettimeofday() e mudar todos os size_t para as unidades apropriadas
-desta funcao
-- sera que o arg da get_time é mesmo necessario? ou posso muda lo por um unsigned int?
--> usleep() e colocar o tempo correto em milissegundos
+PRECISO DE PASSAR 2 VARIAVEIS SENAO N VAI FUNCIONAR
+
+-> adjust forks number. only 1 philosopher dies condition on eat_status
+should he be stuck trying to eat? should he move on?
+
+-> possible infinite loop conditions waiting for status, especially eating
 
 -> atomic ops ou nao ha nada a fazer;
 -> bonus e semaphores
@@ -97,7 +99,6 @@ int	create_all(char **av, t_all *all)
 		all->eat_no = av[4];
 	all->forks = NULL;
 	all->mtx_frk = NULL;
-	//all->norm_msg = 0;
 	all->death_msg = 0;
 	all->mtx_msg = NULL;
 	all->people = malloc(all->philo_num * sizeof(t_person));

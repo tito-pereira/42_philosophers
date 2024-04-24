@@ -113,13 +113,6 @@ side. If there is only one philosopher, there should be only one fork on the tab
 • To prevent philosophers from duplicating forks, you should protect the forks state
 with a mutex for each of them.
 
-cada garfo vai ter uma posicao fisica e ser representado por variaveis diferentes
-provavelmente cada philosopher vai ter um pointer para left fork && right fork
-e sao esses os unicos mutexes aos quais ele pode aceder
-provavelmente int = 0 / 1, flags que ativam consoante cada fork esteja disponivel
--> se precisam de dois garfos para comer, entao significa que se so houver 1
-philosopher ele morre de fome porque so ha um garfo certo?
-
 .....
 - the function gettimeofday() will probable be used on the status messages when
 we inform about each philosophers actions and to check if they get past the

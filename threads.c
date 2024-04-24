@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 17:39:42 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:35:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,17 @@ void	*the_philo(t_all *all, int nbr)
 {
 	pthread_t	th;
 	int			i;
+	int			nbr;
 
 	i = -1;
 	pthread_create(&th, NULL, &starvation, NULL);
 	while (++i != all->eat_no && all->people[nbr].death_status == 0)
 	{
 		eating_status(all, nbr, all->people[nbr].last_ate);
-		usleep(all->time_to_eat);
+		usleep(all->time_to_eat * 1000);
 		think_status(all, nbr);
 		sleep_status(all, nbr);
-		usleep(all->time_to_sleep);
+		usleep(all->time_to_sleep * 1000);
 	}
 }
 
@@ -101,7 +102,10 @@ void	wake_up_philo(t_all *all)
 
 	i = -1;
 	while (++i < all->philo_num)
+	{
+		all->people[i].nbr = i + 1;
 		pthread_create(all->people[i].th, NULL, &the_philo, NULL);
+	}
 	i = -1;
 	while (++i < all->philo_num)
 		pthread_join(all->people[i].th, NULL);
