@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 16:08:01 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:44:11 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ Arguments:
 /*
 typedef struct	s_person
 {
-	pthread_t	th;
-	int			nbr;
-	int			death_status;
-	size_t		time_of_death;
-	size_t		last_ate;
-	int			times_to_eat;
+	pthread_t			th;
+	int					nbr;
+	int					times_to_eat;
+	int					death_status;
+	unsigned int		time_of_death;
+	unsigned int		last_ate;
 }   t_person;
 
 typedef struct	s_all
@@ -50,16 +50,14 @@ typedef struct	s_all
 */
 
 /*
--> a minha duvida é, se eu abruptamente mudar o death_status para 0,
-se causa problemas no loop, memoria etc, ou se o loop espera pela funcao
-terminar e quando retorna ao loop simplesmente sai dele
-
--> pass variables into a thread
+-> pass variables into a thread (level1 the philo, level 2 starvation)
 -> gettimeofday() e mudar todos os size_t para as unidades apropriadas
 desta funcao
--> death_messages e rapidamente capturar o tempo e a mensage
+- sera que o arg da get_time é mesmo necessario? ou posso muda lo por um unsigned int?
 -> usleep() e colocar o tempo correto em milissegundos
--> finalizar o mecanismo de life && death_cycles + frees
+
+-> atomic ops ou nao ha nada a fazer;
+-> bonus e semaphores
 
 pthread_t				<>;
 pthread_init			;
@@ -71,6 +69,15 @@ pthread_mutex_destroy	(<name>);
 ...
 pthread_mutex_lock		;
 pthread_mutex_lock		;
+...
+usleep()
+...
+struct timeval current_time;
+struct timezone tz;
+gettimeofday(&current_time, &tz);
+
+current_time.tv_sec: seconds;
+current_time.tv_usec: microsseconds;
 */
 
 int	create_all(char **av, t_all *all)
@@ -81,7 +88,7 @@ int	create_all(char **av, t_all *all)
 		return(0);
 	all = malloc(sizeof(t_all));
 	all->philo_num = av[0];
-	all->begin_time = gettimeofday();
+	all->begin_time = get_time(NULL);
 	all->time_to_die = av[1];
 	all->time_to_eat = av[2];
 	all->time_to_sleep = av[3];
@@ -91,7 +98,7 @@ int	create_all(char **av, t_all *all)
 	all->forks = NULL;
 	all->mtx_frk = NULL;
 	//all->norm_msg = 0;
-	//all->death_msg = 0;
+	all->death_msg = 0;
 	all->mtx_msg = NULL;
 	all->people = malloc(all->philo_num * sizeof(t_person));
 	return(1);

@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 16:06:01 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:39:42 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,38 +24,43 @@ Arguments:
 /*
 typedef struct	s_person
 {
-	int		nbr;
-	int		death_status;
-	size_t	time_of_death;
-	size_t	last_ate;
-	int		times_to_eat;
+	pthread_t			th;
+	int					nbr;
+	int					times_to_eat;
+	int					death_status;
+	unsigned int		time_of_death;
+	unsigned int		last_ate;
 }   t_person;
 
 typedef struct	s_all
 {
-	int 		philo_num;
-	int 		*forks;
-	size_t		begin_time;
-    size_t		time_to_die;
-	size_t		time_to_eat;
-	size_t		time_to_sleep;
-	int			eat_no;
-	int			norm_msg;
-	int			death_msg;
-	t_person	*people;
+	int 			philo_num;
+	size_t			begin_time;
+    size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	int				eat_no;
+	int 			*forks;
+	pthread_mutex_t	*mtx_frk;
+	int				death_msg;
+	pthread_mutex_t	*mtx_msg;
+	t_person		*people;
 }   t_all;
 */
 
-void	*starvation(t_person *person, t_all *all)
+void	*starvation(t_all *all, int n)
 {
-	size_t	hunger;
+	unsigned int	hunger;
 
 	hunger = 0;
-	while (person->death_status == 0)
+	while (all->people[n].death_status == 0)
 	{
-		hunger = gettimeofday() - person->last_ate;
+		hunger = get_time(NULL) - all->people[n].last_ate;
 		if (hunger > all->time_to_eat)
-			person->death_status = 1;
+		{
+			all->people[n].death_status = 1;
+			all->people[n].time_of_death = get_time(NULL);
+		}
 	}
 }
 
@@ -74,10 +79,18 @@ void	*the_philo(t_all *all, int nbr)
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep);
 	}
-	free_person();
 }
 
 /*
+para garantir uma resposta mais rapida, sugeriram sinchronization
+mechanisms como atomic operations
+
+o meu problema atual vai ser garantir esta resposta rapida e basicamente
+interromper a execucao do life_cycle
+se calhar usar o death status como uma atomic operation para declarar logo
+a morte de um philosopher, enquanto que o life_cycle naturalmente encontra
+o death_status e termina tudo
+
 os status basicamente abrem e fecham os mutexes das status messages e
 printam nas, nada mais nada menos
 */
@@ -99,4 +112,8 @@ void	wake_up_philo(t_all *all)
 /*
 se o programa tiver que parar assim que um philo morrer, tenho que
 retirar as pthread join functions
+
+se calhar posso deixar estar as join functions para garantir
+que todas as philo threads dao proper memory free caso seja
+necessario
 */

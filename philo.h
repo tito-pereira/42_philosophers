@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 15:58:53 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/24 17:43:53 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ typedef struct	s_person
 {
 	pthread_t	th;
 	int			nbr;
+	int			times_to_eat;
 	int			death_status;
 	size_t		time_of_death;
 	size_t		last_ate;
-	int			times_to_eat;
 }   t_person;
 
 typedef struct	s_all
@@ -38,14 +38,13 @@ typedef struct	s_all
 	int				eat_no;
 	int 			*forks;
 	pthread_mutex_t	*mtx_frk;
-	//int				norm_msg;
-	//int				death_msg;
+	int				death_msg;
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }   t_all;
 
 // ACTIONS
-size_t	get_time();
+size_t	get_time(struct timeval *begin);
 void	eat_status(t_all *all, int ph_nmb);
 void	sleep_status(t_all *all, int ph_nmb);
 void	think_status(t_all *all, int ph_nmb);
