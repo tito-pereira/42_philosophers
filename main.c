@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:32:43 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:40:31 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,19 +147,22 @@ void	mng_ppl(t_all *all, int option)
 // Option 1: Creates all the t_person structs;
 // Option 2: Destroys all the t_person structs;
 
-void	manage_messages(int	option)
+void	manage_messages(t_all *all, int	option)
 {
-	pthread_mutex_t	mt[2];
-	
 	if (option == 1)
 	{
-		pthread_mutex_init(mt, NULL);
+		all->mtx_msg = malloc(2 * sizeof(pthread_mutex_t));
+		pthread_mutex_init(&all->mtx_msg[0], NULL);
+		pthread_mutex_init(&all->mtx_msg[1], NULL);
 	}
 	else if (option == 2)
 	{
-		pthread_mutex_destroy(mt);
+		pthread_mutex_destroy(&all->mtx_msg[0]);
+		pthread_mutex_destroy(&all->mtx_msg[1]);
+		free(all->mtx_msg);
 	}
 }
+// falta aqui um loop com numero de reps
 
 int	main(int ac, char **av)
 {
@@ -173,13 +176,13 @@ int	main(int ac, char **av)
 			printf("Invalid arguments.\n");
 			return(0);
 		}
-		manage_forks(&all, 1);
-		mng_ppl(&all, 1);
-		manage_messages(1);
-		wake_up_philos(&all);
-		mng_forks(&all, 2);
-		mng_ppl(&all, 2);
-		manage_messages(2);
+		manage_forks(all, 1);
+		mng_ppl(all, 1);
+		manage_messages(all, 1);
+		wake_up_philos(all);
+		mng_forks(all, 2);
+		mng_ppl(all, 2);
+		manage_messages(all, 2);
 	}
 	else
 		printf("Wrong number or invalid arguments.\n");
