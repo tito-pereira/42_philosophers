@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 14:53:50 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:42:00 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	*the_philo(void *all_th)
 	free((t_all_th *)all_th);
 }
 
-void	wake_up_philo(t_all *all)
+void	wake_up_philos(t_all *all)
 {
 	int			i;
 	t_all_th	*all_th[all->philo_num];

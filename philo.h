@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:17:42 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:41:45 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	think_status(t_all *all, int ph_nmb);
 void	death_status(t_all *all, int ph_nmb);
 
 // THREADS
-void	wake_up_philo(t_all *all);
+void	wake_up_philos(t_all *all);
 
 // EXTRA
 int		ft_atoi(char *str);

@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:40:31 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:43:12 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	manage_forks(t_all *all, int option)
 // Option 1: Creates all the forks and their mutexes;
 // Option 2: Destroys all the forks and their mutexes;
 
-void	mng_ppl(t_all *all, int option)
+void	manage_people(t_all *all, int option)
 {
 	int	i;
 
@@ -177,11 +177,11 @@ int	main(int ac, char **av)
 			return(0);
 		}
 		manage_forks(all, 1);
-		mng_ppl(all, 1);
+		manage_people(all, 1);
 		manage_messages(all, 1);
 		wake_up_philos(all);
-		mng_forks(all, 2);
-		mng_ppl(all, 2);
+		manage_forks(all, 2);
+		manage_people(all, 2);
 		manage_messages(all, 2);
 	}
 	else
