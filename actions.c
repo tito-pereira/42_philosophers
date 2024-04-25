@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:09:40 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:46:42 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	death_status(t_all *all, int ph_nmb)
 {
 	pthread_mutex_lock(&all->mtx_msg[1]);
 	all->death_msg = 1;
-	printf("%d %d died\n", get_time(NULL), ph_nmb);
+	printf("%zu %d died\n", get_time(0), ph_nmb);
 	all->death_msg = 0;
 	pthread_mutex_unlock(&all->mtx_msg[1]);
 }
@@ -49,10 +49,10 @@ void	eat_status(t_all *all, int ph_nmb)
 		return ;
 	pthread_mutex_lock(&all->mtx_frk[ph_nmb - 1]);
 	//all->forks[ph_nmb - 1] = ph_nmb;
-	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
+	printf("%zu %d has taken a fork", get_time(0), ph_nmb);
 	pthread_mutex_lock(&all->mtx_frk[ph_nmb - 2]);
 	//all->forks[ph_nmb - 2] = ph_nmb;
-	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
+	printf("%zu %d has taken a fork", get_time(0), ph_nmb);
 	pthread_mutex_lock(&all->mtx_msg[0]);
 	/*while (all->forks[ph_nmb - 1] != all->forks[ph_nmb - 2])
 	{
@@ -62,8 +62,8 @@ void	eat_status(t_all *all, int ph_nmb)
 			break;
 		}
 	}*/
-	printf("%d %d is eating", get_time(NULL), ph_nmb);
-	all->people[ph_nmb - 1].last_ate = get_time(NULL);
+	printf("%zu %d is eating", get_time(0), ph_nmb);
+	all->people[ph_nmb - 1].last_ate = get_time(0);
 	pthread_mutex_unlock(&all->mtx_msg[0]);
 	pthread_mutex_unlock(&all->mtx_frk[ph_nmb - 1]);
 	pthread_mutex_unlock(&all->mtx_frk[ph_nmb - 2]);
@@ -90,7 +90,7 @@ void	sleep_status(t_all *all, int ph_nmb)
 	{
 		if (all->death_msg == 0)
 		{
-			printf("%d %d is sleeping", get_time(NULL), ph_nmb);
+			printf("%zu %d is sleeping", get_time(0), ph_nmb);
 			break ;
 		}
 	}
@@ -104,7 +104,7 @@ void	think_status(t_all *all, int ph_nmb)
 	{
 		if (all->death_msg == 0)
 		{
-			printf("%d %d is thinking", get_time(NULL), ph_nmb);
+			printf("%zu %d is thinking", get_time(0), ph_nmb);
 			break ;
 		}
 	}

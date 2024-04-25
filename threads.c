@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:42:00 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:02:32 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,19 @@ void	*starvation(void *all_th)
 
 	hunger = 0;
 	nbr = ((t_all_th *)all_th)->nbr;
-	all = ((t_all_th *)all_th)->nbr;
+	all = ((t_all_th *)all_th)->all;
 	while (all->people[nbr].death_status == 0)
 	{
-		hunger = get_time(NULL) - all->people[nbr].last_ate;
+		hunger = get_time(0) - all->people[nbr].last_ate;
 		if (hunger > all->time_to_eat)
 		{
 			all->people[nbr].death_status = 1;
-			all->people[nbr].time_of_death = get_time(NULL);
+			all->people[nbr].death_time = get_time(all->people[nbr].last_ate);
 		}
 	}
+	return((void *)all_th);
 }
+// preciso obrigatoriamente de um return
 
 // t_all *all, int nbr
 void	*the_philo(void *all_th)
@@ -80,17 +82,19 @@ void	*the_philo(void *all_th)
 	i = -1;
 	nbr = ((t_all_th *)all_th)->nbr;
 	all = ((t_all_th *)all_th)->all;
-	pthread_create(&th, NULL, &starvation, NULL);
+	pthread_create(&th, NULL, &starvation, (void *)all_th);
 	while (++i != all->eat_no && all->people[nbr].death_status == 0)
 	{
-		eating_status(all, nbr, all->people[nbr].last_ate);
+		eat_status(all, nbr);
 		usleep(all->time_to_eat * 1000);
 		think_status(all, nbr);
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
 	}
 	free((t_all_th *)all_th);
+	return((void *)all_th);
 }
+// preciso obrigatoriamente de um return
 
 void	wake_up_philos(t_all *all)
 {
@@ -104,7 +108,7 @@ void	wake_up_philos(t_all *all)
 		all_th[i] = malloc(sizeof(all_th));
 		all_th[i]->all = all;
 		all_th[i]->nbr = i + 1;
-		pthread_create(all->people[i].th, NULL, &the_philo, NULL);
+		pthread_create(&all->people[i].th, NULL, &the_philo, NULL);
 	}
 	i = -1;
 	while (++i < all->philo_num)
@@ -112,12 +116,3 @@ void	wake_up_philos(t_all *all)
 }
 // creates and launches each thread
 // and makes the main thread wait for each of them
-
-/*
-se o programa tiver que parar assim que um philo morrer, tenho que
-retirar as pthread join functions
-
-se calhar posso deixar estar as join functions para garantir
-que todas as philo threads dao proper memory free caso seja
-necessario
-*/

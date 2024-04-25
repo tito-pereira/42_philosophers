@@ -6,13 +6,14 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:41:45 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 16:03:18 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 #define PHILO_H
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
@@ -24,7 +25,7 @@ typedef struct	s_person
 	int			nbr;
 	int			times_to_eat;
 	int			death_status;
-	size_t		time_of_death;
+	size_t		death_time;
 	size_t		last_ate;
 }   t_person;
 

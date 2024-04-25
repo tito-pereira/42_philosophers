@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:43:12 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:51:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	manage_people(t_all *all, int option)
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
 			all->people[i].death_status = 0;
-			all->people[i].time_of_death = 0;
+			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_to_eat = -1;
 		}
