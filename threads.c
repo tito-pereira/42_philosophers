@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 16:02:32 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:08:38 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ void	*starvation(void *all_th)
 
 	hunger = 0;
 	nbr = ((t_all_th *)all_th)->nbr;
+	printf("Inside philosopher death[%d]\n", nbr);
 	all = ((t_all_th *)all_th)->all;
 	while (all->people[nbr].death_status == 0)
 	{
+		printf("Inside philosopher death cycle[%d]\n", nbr);
 		hunger = get_time(0) - all->people[nbr].last_ate;
 		if (hunger > all->time_to_eat)
 		{
@@ -81,10 +83,12 @@ void	*the_philo(void *all_th)
 
 	i = -1;
 	nbr = ((t_all_th *)all_th)->nbr;
+	printf("Inside philosopher[%d]\n", nbr);
 	all = ((t_all_th *)all_th)->all;
-	pthread_create(&th, NULL, &starvation, (void *)all_th);
+	pthread_create(&th, NULL, &starvation, all_th);
 	while (++i != all->eat_no && all->people[nbr].death_status == 0)
 	{
+		printf("Inside philosopher life cycle[%d]\n", nbr);
 		eat_status(all, nbr);
 		usleep(all->time_to_eat * 1000);
 		think_status(all, nbr);
@@ -99,20 +103,27 @@ void	*the_philo(void *all_th)
 void	wake_up_philos(t_all *all)
 {
 	int			i;
-	t_all_th	*all_th[all->philo_num];
+	t_all_th	**all_th;
 
 	i = -1;
+	printf("Waking up philos.\n"); //
+	all_th = malloc(all->philo_num * sizeof(t_all_th *));
 	while (++i < all->philo_num)
 	{
+		printf("thread[%d]\n", i); //
 		all->people[i].nbr = i + 1;
-		all_th[i] = malloc(sizeof(all_th));
+		all_th[i] = malloc(sizeof(t_all_th));
 		all_th[i]->all = all;
 		all_th[i]->nbr = i + 1;
-		pthread_create(&all->people[i].th, NULL, &the_philo, NULL);
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th);
 	}
 	i = -1;
 	while (++i < all->philo_num)
 		pthread_join(all->people[i].th, NULL);
+	i = -1;
+	while (++i < all->philo_num)
+		free(all_th[i]);
+	free(all_th);
 }
 // creates and launches each thread
 // and makes the main thread wait for each of them

@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 15:51:46 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 17:09:45 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct	s_all
 */
 
 /*
+talvez o problema sao os retornos das routines
 
 --- AFTER TESTING ---
 -> 1 philosopher behaviour correct?
@@ -82,23 +83,31 @@ current_time.tv_usec: microsseconds;
 
 int	create_all(char **av, t_all **all)
 {
+	printf("Creating 'all'.\n"); //
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || ft_atoi(av[4]) <= 0)
 		return(0);
 	if (av[5] && av[5] < 0)
 		return(0);
 	(*all) = malloc(sizeof(t_all));
-	(*all)->philo_num = ft_atoi(av[0]);
+	(*all)->philo_num = ft_atoi(av[1]);
+	printf("philo_num: %d;\n", (*all)->philo_num); //
 	(*all)->begin_time = get_time(0);
+	printf("begin_time: %zu;\n", (*all)->begin_time); //
 	(*all)->time_to_die = ft_atoi(av[2]);
+	printf("time_to_die: %zu;\n", (*all)->time_to_die); //
 	(*all)->time_to_eat = ft_atoi(av[3]);
+	printf("time_to_eat: %zu;\n", (*all)->time_to_eat); //
 	(*all)->time_to_sleep = ft_atoi(av[4]);
+	printf("time_to_sleep: %zu;\n", (*all)->time_to_sleep); //
 	(*all)->eat_no = -1;
 	if (av[5])
 		(*all)->eat_no = ft_atoi(av[5]);
+	printf("eat_no: %d;\n", (*all)->eat_no); //
 	(*all)->mtx_frk = NULL;
 	(*all)->death_msg = 0;
 	(*all)->mtx_msg = NULL;
 	(*all)->people = malloc((*all)->philo_num * sizeof(t_person));
+	printf("'all' created.\n");
 	return(1);
 }
 
@@ -109,14 +118,22 @@ void	manage_forks(t_all *all, int option)
 	i = -1;
 	if (option == 1)
 	{
+		printf("Creating fork mutexes:\n"); //
 		all->mtx_frk = malloc(all->philo_num * sizeof(pthread_mutex_t));
 		while (++i < all->philo_num)
+		{
+			printf("init[%d]\n", i); //
 			pthread_mutex_init(&all->mtx_frk[i], NULL);
+		}
 	}
 	else if (option == 2)
 	{
+		printf("Destroying fork mutexes:\n"); //
 		while (++i < all->philo_num)
+		{
+			printf("destroy[%d]\n", i); //
 			pthread_mutex_destroy(&all->mtx_frk[i]);
+		}
 		free(all->mtx_frk);
 	}
 }
@@ -130,9 +147,11 @@ void	manage_people(t_all *all, int option)
 	i = -1;
 	if (option == 1)
 	{
+		printf("Creating people:\n"); //
 		all->people = malloc(all->philo_num * sizeof(t_person));
 		while (++i < all->philo_num)
 		{
+			printf("people[%d]\n", i); //
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
 			all->people[i].death_status = 0;
@@ -142,7 +161,10 @@ void	manage_people(t_all *all, int option)
 		}
 	}
 	else if (option == 2)
+	{
+		printf("Destroying people.\n"); //
 		free(all->people);
+	}
 }
 // Option 1: Creates all the t_person structs;
 // Option 2: Destroys all the t_person structs;
@@ -151,18 +173,19 @@ void	manage_messages(t_all *all, int	option)
 {
 	if (option == 1)
 	{
+		printf("Creating message mutexes.\n"); //
 		all->mtx_msg = malloc(2 * sizeof(pthread_mutex_t));
 		pthread_mutex_init(&all->mtx_msg[0], NULL);
 		pthread_mutex_init(&all->mtx_msg[1], NULL);
 	}
 	else if (option == 2)
 	{
+		printf("Destroying message mutexes.\n"); //
 		pthread_mutex_destroy(&all->mtx_msg[0]);
 		pthread_mutex_destroy(&all->mtx_msg[1]);
 		free(all->mtx_msg);
 	}
 }
-// falta aqui um loop com numero de reps
 
 int	main(int ac, char **av)
 {
@@ -170,6 +193,7 @@ int	main(int ac, char **av)
 
 	if (ac == 5 || (ac == 6 && av[5]))
 	{
+		printf("Correct arguments.\n");
 		all = malloc(sizeof(t_all));
 		if (create_all(av, &all) == 0)
 		{
