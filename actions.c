@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 00:21:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:09:40 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,26 @@ void	eat_status(t_all *all, int ph_nmb)
 {
 	if (ph_nmb == 1)
 		return ;
-	pthread_mutex_lock(all->forks[ph_nmb - 1]);
-	all->forks[ph_nmb - 1] = ph_nmb;
+	pthread_mutex_lock(&all->mtx_frk[ph_nmb - 1]);
+	//all->forks[ph_nmb - 1] = ph_nmb;
 	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
-	pthread_mutex_lock(all->forks[ph_nmb - 2]);
-	all->forks[ph_nmb - 2] = ph_nmb;
+	pthread_mutex_lock(&all->mtx_frk[ph_nmb - 2]);
+	//all->forks[ph_nmb - 2] = ph_nmb;
 	printf("%d %d has taken a fork", get_time(NULL), ph_nmb);
 	pthread_mutex_lock(&all->mtx_msg[0]);
-	while (all->forks[ph_nmb - 1] != all->forks[ph_nmb - 2])
+	/*while (all->forks[ph_nmb - 1] != all->forks[ph_nmb - 2])
 	{
 		if (all->forks[ph_nmb - 2] == ph_nmb && all->forks[ph_nmb - 2] == ph_nmb)
 		{
 			printf("%d %d is eating", get_time(NULL), ph_nmb);
 			break;
 		}
-	}
+	}*/
+	printf("%d %d is eating", get_time(NULL), ph_nmb);
 	all->people[ph_nmb - 1].last_ate = get_time(NULL);
 	pthread_mutex_unlock(&all->mtx_msg[0]);
-	pthread_mutex_unlock(all->forks[ph_nmb - 1]);
-	pthread_mutex_unlock(all->forks[ph_nmb - 2]);
+	pthread_mutex_unlock(&all->mtx_frk[ph_nmb - 1]);
+	pthread_mutex_unlock(&all->mtx_frk[ph_nmb - 2]);
 }
 /*
 se calhar ate posso retirar o while inteiro e deixar so o printf visto

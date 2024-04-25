@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 14:55:01 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:17:42 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct	s_all
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	int				eat_no;
-	int 			*forks;
 	pthread_mutex_t	*mtx_frk;
 	int				death_msg;
 	pthread_mutex_t	*mtx_msg;
@@ -59,5 +58,8 @@ void	death_status(t_all *all, int ph_nmb);
 
 // THREADS
 void	wake_up_philo(t_all *all);
+
+// EXTRA
+int		ft_atoi(char *str);
 
 #endif

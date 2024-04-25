@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 14:56:21 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 15:32:43 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 /*
 Arguments:
-- av[0] number_of_philosophers
-- av[1] time_to_die
-- av[2] time_to_eat
-- av[3] time_to_sleep
-- av[4] number_of_times_each_philosopher_must_eat (optional)
+- av[0] titulo do programa
+- av[1] number_of_philosophers
+- av[2] time_to_die
+- av[3] time_to_eat
+- av[4] time_to_sleep
+- av[5] number_of_times_each_philosopher_must_eat (optional)
 */
 
 /*
@@ -79,48 +80,44 @@ current_time.tv_sec: seconds;
 current_time.tv_usec: microsseconds;
 */
 
-int	create_all(char **av, t_all *all)
+int	create_all(char **av, t_all **all)
 {
-	if (av[0] < 1 || av[1] <= 0 || av[2] <= 0 || av[3] <= 0)
+	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || ft_atoi(av[4]) <= 0)
 		return(0);
-	if (av[4] && av[4] < 0)
+	if (av[5] && av[5] < 0)
 		return(0);
-	all = malloc(sizeof(t_all));
-	all->philo_num = av[0];
-	all->begin_time = get_time(NULL);
-	all->time_to_die = av[1];
-	all->time_to_eat = av[2];
-	all->time_to_sleep = av[3];
-	all->eat_no = -1;
-	if (av[4])
-		all->eat_no = av[4];
-	all->forks = NULL;
-	all->mtx_frk = NULL;
-	all->death_msg = 0;
-	all->mtx_msg = NULL;
-	all->people = malloc(all->philo_num * sizeof(t_person));
+	(*all) = malloc(sizeof(t_all));
+	(*all)->philo_num = ft_atoi(av[0]);
+	(*all)->begin_time = get_time(0);
+	(*all)->time_to_die = ft_atoi(av[2]);
+	(*all)->time_to_eat = ft_atoi(av[3]);
+	(*all)->time_to_sleep = ft_atoi(av[4]);
+	(*all)->eat_no = -1;
+	if (av[5])
+		(*all)->eat_no = ft_atoi(av[5]);
+	(*all)->mtx_frk = NULL;
+	(*all)->death_msg = 0;
+	(*all)->mtx_msg = NULL;
+	(*all)->people = malloc((*all)->philo_num * sizeof(t_person));
 	return(1);
 }
 
 void	manage_forks(t_all *all, int option)
 {
-	pthread_mutex_t	*mtxs;
-	int				*forks;
 	int				i;
 
 	i = -1;
 	if (option == 1)
 	{
-		all->forks = malloc(all->philo_num * sizeof(int *));
+		all->mtx_frk = malloc(all->philo_num * sizeof(pthread_mutex_t));
 		while (++i < all->philo_num)
-			pthread_mutex_init(&forks[i], NULL);
+			pthread_mutex_init(&all->mtx_frk[i], NULL);
 	}
 	else if (option == 2)
 	{
 		while (++i < all->philo_num)
-			pthread_mutex_destroy(&forks[i]);
-		free(all->forks);
-		free_db(all->forks);
+			pthread_mutex_destroy(&all->mtx_frk[i]);
+		free(all->mtx_frk);
 	}
 }
 // Option 1: Creates all the forks and their mutexes;
@@ -154,15 +151,21 @@ void	manage_messages(int	option)
 {
 	pthread_mutex_t	mt[2];
 	
-	pthread_mutex_init(mt, NULL);
-	pthread_mutex_destroy(mt);
+	if (option == 1)
+	{
+		pthread_mutex_init(mt, NULL);
+	}
+	else if (option == 2)
+	{
+		pthread_mutex_destroy(mt);
+	}
 }
 
 int	main(int ac, char **av)
 {
 	t_all	*all;
 
-	if (ac == 5 || (ac == 6 && av[6]))
+	if (ac == 5 || (ac == 6 && av[5]))
 	{
 		all = malloc(sizeof(t_all));
 		if (create_all(av, &all) == 0)
