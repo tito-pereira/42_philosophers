@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 00:22:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/25 14:56:21 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ typedef struct	s_all
 */
 
 /*
--> pass variables into a thread (level1 the philo, level 2 starvation)
-PRECISO DE PASSAR 2 VARIAVEIS SENAO N VAI FUNCIONAR
 
 --- AFTER TESTING ---
 -> 1 philosopher behaviour correct?

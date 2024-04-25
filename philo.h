@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/24 23:42:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/25 14:55:01 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,21 @@ typedef struct	s_all
 	t_person		*people;
 }   t_all;
 
+typedef	struct s_all_sh
+{
+	t_all	*all;
+	int		nbr;
+}	t_all_th;
+
+
 // ACTIONS
 size_t	get_time(size_t begin);
 void	eat_status(t_all *all, int ph_nmb);
 void	sleep_status(t_all *all, int ph_nmb);
 void	think_status(t_all *all, int ph_nmb);
 void	death_status(t_all *all, int ph_nmb);
+
+// THREADS
+void	wake_up_philo(t_all *all);
 
 #endif
