@@ -6,7 +6,7 @@
 #    By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/26 14:35:38 by tibarbos          #+#    #+#              #
-#    Updated: 2024/04/25 16:22:14 by tibarbos         ###   ########.fr        #
+#    Updated: 2024/04/25 17:57:43 by tibarbos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC= main.c actions.c threads.c extra.c
 OBJ= ${SRC:.c=.o}
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+	$(CC) -g $(CFLAGS) $(OBJ) -o $(NAME)
 
 all: $(NAME)
 

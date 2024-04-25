@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 17:08:38 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:53:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,23 +69,39 @@ void	*starvation(void *all_th)
 			all->people[nbr].death_time = get_time(all->people[nbr].last_ate);
 		}
 	}
-	return((void *)all_th);
+	return(NULL);
 }
-// preciso obrigatoriamente de um return
 
 // t_all *all, int nbr
 void	*the_philo(void *all_th)
 {
-	pthread_t	th;
-	int			i;
-	int			nbr;
-	t_all		*all;
+	//pthread_t	th;
+	int				i;
+	int				nbr;
+	t_all			*all;
+	t_all_th		*all_tth;
 
 	i = -1;
-	nbr = ((t_all_th *)all_th)->nbr;
+	all_tth = (t_all_th *)all_th; 
+	nbr = all_tth->nbr;
 	printf("Inside philosopher[%d]\n", nbr);
-	all = ((t_all_th *)all_th)->all;
-	pthread_create(&th, NULL, &starvation, all_th);
+	all = all_tth->all;
+	printf("Creating death in philosopher[%d]\n", nbr);
+	//pthread_create(&th, NULL, &starvation, all_th);
+	if (i && all->eat_no && all->people[nbr].death_status)
+		printf("i:%d, eat_no:%d, death_status: %d. Why not looping?\n", i, all->eat_no, all->people[nbr].death_status);
+	if (i)
+		printf("i exists: %d;\n", i);
+	else
+		printf("i is NULL\n");
+	if (all->eat_no)
+		printf("eat_no exists: %d;\n", all->eat_no);
+	else
+		printf("eat_no is NULL\n");
+	if (all->people[nbr].death_status)
+		printf("death_status exists: %d;\n", all->people[nbr].death_status);
+	else
+		printf("death_status is NULL\n");
 	while (++i != all->eat_no && all->people[nbr].death_status == 0)
 	{
 		printf("Inside philosopher life cycle[%d]\n", nbr);
@@ -95,10 +111,37 @@ void	*the_philo(void *all_th)
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
 	}
-	free((t_all_th *)all_th);
-	return((void *)all_th);
+	return(NULL);
 }
-// preciso obrigatoriamente de um return
+// preciso obrigatoriamente de um return por ser (void *)
+
+void	print_people(t_all *all)
+{
+	int i = -1;
+	while (++i < all->philo_num) {
+		printf("people[%d] nbr: %d\n", i, all->people[i].nbr);
+		printf("people[%d] times_to_eat %d\n", i, all->people[i].times_to_eat);
+		printf("people[%d] death_status %d\n", i, all->people[i].death_status);
+		printf("people[%d] death_time %zu\n", i, all->people[i].death_time);
+		printf("people[%d] last_ate %zu\n", i, all->people[i].last_ate);
+	}
+}
+
+void	print_all(t_all *all)
+{
+	printf("philo_num %d;\n", all->philo_num);
+	printf("begin_time %zu;\n", all->begin_time);
+	printf("time_to_die %zu;\n", all->time_to_die);
+	printf("time_to_eat %zu;\n", all->time_to_eat);
+	printf("time_to_sleep %zu;\n", all->time_to_sleep);
+	printf("eat_no %d;\n", all->eat_no);
+	printf("death_msg %d;\n", all->death_msg);
+	if (all->mtx_frk)
+		printf("mtx_frk exists.\n");
+	if (all->mtx_msg)
+		printf("mtx_msg exists.\n");
+	print_people(all);
+}
 
 void	wake_up_philos(t_all *all)
 {
@@ -107,6 +150,7 @@ void	wake_up_philos(t_all *all)
 
 	i = -1;
 	printf("Waking up philos.\n"); //
+	print_all(all);
 	all_th = malloc(all->philo_num * sizeof(t_all_th *));
 	while (++i < all->philo_num)
 	{
@@ -115,7 +159,9 @@ void	wake_up_philos(t_all *all)
 		all_th[i] = malloc(sizeof(t_all_th));
 		all_th[i]->all = all;
 		all_th[i]->nbr = i + 1;
-		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th);
+		printf("created nbr is %d.\n", all_th[i]->nbr);
+		//printf("previous eat_no is %d.\n", all_th[i]->all->eat_no);
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 	}
 	i = -1;
 	while (++i < all->philo_num)

@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 17:09:45 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:44:55 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	create_all(char **av, t_all **all)
 	printf("time_to_eat: %zu;\n", (*all)->time_to_eat); //
 	(*all)->time_to_sleep = ft_atoi(av[4]);
 	printf("time_to_sleep: %zu;\n", (*all)->time_to_sleep); //
-	(*all)->eat_no = -1;
+	(*all)->eat_no = -2;
 	if (av[5])
 		(*all)->eat_no = ft_atoi(av[5]);
 	printf("eat_no: %d;\n", (*all)->eat_no); //
@@ -157,7 +157,7 @@ void	manage_people(t_all *all, int option)
 			all->people[i].death_status = 0;
 			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
-			all->people[i].times_to_eat = -1;
+			all->people[i].times_to_eat = -2;
 		}
 	}
 	else if (option == 2)
