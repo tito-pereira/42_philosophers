@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 18:41:20 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:10:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,17 @@ typedef struct	s_all
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }   t_all;
+// em vez de begin_time, um *times;
+
+typedef struct	s_times
+{
+	int				begin_scd;
+	int				begin_usec;
+	int				min_passed;
+	int				curr_scd;
+	int				curr_usec;
+	pthread_mutex_t	*tm_table;
+}   t_times;
 
 typedef	struct s_all_sh
 {
@@ -62,5 +73,9 @@ void	wake_up_philos(t_all *all);
 
 // EXTRA
 int		ft_atoi(char *str);
+
+// TIMETABLES
+int		get_c_time(t_all *all);
+void	*timetable(void *all);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/25 18:44:55 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:14:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ typedef struct	s_all
 */
 
 /*
-talvez o problema sao os retornos das routines
+-> timetables;
+-> philo death break;
 
 --- AFTER TESTING ---
 -> 1 philosopher behaviour correct?
@@ -86,7 +87,7 @@ int	create_all(char **av, t_all **all)
 	printf("Creating 'all'.\n"); //
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || ft_atoi(av[4]) <= 0)
 		return(0);
-	if (av[5] && av[5] < 0)
+	if (av[5] && ft_atoi(av[5]) < 0)
 		return(0);
 	(*all) = malloc(sizeof(t_all));
 	(*all)->philo_num = ft_atoi(av[1]);
