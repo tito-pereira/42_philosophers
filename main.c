@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/26 15:14:25 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:18:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ typedef struct	s_all
 
 /*
 -> timetables;
--> philo death break;
+-> philo death break program;
+-> 10ms limit;
+-> valgrind;
 
 --- AFTER TESTING ---
 -> 1 philosopher behaviour correct?
