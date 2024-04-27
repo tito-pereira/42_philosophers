@@ -229,6 +229,3 @@ o death_status e termina tudo
 reacao da morte de um philosopher, mas nao me deixam usar atomic
 operations.. ou deixam?
 */
-
-Thinking time:
-Since there are no defined rules
