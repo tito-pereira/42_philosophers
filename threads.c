@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/26 13:36:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/27 17:02:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct	s_all
 // t_all *all, int n
 void	*starvation(void *all_th)
 {
-	int		hunger;
+	size_t		hunger;
 	int		nbr;
 	t_all	*all;
 	
@@ -59,23 +59,27 @@ void	*starvation(void *all_th)
 	nbr = ((t_all_th *)all_th)->nbr;
 	printf("Inside philosopher death[%d]\n", nbr);
 	all = ((t_all_th *)all_th)->all;
-	while (all->people[nbr].death_status == 0)
+	while (all->death_msg == 0)
 	{
 		//printf("Inside philosopher death cycle[%d]\n", nbr);
-		hunger = (get_time(0) - all->begin_time) - all->people[nbr].last_ate;
-		if (hunger > 0 && (size_t)hunger > all->time_to_die)
+		hunger = get_time(all) - all->people[nbr].last_ate;
+		if (hunger > 0 && hunger > all->time_to_die)
 		{
 			printf("Philosopher [%d] has died\n", nbr);
-			printf("hunger %d: get_time(%zu) - begin_time(%zu) - last_ate(%zu)\n", hunger, get_time(0), all->begin_time, all->people[nbr].last_ate);
-			printf("time_to_die: %zu;\n", all->time_to_die);
-			all->people[nbr].death_status = 1;
-			all->people[nbr].death_time = get_time(all->people[nbr].last_ate);
+			printf("hunger %ld: get_time(%ld) - last_ate(%ld)\n", hunger, get_time(all), all->people[nbr].last_ate);
+			printf("time_to_die: %ld;\n", all->time_to_die);
+			//all->people[nbr].death_status = 1;
+			//all->death_msg = 1;
+			all->people[nbr].death_time = get_time(all);
+			death_status(all, nbr); //msg + death_msg
+			break;
 		}
 	}
 	return(NULL);
 }
 // colocar em unidades / ordens de grandeza comparaveis
 // hunger = microsegundos, time_to_eat = milisegundos (micro * 100)
+// while (all->people[nbr].death_status == 0)
 /* tive que colocar o if hunger > 0 porque, por alguma razao, os primeiros
 loops ainda me apareciam um get_time = 0 e dava resultados negativos
 e passava o limite inferior de size_t para valores absurdos e entao
@@ -101,7 +105,7 @@ void	*the_philo(void *all_th)
 	all = all_tth->all;
 	//printf("Creating death in philosopher[%d]\n", nbr);
 	pthread_create(&th, NULL, &starvation, all_th);
-	while (++i != all->eat_no && all->people[nbr].death_status == 0)
+	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr);
 		eat_status(all, nbr);
@@ -113,6 +117,7 @@ void	*the_philo(void *all_th)
 	return(NULL);
 }
 // preciso obrigatoriamente de um return por ser (void *)
+// while (++i != all->eat_no && all->people[nbr].death_status == 0)
 
 void	wake_up_philos(t_all *all)
 {

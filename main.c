@@ -6,55 +6,21 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/26 15:18:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/27 17:57:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-Arguments:
-- av[0] titulo do programa
-- av[1] number_of_philosophers
-- av[2] time_to_die
-- av[3] time_to_eat
-- av[4] time_to_sleep
-- av[5] number_of_times_each_philosopher_must_eat (optional)
-*/
+-> fork concurrency problem
+cada 1 pega num fork e fica so c um e morrem todos
 
-/*
-typedef struct	s_person
-{
-	pthread_t			th;
-	int					nbr;
-	int					times_to_eat;
-	int					death_status;
-	unsigned int		time_of_death;
-	unsigned int		last_ate;
-}   t_person;
-
-typedef struct	s_all
-{
-	int 			philo_num;
-	size_t			begin_time;
-    size_t			time_to_die;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
-	int				eat_no;
-	int 			*forks;
-	pthread_mutex_t	*mtx_frk;
-	int				norm_msg;
-	int				death_msg;
-	pthread_mutex_t	*mtx_msg;
-	t_person		*people;
-}   t_all;
-*/
-
-/*
--> timetables;
--> philo death break program;
--> 10ms limit;
--> valgrind;
+-> timestamps ()
+-> philo death break program ()
+-> smaller usleep() timers
+-> different prinft colors
+-> 10ms limit
 
 --- AFTER TESTING ---
 -> 1 philosopher behaviour correct?
@@ -62,27 +28,22 @@ typedef struct	s_all
 (caso eu comece a ter stresses com as death messages)
 -> bonus e semaphores
 (caso eu decida fazer bonus)
-
-pthread_t				<>;
-pthread_init			;
-pthread_join			;
-...
-pthread_mutex_t			<name>;
-pthread_mutex_init		(<name>, NULL);
-pthread_mutex_destroy	(<name>);
-...
-pthread_mutex_lock		;
-pthread_mutex_lock		;
-...
-usleep()
-...
-struct timeval current_time;
-struct timezone tz;
-gettimeofday(&current_time, &tz);
-
-current_time.tv_sec: seconds;
-current_time.tv_usec: microsseconds;
 */
+
+/*
+void	init_time(t_all *all)
+{
+	printf("Initiating time info.\n");
+	all->min_passed = 0;
+	printf("min_passed: %d;\n", all->min_passed);
+	all->times->begin_s = get_time_s();
+	printf("begin_s: %ld;\n", all->times->begin_s);
+	if (all->times->begin_s == 60)
+		(all->min_passed)++;
+	all->times->begin_us = get_time_us();
+	printf("begin_us: %ld;\n", all->times->begin_us);
+	printf("min_passed: %d;\n", all->min_passed);
+}*/
 
 int	create_all(char **av, t_all **all)
 {
@@ -94,19 +55,21 @@ int	create_all(char **av, t_all **all)
 	(*all) = malloc(sizeof(t_all));
 	(*all)->philo_num = ft_atoi(av[1]);
 	printf("philo_num: %d;\n", (*all)->philo_num); //
-	(*all)->begin_time = get_time(0);
-	printf("begin_time: %zu;\n", (*all)->begin_time); //
+	(*all)->begin_s = get_time_s();
+	(*all)->begin_us = get_time_us();
 	(*all)->time_to_die = ft_atoi(av[2]);
-	printf("time_to_die: %zu;\n", (*all)->time_to_die); //
+	printf("time_to_die: %ld;\n", (*all)->time_to_die); //
 	(*all)->time_to_eat = ft_atoi(av[3]);
-	printf("time_to_eat: %zu;\n", (*all)->time_to_eat); //
+	printf("time_to_eat: %ld;\n", (*all)->time_to_eat); //
 	(*all)->time_to_sleep = ft_atoi(av[4]);
-	printf("time_to_sleep: %zu;\n", (*all)->time_to_sleep); //
+	printf("time_to_sleep: %ld;\n", (*all)->time_to_sleep); //
 	(*all)->eat_no = -2;
 	if (av[5])
 		(*all)->eat_no = ft_atoi(av[5]);
 	printf("eat_no: %d;\n", (*all)->eat_no); //
 	(*all)->mtx_frk = NULL;
+	//(*all)->forks = malloc((*all)->philo_num * sizeof(int));
+	//memset(forks, -1, (*all)->philo_num);
 	(*all)->death_msg = 0;
 	(*all)->mtx_msg = NULL;
 	(*all)->people = malloc((*all)->philo_num * sizeof(t_person));
@@ -157,7 +120,7 @@ void	manage_people(t_all *all, int option)
 			printf("people[%d]\n", i); //
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
-			all->people[i].death_status = 0;
+			//all->people[i].death_status = 0;
 			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_to_eat = -2;
@@ -203,6 +166,7 @@ int	main(int ac, char **av)
 			printf("Invalid arguments.\n");
 			return(0);
 		}
+		//start_time(all);
 		manage_forks(all, 1);
 		manage_people(all, 1);
 		manage_messages(all, 1);
@@ -215,3 +179,23 @@ int	main(int ac, char **av)
 		printf("Wrong number or invalid arguments.\n");
 	return(0);
 }
+
+/*
+se for preciso poupar linhas, colocar os manage(1) dentro
+do create_all e so deixar os (2) ca fora
+
+. get_time(1000) imediato nem da tempo de comer;
+. fica dentro do loop de morte a imprimir ate a thread finalmente atualizar
+
+current testing
+
+global death status
+- eliminei o death status individual em cada people[]
+- coloquei um death_msg global no all
+
+time
+- t_all struct -> times*
+- create_all (init_time);
+- start_time(main);
+- get_time_tt(); actions / threads
+*/

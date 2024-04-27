@@ -150,6 +150,16 @@ typedef	t_times	struct s_times;
 milisseconds, we will probably deal with big numbers)
 .....
 
+/*
+Arguments:
+- av[0] titulo do programa
+- av[1] number_of_philosophers
+- av[2] time_to_die
+- av[3] time_to_eat
+- av[4] time_to_sleep
+- av[5] number_of_times_each_philosopher_must_eat (optional)
+*/
+
 memset() ?
 void *memset(void *ptr, int value, size_t num);
 
@@ -163,10 +173,6 @@ how can i do this?
 and interrupt a usleep at the end of each meal (with a break or a continue
 or something)
 a thread inside a thread? uma thread para cada death_clock?
-
-philo = thread = function
-->(creating threads in a loop, np);
-->(passing arguments to a thread/function);
 
 pointer associado a uma funcao?
 varias threads vao tentar access garfos diferentes, por isso os garfos
@@ -188,34 +194,24 @@ crio static ou c malloc? dá par dar free a este tipo de unidades?
 tenho q aceder dentro da struct e dar free a todos os pointers individuais
 dentro, por isso nao, defino static
 
-so far so good. falta ver:
--> como gerir os tempos e death cycle;
-usleep(time_to_sleep);
-"finished sleeping"
-usleep(time_to_think);
-"finished thinking"
-usleep(time_to_eat);
-"finished eating"
--> como actually gerir as locks dos mutexes para cada thread/philo;
-acho que basta meter pthread_mutex_lock(); para o respetivo int* na thread correspondente;
-e eles automaticamente fazem isso;
-
-acho que o tempo de thinking sou eu que decido e tenho que gerir,
-provavelmente tenho que fazer calculos de acordo com o time do die
-e time to eat e consoante isso decidir quando parar de pensar
-
 eat        | sleep       think	eat
 [t_eat]    | [t_sleep]	.		[t_eat]
 |[t_die]		.		.		| (start eating times)
 
-posso dar launch a um death_cycle e entretanto dar-lhe break
-
 ...
-timestamp: ms passados desde o inicio do minishell
-nao podem ser os filosofos a mandar mensagem, mas sim informar do status
-
 
 /*
+PHILOSOPHER DEATH = END OF PROGRAM
+
+posso criar mais uma variavel dentro do all do tipo "global_death"
+que indica se qualquer um dos filosofos morreu, nao adianta qual, qualquer um serve
+e no life cycle loop apenas acrescento como uma condicao extra a verificar para os
+philos sairem do loop mal algum deles morra
+*/
+
+/*
+ATOMIC OPPS
+
 para garantir uma resposta mais rapida, sugeriram sinchronization
 mechanisms como atomic operations
 
@@ -228,4 +224,7 @@ o death_status e termina tudo
 É o meu grande priblema neste projeto. Eles pedem otimizacao do tempo de
 reacao da morte de um philosopher, mas nao me deixam usar atomic
 operations.. ou deixam?
+
+1714223941
+1714224002
 */
