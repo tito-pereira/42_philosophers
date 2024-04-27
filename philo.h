@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/27 17:56:10 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:07:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ typedef struct	s_person
 	size_t			death_time;
 	size_t			last_ate;
 }   t_person;
+/*
+int	*p_frk;
+int	*f_frk;
+pthread_mutex_t	*p_mtx;
+pthread_mutex_t	*f_mtx;
+*/
 
 typedef struct	s_times
 {
@@ -49,6 +55,7 @@ typedef struct	s_all
 	int				min_passed;
 	int				eat_no;
 	pthread_mutex_t	*mtx_frk;
+	int				*forks;
 	int				death_msg;
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;

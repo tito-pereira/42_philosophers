@@ -54,7 +54,7 @@ It simply creates a condition where the "eating status" is only active once the 
 holds the locks for both the [philosopher - 1] && [philosopher - 2] forks, and an initial
 conditional where, if there was only 1 philosopher created, it simply skips the eating phase
 until that philosopher dies.
-In my first versions on this project, i ran into a stalemate condition where each philosopher
+In my first version on this project, i ran into a stalemate condition where each philosopher
 would pick up only one fork and eternally be waiting for the next one to be available, which
 would never be and they would all starve holding one fork.
 I thought about creating a dinamic micro use of the usleep() function where, in ascending order,

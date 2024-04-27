@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/27 17:57:30 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:08:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 /*
 -> fork concurrency problem
 cada 1 pega num fork e fica so c um e morrem todos
+..
+algo estranho se passa c o last_ate, ou tou a aceder
+ao filosofo / indice errado
+-- acrescentar aquilo ao t_person struct
+-- mudar os pointers fork e mutex na eating status
 
 -> timestamps ()
 -> philo death break program ()
@@ -68,7 +73,7 @@ int	create_all(char **av, t_all **all)
 		(*all)->eat_no = ft_atoi(av[5]);
 	printf("eat_no: %d;\n", (*all)->eat_no); //
 	(*all)->mtx_frk = NULL;
-	//(*all)->forks = malloc((*all)->philo_num * sizeof(int));
+	(*all)->forks = malloc((*all)->philo_num * sizeof(int));
 	//memset(forks, -1, (*all)->philo_num);
 	(*all)->death_msg = 0;
 	(*all)->mtx_msg = NULL;
@@ -89,6 +94,7 @@ void	manage_forks(t_all *all, int option)
 		while (++i < all->philo_num)
 		{
 			printf("init[%d]\n", i); //
+			all->forks[i] = -1;
 			pthread_mutex_init(&all->mtx_frk[i], NULL);
 		}
 	}
@@ -101,6 +107,7 @@ void	manage_forks(t_all *all, int option)
 			pthread_mutex_destroy(&all->mtx_frk[i]);
 		}
 		free(all->mtx_frk);
+		free(all->forks);
 	}
 }
 // Option 1: Creates all the forks and their mutexes;
