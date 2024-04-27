@@ -7,13 +7,25 @@ It was an introduction to multi-threading programming, with several goals in min
 - practice the use of mutexes;
 - solving race conditions problems;
 
+For anyone looking to learn something from my code or simply browsing github for some answers,
+i created a short object oriented explanation of what i did, in order to help any reader
+to quickly understand the code:
+
 -----|  0.0: Description         |-----
+
+(to be written)
 
 -----|  1.0: Philosophers        |-----
 
+(to be written)
+
 -----|  1.1: Life Cycle          |-----
 
+(to be written)
+
 -----|  1.2: Death Cycle         |-----
+
+(to be written)
 
 -----| 2.0: Timestamps           |-----
 
@@ -31,7 +43,7 @@ as well as the beginning timestamps captured at the beginning of the execution (
 microsseconds), to dinamically calculate and return the value, in milisseconds, of the
 current timestamp;
 
-!!!
+(to be written)
 
 -----|  3.0: Actions and Timers  |-----
 
