@@ -208,66 +208,12 @@ eat        | sleep       think	eat
 [t_eat]    | [t_sleep]	.		[t_eat]
 |[t_die]		.		.		| (start eating times)
 
-start think
-
-death_cycle:
-while (1)
-usleep([time_to_die]);
-->something to reset (continue?)
-kill_philo();
-nope, isto em si tambem requer uma thread
-
 posso dar launch a um death_cycle e entretanto dar-lhe break
 
 ...
-status messages:
-. so pode haver uma status message de cada vez;
-. se calhar esperar
-. em caso de morte, a status message de morte nao pode demorar
-mais de 10ms a aparecer;
-
-message:
-get_timestamp = (gettimeofday() - all->begin_time)
-char **status;
-status = malloc(4 * sizeof(char *));
-status[0] = "is eating\n";
-status[1] = "is sleeping\n";
-status[2] = "";
-status[3] = "";
-printf("%d, %d, %s.\n", get_timestamp, philo_num, status);
-
 timestamp: ms passados desde o inicio do minishell
 nao podem ser os filosofos a mandar mensagem, mas sim informar do status
 
-void	eating_status(int philo_no)
-{
-	pthread_mutex_lock(fork_left);
-	fork_left = philo_no;
-	pthread_mutex_lock(fork_right);
-	fork_right = philo_no;
-	pthread_mutex_lock(message_board);
-	if (fork_left == philo_no && fork_right == philo_no)
-		printf("get_timestamp() philo_no eating message");
-	pthread_mutex_unlock(message_board);
-	pthread_mutex_unlock(fork_left);
-	pthread_mutex_unlock(fork_right);
-}
-
-int	*forks;
-forks = malloc(all->philo_num * sizeof(int));
-int i = -1;
-while (forks && forks[++i] != NULL) {
-	pthread_mutex_init();
-}
-
-while (death_status == 0) {
-	eating_status();
-	usleep(all->time_to_eat);
-	thinking_status();
-	// usleep(); (meto logo os meus gajos a comer, nao espero ate a ultima)
-	sleeping_status();
-	usleep(all->time_to_sleep);
-}
 
 /*
 para garantir uma resposta mais rapida, sugeriram sinchronization
@@ -283,3 +229,6 @@ o death_status e termina tudo
 reacao da morte de um philosopher, mas nao me deixam usar atomic
 operations.. ou deixam?
 */
+
+Thinking time:
+Since there are no defined rules
