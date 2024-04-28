@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/27 19:07:19 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:39:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,27 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+#define	WHITE	"\033[0m";
+#define	RED		"\033[0;31m";
+#define	GREEN	"\033[0;32m";
+#define	YELLOW	"\033[0;33m";
+#define	BLUE	"\033[0;34m";
+#define	CYAN	"\033[0;34m";
+
 typedef struct	s_person
 {
-	pthread_t	th;
-	int			nbr;
-	int			times_to_eat;
-	//int			death_status;
+	pthread_t		th;
+	int				nbr;
+	int				times_to_eat;
 	size_t			death_time;
 	size_t			last_ate;
+	int				*p_frk; //
+	int				*f_frk; //
+	pthread_mutex_t	*p_mtx; //
+	pthread_mutex_t	*f_mtx; //
 }   t_person;
 /*
+//int			death_status;
 int	*p_frk;
 int	*f_frk;
 pthread_mutex_t	*p_mtx;

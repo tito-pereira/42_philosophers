@@ -201,12 +201,17 @@ eat        | sleep       think	eat
 ...
 
 /*
-PHILOSOPHER DEATH = END OF PROGRAM
+FORK MUTEX CONCURRENCY (LOCKING AT THE SAME TIME STALEMATE)
 
-posso criar mais uma variavel dentro do all do tipo "global_death"
-que indica se qualquer um dos filosofos morreu, nao adianta qual, qualquer um serve
-e no life cycle loop apenas acrescento como uma condicao extra a verificar para os
-philos sairem do loop mal algum deles morra
+-> fork concurrency problem
+cada 1 pega num fork e fica so c um e morrem todos
+..
+algo estranho se passa c o last_ate, ou tou a aceder
+ao filosofo / indice errado
+(V) -- acrescentar aquilo ao t_person struct
+(V) -- associar p e f forks e mutexes de cada person aos respetivos membros
+da struct all
+(V) -- mudar os pointers fork e mutex na eating status
 */
 
 /*

@@ -6,33 +6,19 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/27 19:08:39 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:23:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
--> fork concurrency problem
-cada 1 pega num fork e fica so c um e morrem todos
-..
-algo estranho se passa c o last_ate, ou tou a aceder
-ao filosofo / indice errado
--- acrescentar aquilo ao t_person struct
--- mudar os pointers fork e mutex na eating status
 
--> timestamps ()
--> philo death break program ()
--> smaller usleep() timers
--> different prinft colors
+-> philo death break program (testing deaths, frees, memory and timers)
 -> 10ms limit
+-> 1 lone philospher death
 
---- AFTER TESTING ---
--> 1 philosopher behaviour correct?
--> atomic ops ou nao ha nada a fazer;
-(caso eu comece a ter stresses com as death messages)
--> bonus e semaphores
-(caso eu decida fazer bonus)
+-> smaller usleep() timers
 */
 
 /*
@@ -113,6 +99,44 @@ void	manage_forks(t_all *all, int option)
 // Option 1: Creates all the forks and their mutexes;
 // Option 2: Destroys all the forks and their mutexes;
 
+/*
+int	*p_frk;
+int	*f_frk;
+pthread_mutex_t	*p_mtx;
+pthread_mutex_t	*f_mtx;
+*/
+
+void	mng_ppl_frk_mtx(t_all *all)
+{
+	int	i;
+
+	i = -1;
+	while (++i < all->philo_num)
+	{
+		if (i == 0 && all->philo_num == 1)
+		{
+			printf("Lone philosopher, fork && mutex NULL.\n");
+			all->people[i].p_frk = NULL;
+			all->people[i].p_mtx = NULL;
+		}
+		else if (i == 0 && all->philo_num != 1)
+		{
+			printf("Philosopher [%d] previous * == [%d]\n", i, (all->philo_num - 1));
+			all->people[i].p_frk = &all->forks[all->philo_num - 1];
+			all->people[i].p_mtx = &all->mtx_frk[all->philo_num - 1];
+		}
+		else
+		{
+			printf("Philosopher [%d] previous * == [%d]\n", i, (i - 1));
+			all->people[i].p_frk = &all->forks[i - 1];
+			all->people[i].p_mtx = &all->mtx_frk[i - 1];
+		}
+		printf("Philosopher [%d] forward * == [%d]\n", i, i);
+		all->people[i].f_frk = &all->forks[i];
+		all->people[i].f_mtx = &all->mtx_frk[i];
+	}
+}
+
 void	manage_people(t_all *all, int option)
 {
 	int	i;
@@ -127,15 +151,22 @@ void	manage_people(t_all *all, int option)
 			printf("people[%d]\n", i); //
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
-			//all->people[i].death_status = 0;
 			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_to_eat = -2;
 		}
+		mng_ppl_frk_mtx(all);
 	}
 	else if (option == 2)
 	{
 		printf("Destroying people.\n"); //
+		while (++i < all->philo_num)
+		{
+			free(all->people[i].p_frk);
+			free(all->people[i].f_frk);
+			free(all->people[i].p_mtx);
+			free(all->people[i].f_mtx);
+		}
 		free(all->people);
 	}
 }
