@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/28 16:39:21 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/28 19:24:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #define	GREEN	"\033[0;32m";
 #define	YELLOW	"\033[0;33m";
 #define	BLUE	"\033[0;34m";
-#define	CYAN	"\033[0;34m";
+#define	CYAN	"\033[0;36m";
 
 typedef struct	s_person
 {

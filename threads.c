@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/27 17:02:58 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:03:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,12 @@ void	*starvation(void *all_th)
 	while (all->death_msg == 0)
 	{
 		//printf("Inside philosopher death cycle[%d]\n", nbr);
-		hunger = get_time(all) - all->people[nbr].last_ate;
+		//hunger = get_time(all) - all->people[nbr].last_ate;
 		if (hunger > 0 && hunger > all->time_to_die)
 		{
 			printf("Philosopher [%d] has died\n", nbr);
-			printf("hunger %ld: get_time(%ld) - last_ate(%ld)\n", hunger, get_time(all), all->people[nbr].last_ate);
-			printf("time_to_die: %ld;\n", all->time_to_die);
+			printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr].last_ate);
+			printf("time_to_die: %zu;\n", all->time_to_die);
 			//all->people[nbr].death_status = 1;
 			//all->death_msg = 1;
 			all->people[nbr].death_time = get_time(all);
@@ -75,21 +75,13 @@ void	*starvation(void *all_th)
 			break;
 		}
 	}
+	printf("Philosopher [%d] will be buried.\n", nbr);
 	return(NULL);
 }
 // colocar em unidades / ordens de grandeza comparaveis
 // hunger = microsegundos, time_to_eat = milisegundos (micro * 100)
 // while (all->people[nbr].death_status == 0)
-/* tive que colocar o if hunger > 0 porque, por alguma razao, os primeiros
-loops ainda me apareciam um get_time = 0 e dava resultados negativos
-e passava o limite inferior de size_t para valores absurdos e entao
-hunger era sempre maior que time_to_die (quando na realidade eram
-apenas valores negativos)
-o que por si só nunca deveria acontecer porque get_time nunca
-deveria ser inferior ao begin_time, nao faz sentido
-*/
 
-// t_all *all, int nbr
 void	*the_philo(void *all_th)
 {
 	pthread_t	th;
@@ -101,10 +93,10 @@ void	*the_philo(void *all_th)
 	i = -1;
 	all_tth = (t_all_th *)all_th; 
 	nbr = all_tth->nbr;
-	//printf("Inside philosopher[%d]\n", nbr);
 	all = all_tth->all;
-	//printf("Creating death in philosopher[%d]\n", nbr);
 	pthread_create(&th, NULL, &starvation, all_th);
+	usleep((nbr - 1) * 1000000);
+	printf("Inside philosopher[%d]\n", nbr);
 	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr);
@@ -114,10 +106,9 @@ void	*the_philo(void *all_th)
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
 	}
+	printf("Philosopher [%d] is abandoning.\n", (nbr - 1));
 	return(NULL);
 }
-// preciso obrigatoriamente de um return por ser (void *)
-// while (++i != all->eat_no && all->people[nbr].death_status == 0)
 
 void	wake_up_philos(t_all *all)
 {

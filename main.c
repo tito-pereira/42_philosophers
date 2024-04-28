@@ -6,13 +6,24 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/28 16:23:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 00:31:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
++175 p amanha
+
+se eu retirar a thread de morte, corre tudo otimo
+o problema tem a ver com o meu hunger calculations e/ou last_ate
+normalmente o gajo morre mesmo depois de acabar de comer o que nao
+faz sentido
+-- hunger possui um arithmetic overflow, ta a ir para o valor -1 (size_t max)
+-- antes de corrigir aquilo, vou tentar aproveitar o bug para corrigir
+a minha escape sequence
+
+nah esquece recuso me a aceitar aqueles erros estupidos
 
 -> philo death break program (testing deaths, frees, memory and timers)
 -> 10ms limit
@@ -98,13 +109,6 @@ void	manage_forks(t_all *all, int option)
 }
 // Option 1: Creates all the forks and their mutexes;
 // Option 2: Destroys all the forks and their mutexes;
-
-/*
-int	*p_frk;
-int	*f_frk;
-pthread_mutex_t	*p_mtx;
-pthread_mutex_t	*f_mtx;
-*/
 
 void	mng_ppl_frk_mtx(t_all *all)
 {
@@ -204,7 +208,6 @@ int	main(int ac, char **av)
 			printf("Invalid arguments.\n");
 			return(0);
 		}
-		//start_time(all);
 		manage_forks(all, 1);
 		manage_people(all, 1);
 		manage_messages(all, 1);
