@@ -186,4 +186,5 @@ que nao correm mais mensagem nenhuma caso alguem morra
 -> testar arg opcional
 parece estar top
 
-1 philo, ele morre e nao ha leaks
+-> negative hunger values;
+-> use join instead of detach;

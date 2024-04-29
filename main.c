@@ -6,62 +6,45 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 15:30:19 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:42:16 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-(ambos englobados no correto tratamento das mortes)
--> philo death break program (testing deaths, frees, memory and timers)
--> 1 lone philosopher death
-
 -> 10ms limit
-
-a extra thread so traz merda, valores de hunger estupidos, leaks relacionados
-com criacao e fim de threads, etc
-acho que consegui resolver ao lidar c os valores negativos de hunger
-
-aquela leak fantasma que aparece é sempre relaiconada com
-272 bytes
-starvation, start thread, clone
-malloc, manage people
-
-quando ha erro, é sempre o starvation [0] por alguma razao
-agora foi [0] e [1], mas ha claramente uma trend de provavelmente estar ocupado
-com algo e nao "fecha" a tempo.. mas eu dou detach
-substitui o detach pela join e deixou de haver leaks
+-> nao me morre ninguem nos testes que é suposto
 */
 
 int	create_all(char **av, t_all **all)
 {
-	printf("Creating 'all'.\n"); //
+	//printf("Creating 'all'.\n"); //
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0 || ft_atoi(av[4]) <= 0)
 		return(0);
 	if (av[5] && ft_atoi(av[5]) < 0)
 		return(0);
 	//(*all) = malloc(sizeof(t_all));
 	(*all)->philo_num = ft_atoi(av[1]);
-	printf("philo_num: %d;\n", (*all)->philo_num); //
+	//printf("philo_num: %d;\n", (*all)->philo_num); //
 	(*all)->begin_s = 0; //get_time_s();
 	(*all)->begin_us = 0; //get_time_us();
 	(*all)->time_to_die = ft_atoi(av[2]);
-	printf("time_to_die: %ld;\n", (*all)->time_to_die); //
+	//printf("time_to_die: %ld;\n", (*all)->time_to_die); //
 	(*all)->time_to_eat = ft_atoi(av[3]);
-	printf("time_to_eat: %ld;\n", (*all)->time_to_eat); //
+	//printf("time_to_eat: %ld;\n", (*all)->time_to_eat); //
 	(*all)->time_to_sleep = ft_atoi(av[4]);
-	printf("time_to_sleep: %ld;\n", (*all)->time_to_sleep); //
+	//printf("time_to_sleep: %ld;\n", (*all)->time_to_sleep); //
 	(*all)->eat_no = -2;
 	if (av[5])
 		(*all)->eat_no = ft_atoi(av[5]);
-	printf("eat_no: %d;\n", (*all)->eat_no); //
+	//printf("eat_no: %d;\n", (*all)->eat_no); //
 	(*all)->mtx_frk = NULL;
 	(*all)->forks = malloc((*all)->philo_num * sizeof(int));
 	(*all)->death_msg = 0;
 	(*all)->mtx_msg = NULL;
 	(*all)->people = NULL; //malloc((*all)->philo_num * sizeof(t_person));
-	printf("'all' created.\n");
+	//printf("'all' created.\n");
 	return(1);
 }
 
@@ -72,21 +55,21 @@ void	manage_forks(t_all *all, int option)
 	i = -1;
 	if (option == 1)
 	{
-		printf("Creating fork mutexes:\n"); //
+		//printf("Creating fork mutexes:\n"); //
 		all->mtx_frk = malloc(all->philo_num * sizeof(pthread_mutex_t));
 		while (++i < all->philo_num)
 		{
-			printf("init[%d]\n", i); //
+			//printf("init[%d]\n", i); //
 			all->forks[i] = -1;
 			pthread_mutex_init(&all->mtx_frk[i], NULL);
 		}
 	}
 	else if (option == 2)
 	{
-		printf("Destroying fork mutexes:\n"); //
+		//printf("Destroying fork mutexes:\n"); //
 		while (++i < all->philo_num)
 		{
-			printf("destroy[%d]\n", i); //
+			//printf("destroy[%d]\n", i); //
 			pthread_mutex_destroy(&all->mtx_frk[i]);
 		}
 		free(all->mtx_frk);
@@ -105,23 +88,23 @@ void	mng_ppl_frk_mtx(t_all *all)
 	{
 		if (i == 0 && all->philo_num == 1)
 		{
-			printf("Lone philosopher, fork && mutex NULL.\n");
+			//printf("Lone philosopher, fork && mutex NULL.\n");
 			all->people[i].p_frk = NULL;
 			all->people[i].p_mtx = NULL;
 		}
 		else if (i == 0 && all->philo_num != 1)
 		{
-			printf("Philosopher [%d] previous * == [%d]\n", i, (all->philo_num - 1));
+			//printf("Philosopher [%d] previous * == [%d]\n", i, (all->philo_num - 1));
 			all->people[i].p_frk = &all->forks[all->philo_num - 1];
 			all->people[i].p_mtx = &all->mtx_frk[all->philo_num - 1];
 		}
 		else
 		{
-			printf("Philosopher [%d] previous * == [%d]\n", i, (i - 1));
+			//printf("Philosopher [%d] previous * == [%d]\n", i, (i - 1));
 			all->people[i].p_frk = &all->forks[i - 1];
 			all->people[i].p_mtx = &all->mtx_frk[i - 1];
 		}
-		printf("Philosopher [%d] forward * == [%d]\n", i, i);
+		//printf("Philosopher [%d] forward * == [%d]\n", i, i);
 		all->people[i].f_frk = &all->forks[i];
 		all->people[i].f_mtx = &all->mtx_frk[i];
 	}
@@ -134,11 +117,11 @@ void	manage_people(t_all *all, int option)
 	i = -1;
 	if (option == 1)
 	{
-		printf("Creating people:\n"); //
+		//printf("Creating people:\n"); //
 		all->people = malloc(all->philo_num * sizeof(t_person));
 		while (++i < all->philo_num)
 		{
-			printf("people[%d]\n", i); //
+			//printf("people[%d]\n", i); //
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
 			all->people[i].death_time = 0;
@@ -149,9 +132,9 @@ void	manage_people(t_all *all, int option)
 	}
 	else if (option == 2)
 	{
-		printf("Destroying people.\n"); //
+		//printf("Destroying people.\n"); //
 		free(all->people);
-		printf("People destroyed.\n");
+		//printf("People destroyed.\n");
 	}
 }
 /*
@@ -165,14 +148,14 @@ void	manage_messages(t_all *all, int	option)
 {
 	if (option == 1)
 	{
-		printf("Creating message mutexes.\n"); //
+		//printf("Creating message mutexes.\n"); //
 		all->mtx_msg = malloc(2 * sizeof(pthread_mutex_t));
 		pthread_mutex_init(&all->mtx_msg[0], NULL);
 		pthread_mutex_init(&all->mtx_msg[1], NULL);
 	}
 	else if (option == 2)
 	{
-		printf("Destroying message mutexes.\n"); //
+		//printf("Destroying message mutexes.\n"); //
 		pthread_mutex_destroy(&all->mtx_msg[0]);
 		pthread_mutex_destroy(&all->mtx_msg[1]);
 		free(all->mtx_msg);
@@ -185,7 +168,7 @@ int	main(int ac, char **av)
 
 	if (ac == 5 || (ac == 6 && av[5]))
 	{
-		printf("Correct arguments.\n");
+		//printf("Correct arguments.\n");
 		all = malloc(sizeof(t_all));
 		if (create_all(av, &all) == 0)
 		{

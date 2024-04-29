@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 11:59:52 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:47:54 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	death_status(t_all *all, int ph_nmb)
 
 void	eat_status(t_all *all, int ph_nmb)
 {
-	printf("Philosopher [%d] inside eating actions.\n", ph_nmb);
+	//printf("Philosopher [%d] inside eating actions.\n", ph_nmb);
 	if (all->philo_num == 1)
 		return ;
 	while (1)
@@ -58,7 +58,7 @@ void	eat_status(t_all *all, int ph_nmb)
 			break ;
 		pthread_mutex_lock(all->people[ph_nmb - 1].f_mtx);
 		*(all->people[ph_nmb - 1].f_frk) = ph_nmb;
-		printf("Philosopher [%d] picked f_fork.\n", ph_nmb);
+		//printf("Philosopher [%d] picked f_fork.\n", ph_nmb);
 		if (*(all->people[ph_nmb - 1].p_frk) == -1)
 		{
 			pthread_mutex_lock(all->people[ph_nmb - 1].p_mtx);
@@ -72,14 +72,14 @@ void	eat_status(t_all *all, int ph_nmb)
 			}
 			else
 			{
-				printf("Philosopher [%d] dropped f_fork.\n", ph_nmb);
+				//printf("Philosopher [%d] dropped f_fork.\n", ph_nmb);
 				*(all->people[ph_nmb - 1].f_frk) = -1;
 				pthread_mutex_unlock(all->people[ph_nmb - 1].f_mtx);
 			}
 		}
 		else
 		{
-			printf("Philosopher [%d] is retrying to eat.\n", ph_nmb);
+			//printf("Philosopher [%d] is retrying to eat.\n", ph_nmb);
 			*(all->people[ph_nmb - 1].f_frk) = -1;
 			pthread_mutex_unlock(all->people[ph_nmb - 1].f_mtx);
 			continue ;
@@ -89,7 +89,7 @@ void	eat_status(t_all *all, int ph_nmb)
 			pthread_mutex_lock(&all->mtx_msg[0]);
 			printf("\033[0;32m%ld %d is eating\033[0m\n", get_time(all), ph_nmb);
 			all->people[ph_nmb - 1].last_ate = get_time(all);
-			printf("Philosopher [%d] last ate was: %ld;\n", (ph_nmb - 1), all->people[ph_nmb - 1].last_ate);
+			//printf("Philosopher [%d] last ate was: %ld;\n", (ph_nmb - 1), all->people[ph_nmb - 1].last_ate);
 			pthread_mutex_unlock(&all->mtx_msg[0]);
 		}
 		*(all->people[ph_nmb - 1].f_frk) = -1;
