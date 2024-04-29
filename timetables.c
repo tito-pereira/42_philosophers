@@ -41,29 +41,6 @@ size_t	get_time_us(void)
 }
 // return in microsseconds
 
-/*
-size_t	get_time(t_all *all)
-{
-	size_t	us_curr;
-	size_t	s_curr;
-	size_t	diff_s;
-	size_t	diff_us;
-	
-	s_curr = get_time_s();
-	us_curr = get_time_us();
-	if (s_curr > all->times->begin_s)
-		diff_s = s_curr - all->times->begin_s;
-	else
-		diff_s = all->times->begin_s - s_curr;
-	diff_s = diff_s * 1000;
-	if (us_curr > all->times->begin_s)
-		diff_us = us_curr - all->times->begin_us;
-	else
-		diff_us = all->times->begin_us - us_curr;
-    diff_us = diff_us / 1000;
-	return ((all->min_passed * 1000) + diff_s + diff_us);
-}*/
-
 size_t	get_time(t_all *all)
 {
 	size_t	us_curr;
@@ -100,6 +77,46 @@ basta gravar o segundo inicial, o segundo atual,
 fazer a diferenca entre eles e somar *1000 ao resultado
 final em milissegundos
 */
+
+/*
+size_t	get_time_sub(size_t begin)
+{
+	struct timeval	ct;
+	struct timezone	tz;
+	size_t			us_curr;
+	size_t			us_old;
+
+	us_old = 0;
+	if (begin)
+		us_old = begin;
+	gettimeofday(&ct, &tz);
+	us_curr = ct.tv_usec;
+	return((us_curr - us_old) / 1000);
+}
+*/
+
+/*
+size_t	get_time(t_all *all)
+{
+	size_t	us_curr;
+	size_t	s_curr;
+	size_t	diff_s;
+	size_t	diff_us;
+	
+	s_curr = get_time_s();
+	us_curr = get_time_us();
+	if (s_curr > all->times->begin_s)
+		diff_s = s_curr - all->times->begin_s;
+	else
+		diff_s = all->times->begin_s - s_curr;
+	diff_s = diff_s * 1000;
+	if (us_curr > all->times->begin_s)
+		diff_us = us_curr - all->times->begin_us;
+	else
+		diff_us = all->times->begin_us - us_curr;
+    diff_us = diff_us / 1000;
+	return ((all->min_passed * 1000) + diff_s + diff_us);
+}*/
 
 /*
 void	*timetable(void *old_all)

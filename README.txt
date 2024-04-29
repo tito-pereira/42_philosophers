@@ -1,5 +1,7 @@
 This project was made while studying in 42 Porto as part of the Computer Science
 Common Core curriculum.
+This project is 42's version of the classical "Dining Philosophers" problem, regularly
+used in CS to teach about multithreading and concurrency problems.
 It was an introduction to multi-threading programming, with several goals in mind:
 - practice of basic syntax, logic, data types and structs;
 - familiarity with C language;
@@ -26,6 +28,14 @@ to quickly understand the code:
 -----|  1.2: Death Cycle         |-----
 
 (to be written)
+
+My way of keeping track of the current hunger level of each philosopher was to create, for each
+philosopher, an additional thread that would simply keep refreshing the current hunger level for each
+philosopher, to which we can call the "Death Cycle".
+
+The calculations for the "hunger" value are very simple:
+hunger = (current time in ms) - (the time it was since the start of last meal)
+which basically translates to how much time has passed since each philosopher last ate.
 
 -----| 2.0: Timestamps           |-----
 
@@ -97,3 +107,15 @@ doing this project. With multi-threading programming, not only are you fighting 
 bad syntax that used to cause normal segfaults and memory leaks, but you are now also
 fighting against your own ability to write stack-efficient code and keeping in mind good
 programming practics and philosophies.
+
+Another thing to consider is the scenarios where philosophers are actually supposed to die.
+During my initial testing, my program was working "too well": what i mean by that is it had no
+memory leaks, correct outputs, every philosopher was staying alive when they were supposed to, but
+they were also staying alive when they were NOT supposed to.
+Now, what do i mean, were "not supposed" to stay alive?
+Between deadlock situations and ensuring you are properly checking for every possible data race
+and shared memory space between threads, it is to be expected that some philosophers may
+starve to death for a good cause: ensuring proper programming techniques and safety measures.
+This project also teaches that there may be times where a tradeoff between execution speed
+for more safety is necessary and/or preferable, even if it results in the death of some philosophers
+here and there.

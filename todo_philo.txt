@@ -179,6 +179,9 @@ operations.. ou deixam?
 1714224002
 */
 
+escrever a documentacao so no fim porque pode haver mudancas e coisas que escrevo
+mal a meio
+
 -> smaller usleep() timers
 corre normalmente, simplesmente tenho death_msg checkers em todo o lado
 que nao correm mais mensagem nenhuma caso alguem morra
