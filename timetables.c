@@ -71,7 +71,7 @@ size_t	get_time(t_all *all)
 	size_t	diff_us;
 	size_t	sec_passed;
 	
-	//printf("Getting current time:\n");
+	//printf("----------------------\nGetting current time:\n");
 	s_curr = get_time_s();
 	us_curr = get_time_us();
 	sec_passed = s_curr - all->begin_s;
@@ -85,8 +85,9 @@ size_t	get_time(t_all *all)
 	{
 		//printf("begin > curr: diff_us = (1000000 - begin(%ld)) + curr(%ld)\n", all->begin_us, us_curr);
 		diff_us = (1000000 - all->begin_us) + us_curr;
+		sec_passed--;
 	}
-	//printf("Result: (%ld * 1000) + (%ld / 1000) = %ld;\n", sec_passed, diff_us, ((sec_passed * 1000) + (diff_us / 1000)));
+	//printf("Result: (%ld * 1000) + (%ld / 1000) = %ld;\n----------------------\n", sec_passed, diff_us, ((sec_passed * 1000) + (diff_us / 1000)));
 	return ((sec_passed * 1000) + (diff_us / 1000));
 }
 

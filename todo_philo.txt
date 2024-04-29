@@ -131,23 +131,6 @@ will execute these functions until the expected loop number is met:
 or until they cannot meet the stipulations and they, something, for
 example, like this
 
-void    *philosopher(t_times *times) {
-    ez;
-}
-
-.....
-<args>: provavelmente uma struct que contem todos os tempos passados
-como argumentos ao executar o programa philosophers
-
-struct	s_times() {
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-};
-typedef	t_times	struct s_times;
-
-(using size_t because, since the time will be given in
-milisseconds, we will probably deal with big numbers)
 .....
 
 /*
@@ -159,44 +142,6 @@ Arguments:
 - av[4] time_to_sleep
 - av[5] number_of_times_each_philosopher_must_eat (optional)
 */
-
-memset() ?
-void *memset(void *ptr, int value, size_t num);
-
-usleep() function will be used to probably actually wait in
-<time to sleep> milisseconds before printing each status message
-and move on to the next action;
-the death_checker will be started right at the beginning of the program
-and reset after each meal
-how can i do this?
-.probably a size_t will store a gettimeofday(); make a usleep until death time;
-and interrupt a usleep at the end of each meal (with a break or a continue
-or something)
-a thread inside a thread? uma thread para cada death_clock?
-
-pointer associado a uma funcao?
-varias threads vao tentar access garfos diferentes, por isso os garfos
-vao ter de ser criados na main thread, protegidos com mutex, e accessed
-so depois
-
-int *forks;
-forks = malloc(philo_num * sizeof(int));
-
-cada philo pode acessar ao fork[num] + fork[num - 1]
-unless philo[0] que so pode acessar ao fork[num];
-
-pthread_t   *philo;
-philo = malloc(philo_num * sizeof(pthread_t));
-free(philo);
-...
-pthread_t   philo[philo_num];
-crio static ou c malloc? dá par dar free a este tipo de unidades?
-tenho q aceder dentro da struct e dar free a todos os pointers individuais
-dentro, por isso nao, defino static
-
-eat        | sleep       think	eat
-[t_eat]    | [t_sleep]	.		[t_eat]
-|[t_die]		.		.		| (start eating times)
 
 ...
 

@@ -44,8 +44,9 @@ microsseconds), to dinamically calculate and return the value, in milisseconds, 
 current timestamp;
 
 (to be written)
+(update)
 
------|  3.0: Actions and Timers  |-----
+-----|  3.0: Actions             |-----
 
 "Eating" action:
 The slightly more complex action of this program because it manages the most mutexes,
@@ -76,3 +77,23 @@ inside the corresponding mutex and quickly move on to the next action.
 "Sleeping" action:
 A very straightforward action, simply prints out the "sleeping" status message and then
 uses usleep() the corresponding the <time_to_sleep> argument passed indicates 
+
+-----|  4.0: Timers              |-----
+
+One of the most importants aspects to learn how to handle with multi-threading programming, as well
+as data concurrency with mechanisms such as mutexes, it's program execution "timers", especially
+if our program directly uses time as a component of it's execution, just like this one does.
+If time is a factor, then every program heavily focused on a lot of in/out operations, OS
+schedulers and overall on a lot of function calls or recursion, is at risk, because these heavily
+affect execution speed and therefore affect "timers" and execution times.
+
+For example, after finally getting this "philosophers" program to work, i had a hard time using
+Valgrind to debug and check for memory leaks, because Valgrind slowed down my program so much,
+that all the timers slowed down and all the philosophers would starve simply by waiting for
+Valgrind to allow to program to continue it's execution.
+
+This part isn't really explaining my code itself, but more as a warning for any 42 student currently
+doing this project. With multi-threading programming, not only are you fighting against
+bad syntax that used to cause normal segfaults and memory leaks, but you are now also
+fighting against your own ability to write stack-efficient code and keeping in mind good
+programming practics and philosophies.

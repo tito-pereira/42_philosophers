@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/28 19:24:07 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 12:07:24 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <pthread.h>
 #include <sys/time.h>
 
+#define	DELAY	50
 #define	WHITE	"\033[0m";
 #define	RED		"\033[0;31m";
 #define	GREEN	"\033[0;32m";

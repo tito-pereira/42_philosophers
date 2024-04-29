@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 00:28:27 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 11:59:52 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ size_t	get_time_sub(size_t begin)
 
 void	death_status(t_all *all, int ph_nmb)
 {
-	pthread_mutex_lock(&all->mtx_msg[1]);
-	all->death_msg = 1;
-	printf("\033[0;31m%ld %d died\033[0m\n", get_time(all), ph_nmb);
-	//all->death_msg = 0;
-	pthread_mutex_unlock(&all->mtx_msg[1]);
+	if (all->death_msg == 0)
+	{
+		pthread_mutex_lock(&all->mtx_msg[1]);
+		all->death_msg = 1;
+		printf("\033[0;31m%ld %d died\033[0m\n", get_time(all), ph_nmb);
+		//all->death_msg = 0;
+		pthread_mutex_unlock(&all->mtx_msg[1]);
+	}
 }
 
 void	eat_status(t_all *all, int ph_nmb)
@@ -55,7 +58,7 @@ void	eat_status(t_all *all, int ph_nmb)
 			break ;
 		pthread_mutex_lock(all->people[ph_nmb - 1].f_mtx);
 		*(all->people[ph_nmb - 1].f_frk) = ph_nmb;
-		//printf("Philosopher [%d] picked f_fork.\n", ph_nmb);
+		printf("Philosopher [%d] picked f_fork.\n", ph_nmb);
 		if (*(all->people[ph_nmb - 1].p_frk) == -1)
 		{
 			pthread_mutex_lock(all->people[ph_nmb - 1].p_mtx);
@@ -76,7 +79,7 @@ void	eat_status(t_all *all, int ph_nmb)
 		}
 		else
 		{
-			//printf("Philosopher [%d] is retrying to eat.\n", ph_nmb);
+			printf("Philosopher [%d] is retrying to eat.\n", ph_nmb);
 			*(all->people[ph_nmb - 1].f_frk) = -1;
 			pthread_mutex_unlock(all->people[ph_nmb - 1].f_mtx);
 			continue ;
@@ -86,11 +89,10 @@ void	eat_status(t_all *all, int ph_nmb)
 			pthread_mutex_lock(&all->mtx_msg[0]);
 			printf("\033[0;32m%ld %d is eating\033[0m\n", get_time(all), ph_nmb);
 			all->people[ph_nmb - 1].last_ate = get_time(all);
-			printf("Philosopher [%d] last ate was: %ld;\n", ph_nmb, all->people[ph_nmb - 1].last_ate);
+			printf("Philosopher [%d] last ate was: %ld;\n", (ph_nmb - 1), all->people[ph_nmb - 1].last_ate);
 			pthread_mutex_unlock(&all->mtx_msg[0]);
 		}
 		*(all->people[ph_nmb - 1].f_frk) = -1;
-		printf("Forward for actually returned to -1.\n-------------------\n");
 		pthread_mutex_unlock(all->people[ph_nmb - 1].f_mtx);
 		*(all->people[ph_nmb - 1].p_frk) = -1;
 		pthread_mutex_unlock(all->people[ph_nmb - 1].p_mtx);

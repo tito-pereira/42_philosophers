@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/26 14:35:38 by tibarbos          #+#    #+#              #
-#    Updated: 2024/04/27 14:59:04 by marvin           ###   ########.fr        #
+#    Updated: 2024/04/29 13:07:34 by tibarbos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,4 +35,4 @@ test:
 	make re
 	clear
 	make clean
-	./$(NAME) 5 800 200 200
+	./$(NAME) 5 800 200 200 7

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 00:03:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:41:31 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,45 +46,48 @@ typedef struct	s_all
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }   t_all;
+
+possiveis erros do hunger:
+. translacao to all e nbr;
 */
 
-// t_all *all, int n
 void	*starvation(void *all_th)
 {
-	size_t		hunger;
-	int		nbr;
-	t_all	*all;
+	long		hunger;
+	int			nbr;
+	t_all		*all;
+	t_all_th	*all_tth;
 	
 	hunger = 0;
-	nbr = ((t_all_th *)all_th)->nbr;
-	printf("Inside philosopher death[%d]\n", nbr);
-	all = ((t_all_th *)all_th)->all;
+	all_tth = (t_all_th *)all_th; 
+	nbr = all_tth->nbr;
+	all = all_tth->all;
+	//nbr = ((t_all_th *)all_th)->nbr; //((t_all_th *)all_th)->nbr;
+	printf("Inside philosopher death[%d]\n", (nbr - 1));
+	//all = ((t_all_th *)all_th)->all;
 	while (all->death_msg == 0)
 	{
 		//printf("Inside philosopher death cycle[%d]\n", nbr);
-		//hunger = get_time(all) - all->people[nbr].last_ate;
-		if (hunger > 0 && hunger > all->time_to_die)
+		hunger = get_time(all) - all->people[nbr - 1].last_ate;
+		if (hunger > 0 && (size_t)hunger > all->time_to_die)
 		{
 			printf("Philosopher [%d] has died\n", nbr);
-			printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr].last_ate);
+			printf("(starve)hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr - 1].last_ate);
 			printf("time_to_die: %zu;\n", all->time_to_die);
-			//all->people[nbr].death_status = 1;
-			//all->death_msg = 1;
 			all->people[nbr].death_time = get_time(all);
-			death_status(all, nbr); //msg + death_msg
+			death_status(all, nbr);
 			break;
 		}
 	}
-	printf("Philosopher [%d] will be buried.\n", nbr);
+	printf("Philosopher [%d] will be buried.\n", (nbr - 1));
 	return(NULL);
 }
-// colocar em unidades / ordens de grandeza comparaveis
 // hunger = microsegundos, time_to_eat = milisegundos (micro * 100)
 // while (all->people[nbr].death_status == 0)
 
 void	*the_philo(void *all_th)
 {
-	pthread_t	th;
+	pthread_t		th;
 	int				i;
 	int				nbr;
 	t_all			*all;
@@ -95,17 +98,25 @@ void	*the_philo(void *all_th)
 	nbr = all_tth->nbr;
 	all = all_tth->all;
 	pthread_create(&th, NULL, &starvation, all_th);
-	usleep((nbr - 1) * 1000000);
-	printf("Inside philosopher[%d]\n", nbr);
+	pthread_detach(th);
+	usleep((nbr) * DELAY);
+	printf("Inside philosopher[%d]\n", (nbr - 1));
 	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr);
+		printf("Philosopher [%d] hunger before eating:\n", (nbr - 1));
+		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate);
 		eat_status(all, nbr);
 		usleep(all->time_to_eat * 1000);
+		printf("Philosopher [%d] hunger before thinking:\n", (nbr - 1));
+		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate);
 		think_status(all, nbr);
+		printf("Philosopher [%d] hunger before sleeping:\n", (nbr - 1));
+		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate);
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
 	}
+	//pthread_join(th, NULL);
 	printf("Philosopher [%d] is abandoning.\n", (nbr - 1));
 	return(NULL);
 }
@@ -117,6 +128,9 @@ void	wake_up_philos(t_all *all)
 
 	i = -1;
 	printf("Waking up philos.\n"); //
+	all->begin_s = get_time_s();
+	all->begin_us = get_time_us();
+	printf("Begin time: %zu;\n", get_time(all));
 	all_th = malloc(all->philo_num * sizeof(t_all_th *));
 	while (++i < all->philo_num)
 	{
@@ -140,6 +154,8 @@ void	wake_up_philos(t_all *all)
 // and makes the main thread wait for each of them
 
 /*
+comecar a contagem de tempo so aqui diria eu;
+
 old tests
 if (i && all->eat_no && all->people[nbr].death_status)
 		printf("i:%d, eat_no:%d, death_status: %d. Why not looping?\n", i, all->eat_no, all->people[nbr].death_status);

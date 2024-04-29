@@ -3,49 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 00:31:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/29 13:23:13 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
-+175 p amanha
-
-se eu retirar a thread de morte, corre tudo otimo
-o problema tem a ver com o meu hunger calculations e/ou last_ate
-normalmente o gajo morre mesmo depois de acabar de comer o que nao
-faz sentido
--- hunger possui um arithmetic overflow, ta a ir para o valor -1 (size_t max)
--- antes de corrigir aquilo, vou tentar aproveitar o bug para corrigir
-a minha escape sequence
-
-nah esquece recuso me a aceitar aqueles erros estupidos
-
+-> ajustar os valores de delay
+-> testar arg opcional
 -> philo death break program (testing deaths, frees, memory and timers)
 -> 10ms limit
--> 1 lone philospher death
-
+-> 1 lone philosopher death
 -> smaller usleep() timers
-*/
 
-/*
-void	init_time(t_all *all)
-{
-	printf("Initiating time info.\n");
-	all->min_passed = 0;
-	printf("min_passed: %d;\n", all->min_passed);
-	all->times->begin_s = get_time_s();
-	printf("begin_s: %ld;\n", all->times->begin_s);
-	if (all->times->begin_s == 60)
-		(all->min_passed)++;
-	all->times->begin_us = get_time_us();
-	printf("begin_us: %ld;\n", all->times->begin_us);
-	printf("min_passed: %d;\n", all->min_passed);
-}*/
+vao ser todos buried, mas nenhum abandona agr, loop infinito
+o get_time() é muito alto e eles morrem logo no inicio, tenho que
+tentar otimizar a contagem de tempo ou o processo em geral
+
+. resolver o erro de calculo dos segundos
+. reativar as mortes na starvation
+. experimentar a starvation como "death_checker" e o tempo contado
+apenas numa thread, no philo
+
+a extra thread so traz merda, valores de hunger estupidos, leaks relacionados
+com criacao e fim de threads, etc
+*/
 
 int	create_all(char **av, t_all **all)
 {
@@ -54,11 +40,11 @@ int	create_all(char **av, t_all **all)
 		return(0);
 	if (av[5] && ft_atoi(av[5]) < 0)
 		return(0);
-	(*all) = malloc(sizeof(t_all));
+	//(*all) = malloc(sizeof(t_all));
 	(*all)->philo_num = ft_atoi(av[1]);
 	printf("philo_num: %d;\n", (*all)->philo_num); //
-	(*all)->begin_s = get_time_s();
-	(*all)->begin_us = get_time_us();
+	(*all)->begin_s = 0; //get_time_s();
+	(*all)->begin_us = 0; //get_time_us();
 	(*all)->time_to_die = ft_atoi(av[2]);
 	printf("time_to_die: %ld;\n", (*all)->time_to_die); //
 	(*all)->time_to_eat = ft_atoi(av[3]);
@@ -71,10 +57,9 @@ int	create_all(char **av, t_all **all)
 	printf("eat_no: %d;\n", (*all)->eat_no); //
 	(*all)->mtx_frk = NULL;
 	(*all)->forks = malloc((*all)->philo_num * sizeof(int));
-	//memset(forks, -1, (*all)->philo_num);
 	(*all)->death_msg = 0;
 	(*all)->mtx_msg = NULL;
-	(*all)->people = malloc((*all)->philo_num * sizeof(t_person));
+	(*all)->people = NULL; //malloc((*all)->philo_num * sizeof(t_person));
 	printf("'all' created.\n");
 	return(1);
 }
@@ -164,16 +149,14 @@ void	manage_people(t_all *all, int option)
 	else if (option == 2)
 	{
 		printf("Destroying people.\n"); //
-		while (++i < all->philo_num)
-		{
-			free(all->people[i].p_frk);
-			free(all->people[i].f_frk);
-			free(all->people[i].p_mtx);
-			free(all->people[i].f_mtx);
-		}
 		free(all->people);
+		printf("People destroyed.\n");
 	}
 }
+/*
+nao posso dar free dos pointers aqui porque foram malloc na all struct
+e nao na mng_ppl, apenas copia a morada do all->forks e all->frk_mtx
+*/
 // Option 1: Creates all the t_person structs;
 // Option 2: Destroys all the t_person structs;
 
@@ -215,28 +198,20 @@ int	main(int ac, char **av)
 		manage_forks(all, 2);
 		manage_people(all, 2);
 		manage_messages(all, 2);
+		free(all);
 	}
 	else
 		printf("Wrong number or invalid arguments.\n");
 	return(0);
 }
 
-/*
-se for preciso poupar linhas, colocar os manage(1) dentro
-do create_all e so deixar os (2) ca fora
-
-. get_time(1000) imediato nem da tempo de comer;
-. fica dentro do loop de morte a imprimir ate a thread finalmente atualizar
-
-current testing
-
-global death status
-- eliminei o death status individual em cada people[]
-- coloquei um death_msg global no all
-
-time
-- t_all struct -> times*
-- create_all (init_time);
-- start_time(main);
-- get_time_tt(); actions / threads
-*/
+/*while (++i < all->philo_num)
+{
+	if (all->people[i].p_frk && all->people[i].p_mtx)
+	{
+		free(all->people[i].p_frk);
+		free(all->people[i].p_mtx);
+	}
+	free(all->people[i].f_frk);
+	free(all->people[i].f_mtx);
+}*/
