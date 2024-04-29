@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 18:09:41 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/30 00:22:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ void	*starvation(void *all_th)
 	all_tth = (t_all_th *)all_th; 
 	nbr = all_tth->nbr;
 	all = all_tth->all;
-	printf("Inside philosopher death[%d]\n", (nbr - 1)); //
+	//printf("Inside philosopher death[%d]\n", (nbr - 1)); //
 	while (all->death_msg == 0 && all->satisfied == 0)
 	{
 		//printf("Inside philosopher death cycle[%d]\n", nbr); //
 		hunger = get_time(all) - all->people[nbr - 1].last_ate;
 		if (hunger > 0 && (size_t)hunger > all->time_to_die)
 		{
-			printf("Philosopher [%d] has died\n", nbr); //
-			printf("(starve)hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr - 1].last_ate); //
-			printf("time_to_die: %zu;\n", all->time_to_die); //
+			//printf("Philosopher [%d] has died\n", nbr); //
+			//printf("(starve)hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr - 1].last_ate); //
+			//printf("time_to_die: %zu;\n", all->time_to_die); //
 			all->people[nbr - 1].death_time = get_time(all);
 			death_status(all, nbr);
 			break;
 		}
 	}
-	printf("Philosopher [%d] will be buried.\n", (nbr - 1)); //
+	//printf("Philosopher [%d] will be buried.\n", (nbr - 1)); //
 	return(NULL);
 }
 // hunger = microsegundos, time_to_eat = milisegundos (micro * 100)
@@ -59,7 +59,7 @@ void	*the_philo(void *all_th)
 	pthread_create(&th, NULL, &starvation, all_th);
 	usleep((nbr) * DELAY);
 	//printf("Inside philosopher[%d]\n", (nbr - 1)); //
-	while (++i != all->eat_no && all->death_msg == 0)
+	while (++i != all->eat_no && all->death_msg == 0)// && all->satisfied == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr); //
 		printf("Philosopher [%d] hunger before eating:\n", (nbr - 1)); //
@@ -77,38 +77,44 @@ void	*the_philo(void *all_th)
 	if (i == all->eat_no)
 		satisfied_status(all);
 	pthread_join(th, NULL);
-	printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); //
+	//printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); //
 	return(NULL);
 }
 
 void	wake_up_philos(t_all *all)
 {
 	int			i;
-	t_all_th	**all_th;
+	t_all_th	**all_th;//[all->philo_num];
 
 	i = -1;
-	printf("Waking up philos.\n"); //
+	//printf("Waking up philos.\n"); //
 	all->begin_s = get_time_s();
 	all->begin_us = get_time_us();
-	printf("Begin time: %zu;\n", get_time(all)); //
-	all_th = malloc(all->philo_num * sizeof(t_all_th *));
+	//printf("Begin time: %zu;\n", get_time(all)); //
+	all_th = (t_all_th **)malloc(all->philo_num * sizeof(t_all_th *));
 	while (++i < all->philo_num)
 	{
-		printf("thread[%d]\n", i); //
+		//printf("thread[%d]\n", i); //
 		all->people[i].nbr = i + 1;
 		all_th[i] = malloc(sizeof(t_all_th));
 		all_th[i]->all = all;
 		all_th[i]->nbr = i + 1;
-		printf("created nbr is %d.\n", all_th[i]->nbr); //
+		//printf("created nbr is %d.\n", all_th[i]->nbr); //
 		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 	}
 	i = -1;
 	while (++i < all->philo_num)
 		pthread_join(all->people[i].th, NULL);
 	i = -1;
+	//printf("lets find that invalid shit.\n");
 	while (++i < all->philo_num)
+	{
+		//printf("is is individual [%d] pointer?\n", i);
 		free(all_th[i]);
+	}
+	printf("is it the main ** pointer?\n");
 	free(all_th);
+	printf("all good now?\n");
 }
 // creates and launches each thread
 // and makes the main thread wait for each of them
