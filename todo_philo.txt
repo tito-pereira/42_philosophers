@@ -178,3 +178,12 @@ operations.. ou deixam?
 1714223941
 1714224002
 */
+
+-> smaller usleep() timers
+corre normalmente, simplesmente tenho death_msg checkers em todo o lado
+que nao correm mais mensagem nenhuma caso alguem morra
+
+-> testar arg opcional
+parece estar top
+
+1 philo, ele morre e nao ha leaks

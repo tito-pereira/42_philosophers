@@ -6,31 +6,32 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 13:23:13 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:30:19 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 /*
--> ajustar os valores de delay
--> testar arg opcional
+(ambos englobados no correto tratamento das mortes)
 -> philo death break program (testing deaths, frees, memory and timers)
--> 10ms limit
 -> 1 lone philosopher death
--> smaller usleep() timers
 
-vao ser todos buried, mas nenhum abandona agr, loop infinito
-o get_time() é muito alto e eles morrem logo no inicio, tenho que
-tentar otimizar a contagem de tempo ou o processo em geral
-
-. resolver o erro de calculo dos segundos
-. reativar as mortes na starvation
-. experimentar a starvation como "death_checker" e o tempo contado
-apenas numa thread, no philo
+-> 10ms limit
 
 a extra thread so traz merda, valores de hunger estupidos, leaks relacionados
 com criacao e fim de threads, etc
+acho que consegui resolver ao lidar c os valores negativos de hunger
+
+aquela leak fantasma que aparece é sempre relaiconada com
+272 bytes
+starvation, start thread, clone
+malloc, manage people
+
+quando ha erro, é sempre o starvation [0] por alguma razao
+agora foi [0] e [1], mas ha claramente uma trend de provavelmente estar ocupado
+com algo e nao "fecha" a tempo.. mas eu dou detach
+substitui o detach pela join e deixou de haver leaks
 */
 
 int	create_all(char **av, t_all **all)

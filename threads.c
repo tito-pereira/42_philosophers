@@ -6,50 +6,11 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 13:41:31 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:28:16 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/*
-Arguments:
-- av[0] number_of_philosophers
-- av[1] time_to_die
-- av[2] time_to_eat
-- av[3] time_to_sleep
-- av[4] number_of_times_each_philosopher_must_eat (optional)
-*/
-
-/*
-typedef struct	s_person
-{
-	pthread_t			th;
-	int					nbr;
-	int					times_to_eat;
-	int					death_status;
-	unsigned int		time_of_death;
-	unsigned int		last_ate;
-}   t_person;
-
-typedef struct	s_all
-{
-	int 			philo_num;
-	size_t			begin_time;
-    size_t			time_to_die;
-	size_t			time_to_eat;
-	size_t			time_to_sleep;
-	int				eat_no;
-	int 			*forks;
-	pthread_mutex_t	*mtx_frk;
-	int				death_msg;
-	pthread_mutex_t	*mtx_msg;
-	t_person		*people;
-}   t_all;
-
-possiveis erros do hunger:
-. translacao to all e nbr;
-*/
 
 void	*starvation(void *all_th)
 {
@@ -74,7 +35,7 @@ void	*starvation(void *all_th)
 			printf("Philosopher [%d] has died\n", nbr);
 			printf("(starve)hunger %zu: get_time(%zu) - last_ate(%zu)\n", hunger, get_time(all), all->people[nbr - 1].last_ate);
 			printf("time_to_die: %zu;\n", all->time_to_die);
-			all->people[nbr].death_time = get_time(all);
+			all->people[nbr - 1].death_time = get_time(all);
 			death_status(all, nbr);
 			break;
 		}
@@ -98,7 +59,7 @@ void	*the_philo(void *all_th)
 	nbr = all_tth->nbr;
 	all = all_tth->all;
 	pthread_create(&th, NULL, &starvation, all_th);
-	pthread_detach(th);
+	//pthread_detach(th);
 	usleep((nbr) * DELAY);
 	printf("Inside philosopher[%d]\n", (nbr - 1));
 	while (++i != all->eat_no && all->death_msg == 0)
@@ -116,7 +77,7 @@ void	*the_philo(void *all_th)
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
 	}
-	//pthread_join(th, NULL);
+	pthread_join(th, NULL);
 	printf("Philosopher [%d] is abandoning.\n", (nbr - 1));
 	return(NULL);
 }
