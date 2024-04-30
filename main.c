@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/30 11:00:50 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/30 11:15:09 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,13 @@ opa fds p merda daquele free
 este é capaz de ser o erro mais irritante que ja alguma vez tive porque faz 0 sentido
 porque merda alguma é que funciona c 5 mas nao funciona c 4?
 
-|| multiplas death messages ||
-nao deveria acontecer porqueeu ja preveni contra isso. mas testar melhor em casa
-(escrevi uma verification check para ver depois)
-
--- o satisfied status provavelmente tenho que fazer individualmente para cada philo
-n faz sentido haver um satsified status global (apesar de se um acabar, todos geralmente
-tambem acabam) mas como o codigo vai ser explicado, e mesmo para o CV, é melhor assim
 -- como aumentar o numero de testes de modo a que o gajo morra
 sera que é contando o tempo na mesma thread que o proprio philo? sera esse o segredo
 para atrasar um bcd o tempo? porque contando o tempo à parte nao estou a ver possivelmente
 como isto vai crashar, os intervalos de tempo sao no maximo 1ms sao minusculos, nao
 chegam àqueles do enunciado 
+
+acho que n é preciso, basta mexer no timing de comer + contar relogio etc
 */
 
 int	create_all(char **av, t_all **all)

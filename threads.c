@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/30 11:02:31 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/04/30 11:08:11 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	*the_philo(void *all_th)
 		usleep(all->time_to_sleep * 1000);
 	}
 	if (i == all->eat_no)
-		all->people[nbr - 1].stf == 1;
+		all->people[nbr - 1].stf = 1;
 	pthread_join(th, NULL);
 	//printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); //
 	return(NULL);
