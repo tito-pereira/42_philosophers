@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/30 00:22:52 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/30 11:02:31 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*starvation(void *all_th)
 	nbr = all_tth->nbr;
 	all = all_tth->all;
 	//printf("Inside philosopher death[%d]\n", (nbr - 1)); //
-	while (all->death_msg == 0 && all->satisfied == 0)
+	while (all->death_msg == 0 && all->people[nbr - 1].stf == 0)
 	{
 		//printf("Inside philosopher death cycle[%d]\n", nbr); //
 		hunger = get_time(all) - all->people[nbr - 1].last_ate;
@@ -58,8 +58,8 @@ void	*the_philo(void *all_th)
 	all = all_tth->all;
 	pthread_create(&th, NULL, &starvation, all_th);
 	usleep((nbr) * DELAY);
-	//printf("Inside philosopher[%d]\n", (nbr - 1)); //
-	while (++i != all->eat_no && all->death_msg == 0)// && all->satisfied == 0)
+	//printf("Inside philosopher[%d]\n", (nbr - 1)); //2
+	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr); //
 		printf("Philosopher [%d] hunger before eating:\n", (nbr - 1)); //
@@ -75,7 +75,7 @@ void	*the_philo(void *all_th)
 		usleep(all->time_to_sleep * 1000);
 	}
 	if (i == all->eat_no)
-		satisfied_status(all);
+		all->people[nbr - 1].stf == 1;
 	pthread_join(th, NULL);
 	//printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); //
 	return(NULL);

@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/29 23:00:46 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/30 11:04:31 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-/*
-all->satisfaction;
-
-all->mtx_msg = new malloc 3 vs old malloc 2
-all->mtx_msg[2] == satisfied status
-
-satisfied_status() function
-
-the_philo calling satisfied_status() function
-
-use satisfied status in starvation to avoid death message when they are simply
-full
-*/
-
-void	satisfied_status(t_all *all)
-{
-	if (all->satisfied == 0)
-	{
-		pthread_mutex_lock(&all->mtx_msg[2]);
-		all->satisfied = 1;
-		pthread_mutex_unlock(&all->mtx_msg[2]);
-	}
-	else
-		printf("Attempted satisfaction but someone else is already full.\n");
-}
 
 void	death_status(t_all *all, int ph_nmb)
 {
@@ -155,12 +129,27 @@ void	think_status(t_all *all, int ph_nmb)
 }
 
 /*
-eating:
-while (all->forks[ph_nmb - 1] != all->forks[ph_nmb - 2])
+all->satisfaction;
+
+all->mtx_msg = new malloc 3 vs old malloc 2
+all->mtx_msg[2] == satisfied status
+
+satisfied_status() function
+
+the_philo calling satisfied_status() function
+
+use satisfied status in starvation to avoid death message when they are simply
+full
+
+void	satisfied_status(t_all *all)
 {
-	if (all->forks[ph_nmb - 2] == ph_nmb && all->forks[ph_nmb - 2] == ph_nmb)
+	if (all->satisfied == 0)
 	{
-		printf("%d %d is eating", get_time(NULL), ph_nmb);
-		break;
+		pthread_mutex_lock(&all->mtx_msg[2]);
+		all->satisfied = 1;
+		pthread_mutex_unlock(&all->mtx_msg[2]);
 	}
-}*/
+	else
+		printf("Attempted satisfaction but someone else is already full.\n");
+}
+*/

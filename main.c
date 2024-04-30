@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/30 00:26:25 by marvin           ###   ########.fr       */
+/*   Updated: 2024/04/30 11:00:50 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	create_all(char **av, t_all **all)
 	//printf("time_to_eat: %ld;\n", (*all)->time_to_eat); //
 	(*all)->time_to_sleep = ft_atoi(av[4]);
 	//printf("time_to_sleep: %ld;\n", (*all)->time_to_sleep); //
-	(*all)->satisfied = 0;
 	(*all)->eat_no = -2;
 	if (av[5])
 		(*all)->eat_no = ft_atoi(av[5]);
@@ -156,6 +155,7 @@ void	manage_people(t_all *all, int option)
 			//printf("people[%d]\n", i); //
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
+			all->people[i].stf = 0;
 			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_to_eat = -2;
