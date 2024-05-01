@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 14:38:22 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:27:19 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,6 @@ void	death_status(t_all *all, int ph_nmb)
 	else
 		printf("Attempted death message but someone else already died.\n");
 }
-
-/*
-se calhar é uma questao de pointers aqui, tenho q dereferenciar o valor dentro
-da satisfaction e death_msg
-*/
 
 void	eat_status(t_all *all, int ph_nmb)
 {
@@ -74,6 +69,7 @@ void	eat_status(t_all *all, int ph_nmb)
 			all->people[ph_nmb - 1].last_ate = get_time(all);
 			//printf("Philosopher [%d] last ate was: %ld;\n", (ph_nmb - 1), all->people[ph_nmb - 1].last_ate); //
 			pthread_mutex_unlock(&all->mtx_msg[0]);
+			usleep(all->time_to_eat * 1000);
 		}
 		*(all->people[ph_nmb - 1].f_frk) = -1;
 		pthread_mutex_unlock(all->people[ph_nmb - 1].f_mtx);

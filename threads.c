@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 14:35:23 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:54:29 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,23 @@ void	*the_philo(void *all_th)
 	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		//printf("Inside philosopher life cycle[%d]\n", nbr); //
-		printf("Philosopher [%d] hunger before eating:\n", (nbr - 1)); //
-		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
+		//printf("Philosopher [%d] hunger before eating:\n", (nbr - 1)); //
+		//printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
 		eat_status(all, nbr);
-		usleep(all->time_to_eat * 1000);
-		printf("Philosopher [%d] hunger before thinking:\n", (nbr - 1)); //
-		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
-		think_status(all, nbr);
-		printf("Philosopher [%d] hunger before sleeping:\n", (nbr - 1)); //
-		printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
+		//usleep(all->time_to_eat * 1000);
+		//printf("Philosopher [%d] hunger before sleeping:\n", (nbr - 1)); //
+		//printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
 		sleep_status(all, nbr);
 		usleep(all->time_to_sleep * 1000);
+		//printf("Philosopher [%d] hunger before thinking:\n", (nbr - 1)); //
+		//printf("hunger %zu: get_time(%zu) - last_ate(%zu)\n", (get_time(all) - all->people[nbr - 1].last_ate), get_time(all), all->people[nbr - 1].last_ate); //
+		think_status(all, nbr);
+		usleep(1000);
 	}
 	if (i == all->eat_no)
 		all->people[nbr - 1].stf = 1;
 	pthread_join(th, NULL);
-	//printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); //
+	//printf("Philosopher [%d] is abandoning.\n", (nbr - 1)); // 
 	return(NULL);
 }
 

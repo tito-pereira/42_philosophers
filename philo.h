@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 14:35:31 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:40:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,14 @@
 #include <sys/time.h>
 
 #define	DELAY	50
+/*
 #define	WHITE	"\033[0m";
 #define	RED		"\033[0;31m";
 #define	GREEN	"\033[0;32m";
 #define	YELLOW	"\033[0;33m";
 #define	BLUE	"\033[0;34m";
 #define	CYAN	"\033[0;36m";
+*/
 
 typedef struct	s_person
 {
@@ -33,7 +35,9 @@ typedef struct	s_person
 	int				nbr;
 	int				times_to_eat;
 	int				stf;
+	//pthread_mutex_t	*stf_mtx;
 	size_t			death_time;
+	//pthread_mutex_t	*dth_t_mtx;
 	size_t			last_ate;
 	int				*p_frk;
 	int				*f_frk;
@@ -66,7 +70,6 @@ typedef	struct s_all_sh
 
 
 // ACTIONS
-size_t		get_time_sub(size_t begin);
 void		eat_status(t_all *all, int ph_nmb);
 void		sleep_status(t_all *all, int ph_nmb);
 void		think_status(t_all *all, int ph_nmb);

@@ -192,14 +192,72 @@ parece estar top
 -> negative hunger values;
 -> use join instead of detach;
 /----------------------------------------------------------------/
-No deaths problem:
+PROBLEM 1: DEADLOCK SITUATION (getting both forks simultaneously)
 
-Algures, a minha logica esta a ter falhass
-timing issues
-quando comeco a contar tempo / como conto tempo
-verificar starvation dentro das eat functions (por isso que faco uma thread a parte)
+i solved that with:
+- micro usleep() delay in each thread initialization;
+- drop fork and try again mechanism;
 
-data race testing, partir dai
+Apparently, this situation has been resolved (for now);
 
 /----------------------------------------------------------------/
-testing
+PROBLEM 2: NO DEATHS PROBLEM (no philosophers die ever)
+
+this is probable due to one of two things:
+1 - incorrect timing / overall program logic;
+(i am starting a timer too soon, too early, not cheking time some place,
+maybe i am doing the actions wrong or interpreting wrong)
+2 - not enought mutexes / data protection / data race checking
+
+(2)
+- mutex inside each t_person for individual satisfaction?
+- the same for individual death_time
+/----------------------------------------------------------------/
+current:
+
+eles tem que segurar os garfos e os mutexes enquanto comem oh burro do crl
+ja mudei
+usar o visualizer
+agora ate acho que o delay e problema porque
+nao preciso de definir uma "ordem"/hierarquia para quem esta ha mais tempo sem comer
+porque o scheduler e os mutexes ja fazem isso automaticamente
+eu so preciso é de eliminar aquele pequenito delay agora
+sera a thread concorrente? que o tempo registado a pedir o tempo, ou as mensagens,
+ou wtv. ok agora tenho e que reduzir o delay
+
+delay get_time
+é sempre +1ms, -1ms... e eu auto-reprovo-me por causa disso
+mas como prevenir?
+
+/----------------------------------------------------------------/
+DELAY?
+
+eu noto o timer da get_time a ir ganhando algum delay
+no entanto, o delay da hunger vai levando reset e perde tracao
+
+segundo a logica, o delay devera ser de 10ms para ultrapassar os tempos e
+algum philo morrer. eu mesmo no get_time demoro prai uns 11/12 segundos a
+atingir 10ms de delay, é pouco
+
+get_time_reads ganha delay
+last_ate ganha delay
+hunger nao ganha delay
+hunger deveria ganhar delay para ultrapassar o time_to_die;
+para isso, last_ate nao deveria ganhar delay
+
+mas pela logica, nao faz sentido hunger ir ganhando delay
+ou seja, vai ficando mais dificil comer?
+ou, em vez de delay, deve morrer logo? acho que sim, deve ser face value
+
+o delay pode ser:
+- delay natural de carga de CPU
+- delay do pedido da funcao de tempo
+- delay no mutex de printar
+
+DEADLOCK MANAGEMENT?
+
+lembrei-me agora que pode ser a propria maneira como eu faco gestao do
+deadlock que pode fazer com que ninguem morra. se calhar é suposto criar uma
+"ordem" para eles comerem, em vez do mecanismo de pegar/largar ate dar
+no entanto, se assim for, vai contra as proprias regras do enunciado. nenhum
+filosofo pode saber um do outro nem comunicar

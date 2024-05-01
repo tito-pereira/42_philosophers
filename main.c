@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 14:40:22 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/01 16:28:52 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,17 +173,15 @@ void	manage_messages(t_all *all, int	option)
 	if (option == 1)
 	{
 		//printf("Creating message mutexes.\n"); //
-		all->mtx_msg = malloc(3 * sizeof(pthread_mutex_t));
+		all->mtx_msg = malloc(2 * sizeof(pthread_mutex_t));
 		pthread_mutex_init(&all->mtx_msg[0], NULL);
 		pthread_mutex_init(&all->mtx_msg[1], NULL);
-		pthread_mutex_init(&all->mtx_msg[2], NULL);
 	}
 	else if (option == 2)
 	{
 		//printf("Destroying message mutexes.\n"); //
 		pthread_mutex_destroy(&all->mtx_msg[0]);
 		pthread_mutex_destroy(&all->mtx_msg[1]);
-		pthread_mutex_destroy(&all->mtx_msg[2]);
 		free(all->mtx_msg);
 	}
 }
