@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/04/30 11:15:09 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/01 14:40:22 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 
 4 410 200 200 7
 .morrem mesmo no fim, nos 2800
-.aparecem 4 mensagens de morte, o que é impensavel
 
 4 410 200 200 8
 . exatamente o mesmo nos 3200. tou a fazer algo no fim em q todos morrem
@@ -32,8 +31,6 @@ philo faz join da starvation. nao da qualquer sinal que completou o numero de ve
 eventualmente todos morrem pq starvation em todos acaba
 solucao, uma flag no all, c mutex, que notifica sobre "satisfied" ou algo parecido
 opa fds p merda daquele free
-este é capaz de ser o erro mais irritante que ja alguma vez tive porque faz 0 sentido
-porque merda alguma é que funciona c 5 mas nao funciona c 4?
 
 -- como aumentar o numero de testes de modo a que o gajo morra
 sera que é contando o tempo na mesma thread que o proprio philo? sera esse o segredo

@@ -191,3 +191,15 @@ parece estar top
 
 -> negative hunger values;
 -> use join instead of detach;
+/----------------------------------------------------------------/
+No deaths problem:
+
+Algures, a minha logica esta a ter falhass
+timing issues
+quando comeco a contar tempo / como conto tempo
+verificar starvation dentro das eat functions (por isso que faco uma thread a parte)
+
+data race testing, partir dai
+
+/----------------------------------------------------------------/
+testing
