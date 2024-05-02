@@ -46,23 +46,18 @@ parece estar top
 PROBLEM 1: DEADLOCK SITUATION (getting both forks simultaneously)
 
 i solved that with:
-- micro usleep() delay in each thread initialization;
+- micro usleep() delay in each thread initialization; (retired)
 - drop fork and try again mechanism;
+- creation of uneven numbered philosophers first, and only then creating the
+even ones
 
 Apparently, this situation has been resolved (for now);
 
 /----------------------------------------------------------------/
 PROBLEM 2: NO DEATHS PROBLEM (no philosophers die ever)
 
-this is probable due to one of two things:
-1 - incorrect timing / overall program logic;
-(i am starting a timer too soon, too early, not cheking time some place,
-maybe i am doing the actions wrong or interpreting wrong)
-2 - not enought mutexes / data protection / data race checking
-
-(2)
-- mutex inside each t_person for individual satisfaction?
-- the same for individual death_time
+eu largava logo os mutexes enquanto ele ainda tava a comer e comiam
+todos ao mesmo tempo, not really a problem
 /----------------------------------------------------------------/
 current:
 
@@ -120,13 +115,7 @@ deadlock que pode fazer com que ninguem morra. se calhar é suposto criar uma
 no entanto, se assim for, vai contra as proprias regras do enunciado. nenhum
 filosofo pode saber um do outro nem comunicar
 
----
-(tentei optimizar o processo de criacao de threads para ser tudo o mais
-rapido e simultaneo possivel criando dois loops, um para alocacao, e um
-segundo puramente para thread_crate)
-. varias mensagens de erro seguidas (???)
-. mensagem de eating apos mensagem de morte (verificao de death_msg mesmo
-antes do printf de comer)
+--------------------------------------------------------------------------
 
 a criacao das threads em si nao é muito regular
 threads nao começam na ordem em que as crias
@@ -162,3 +151,17 @@ while (go == 0) {
         go = 1;
     //break;
 }
+----------------------------
+na minha opiniao, o problema é menos de delay do codigo e mais de
+dificuldade do OS gerir tantas threads ao mm tempo
+nao é suposto funcionar 100% das vezes
+however, eu agr tenho um erro de numeros impares
+tenho que arranjar maneira de gerir como escolher quem come, mas
+eu nao queria comunicar filosofos entre si nem comparar
+hunger levels
+
+data races entre starvation, overcharge de threads.. talvez eliminando
+a starvation eu consiga melhorar o funcionamento
+
+transformar starvation em check_hunger antes de cada get_time ou death_msg
+ou isso

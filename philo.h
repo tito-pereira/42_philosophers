@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 18:07:45 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:00:16 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,10 @@ typedef	struct s_all_sh
 
 // ACTIONS
 void		eat_status(t_all *all, int ph_nmb);
-void		sleep_status(t_all *all, int ph_nmb);
-void		think_status(t_all *all, int ph_nmb);
-void		death_status(t_all *all, int ph_nmb);
+//void		sleep_status(t_all *all, int ph_nmb);
+//void		think_status(t_all *all, int ph_nmb);
+//void		death_status(t_all *all, int ph_nmb);
+void		msg_status(t_all *all, int ph_nmb, int opt);
 
 // THREADS
 void		wake_up_philos(t_all *all);

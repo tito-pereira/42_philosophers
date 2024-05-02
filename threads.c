@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 01:58:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/02 12:41:47 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	check_hunger(t_all *all, int nbr)
+{
+	long		hunger;
+	//int			nbr;
+	//t_all		*all;
+	//t_all_th	*all_tth;
+	
+	//hunger = 0;
+	//all_tth = (t_all_th *)all_th; 
+	//nbr = all_tth->nbr;
+	//all = all_tth->all;
+	//while (all->death_msg == 0 && all->people[nbr - 1].stf == 0)
+	//{
+	hunger = get_time(all) - all->people[nbr - 1].last_ate;
+	if (hunger > 0 && (size_t)hunger > all->time_to_die)
+	{
+		all->people[nbr - 1].death_time = get_time(all);
+		msg_status(all, nbr, 3); //die
+		return(1);
+	}
+	return(0);
+	//}
+}
 
 void	*starvation(void *all_th)
 {
@@ -29,7 +53,7 @@ void	*starvation(void *all_th)
 		if (hunger > 0 && (size_t)hunger > all->time_to_die)
 		{
 			all->people[nbr - 1].death_time = get_time(all);
-			death_status(all, nbr);
+			msg_status(all, nbr, 3); //die
 			break;
 		}
 	}
@@ -53,9 +77,9 @@ void	*the_philo(void *all_th)
 	while (++i != all->eat_no && all->death_msg == 0)
 	{
 		eat_status(all, nbr);
-		sleep_status(all, nbr);
+		msg_status(all, nbr, 1); //sleep
 		usleep(all->time_to_sleep * 1000);
-		think_status(all, nbr);
+		msg_status(all, nbr, 2); //think
 		usleep(1000);
 	}
 	if (i == all->eat_no)
@@ -106,6 +130,30 @@ void	wake_up_philos(t_all *all)
 }
 
 /*
+void	*starvation(void *all_th)
+{
+	long		hunger;
+	int			nbr;
+	t_all		*all;
+	t_all_th	*all_tth;
+	
+	hunger = 0;
+	all_tth = (t_all_th *)all_th; 
+	nbr = all_tth->nbr;
+	all = all_tth->all;
+	while (all->death_msg == 0 && all->people[nbr - 1].stf == 0)
+	{
+		hunger = get_time(all) - all->people[nbr - 1].last_ate;
+		if (hunger > 0 && (size_t)hunger > all->time_to_die)
+		{
+			all->people[nbr - 1].death_time = get_time(all);
+			msg_status(all, nbr, 3); //die
+			break;
+		}
+	}
+	return(NULL);
+}
+
 void	wake_up_philos(t_all *all)
 {
 	int			i;
