@@ -6,59 +6,77 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 15:54:54 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:23:52 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	see_hunger(t_all *all, int nbr)
+int	check_global_death(t_all *all, int source)
 {
-	long	hunger;
+	int	ret;
 
-	if (all->death_msg == 1)
-		return(1);
-	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	if (hunger > 0 && (size_t)hunger >= all->time_to_die)
-		return(1);
-	return(0);
+	pthread_mutex_lock(&all->mtx_msg[2]);
+	if (source == 1)
+		all->global = 1;
+	ret = all->global;
+	pthread_mutex_unlock(&all->mtx_msg[2]);
+	return(ret);
 }
 
 int	check_hunger(t_all *all, int nbr)
 {
 	long	hunger;
 
-	if (all->death_msg == 1)
-		return(1);
 	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	if (hunger > 0 && (size_t)hunger >= all->time_to_die)
+	if (hunger > 0 && (size_t)hunger > all->time_to_die)
 	{
 		all->people[nbr - 1].death_time = get_time(all);
 		msg_status(all, nbr, 3);
 		return(1);
 	}
+	if (check_global_death(all, 2) == 1)
+		return(1);
 	return(0);
+}
+
+int	life_cycle(t_all *all, int nbr)
+{
+	if (eat_status(all, nbr) == 0)
+		return(2);
+	if (check_hunger(all, nbr) == 1)
+		return(0);
+	msg_status(all, nbr, 1);
+	//if
+	usleep(all->time_to_sleep * 1000);
+	if (check_hunger(all, nbr) == 1)
+		return(0);
+	msg_status(all, nbr, 2);
+	//if
+	usleep(1000);
+	return(1);
 }
 
 void	*the_philo(void *all_th)
 {
 	int				i;
+	int				lf;
 	int				nbr;
 	t_all			*all;
 	t_all_th		*all_tth;
 
 	i = -1;
+	lf = 5;
 	all_tth = (t_all_th *)all_th; 
 	nbr = all_tth->nbr;
 	all = all_tth->all;
 	while (++i != all->eat_no && check_hunger(all, nbr) == 0)
 	{
-		if (eat_status(all, nbr) == 0)
-			continue;
-		msg_status(all, nbr, 1);
-		usleep(all->time_to_sleep * 1000);
-		msg_status(all, nbr, 2);
-		usleep(1000);
+		lf = life_cycle(all, nbr);
+		if (lf == 0)
+			break ;
+		else if (lf == 2)
+			continue ;
 	}
 	if (i == all->eat_no)
 		all->people[nbr - 1].stf = 1;
@@ -69,12 +87,14 @@ void	create_threads(t_all *all, t_all_th **all_th)
 {
 	int	i;
 	
-	i = 0;
+	i = 1;
 	while ((i + 1) <= all->philo_num) {
 		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 		i += 2;
 	}
-	i = 1;
+	i = 0;
+	//if (all->philo_num > 1)
+		//usleep(all->time_to_eat * 1000);
 	while ((i + 1) <= all->philo_num) {
 		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 		i += 2;
@@ -106,3 +126,35 @@ void	wake_up_philos(t_all *all)
 		free(all_th[i]);
 	free(all_th);
 }
+
+/*
+NEW 2
+
+void	create_threads(t_all *all, t_all_th **all_th)
+{
+	int	i;
+	
+	i = 0;
+	while ((i + 1) <= all->philo_num) {
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
+		i += 2;
+	}
+	i = 1;
+	while ((i + 1) <= all->philo_num) {
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
+		i += 2;
+	}
+}
+
+int	see_hunger(t_all *all, int nbr)
+{
+	long	hunger;
+
+	if (all->death_msg == 1)
+		return(1);
+	hunger = get_time(all) - all->people[nbr - 1].last_ate;
+	if (hunger > 0 && (size_t)hunger > all->time_to_die)
+		return(0);
+	return(1);
+}
+*/

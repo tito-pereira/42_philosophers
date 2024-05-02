@@ -6,13 +6,13 @@
 #    By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/26 14:35:38 by tibarbos          #+#    #+#              #
-#    Updated: 2024/05/02 15:30:22 by tibarbos         ###   ########.fr        #
+#    Updated: 2024/05/02 17:07:39 by tibarbos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME= philo
 CC= cc
-CFLAGS= -Wall -Wextra -Werror #-fsanitize=thread
+CFLAGS= -Wall -Wextra -Werror -fsanitize=thread
 RM= rm -rf
 SRC= main.c actions.c threads.c extra.c timetables.c
 OBJ= ${SRC:.c=.o}
