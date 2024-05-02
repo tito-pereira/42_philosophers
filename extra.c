@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 18:21:07 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:32:00 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,3 +60,32 @@ int	ft_atoi(char *str)
 	}
 	return(signal * atoi);
 }
+
+int	my_usleep(size_t time, t_all *all, int nbr)
+{
+	size_t	i;
+
+	i = 0;
+	while(i <= time)
+	{
+		if (check_hunger(all, nbr) == 1)
+        	return(0);
+    	usleep(1000);
+		i++;
+	}
+	return(1);
+}
+
+/*
+valor de usleep()
+int i = -1;
+while (++i <= value)
+{
+    if (check_hunger(all, nbr) == 1)
+        break;
+    usleep(1000);
+}
+posso experimentar 1 a 1 ou 2 a 2
++++
+verificar enquanto se espera pela comida (e thinking)
+*/

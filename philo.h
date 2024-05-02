@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 18:23:02 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 18:31:40 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		check_global_death(t_all *all, int source);
 // EXTRA
 int		ft_atoi(char *str);
 int		create_all(char **av, t_all **all);
+int		my_usleep(size_t time, t_all *all, int nbr);
 
 // TIMETABLES
 size_t	get_time_s(void);
