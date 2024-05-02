@@ -6,36 +6,32 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 14:33:49 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:54:54 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	see_hunger(t_all *all)
+int	see_hunger(t_all *all, int nbr)
 {
 	long	hunger;
-	int		nbr;
 
 	if (all->death_msg == 1)
 		return(1);
-	nbr = all->philo_num;
 	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	if (hunger > 0 && (size_t)hunger > all->time_to_die)
+	if (hunger > 0 && (size_t)hunger >= all->time_to_die)
 		return(1);
 	return(0);
 }
 
-int	check_hunger(t_all *all)
+int	check_hunger(t_all *all, int nbr)
 {
 	long	hunger;
-	int		nbr;
 
 	if (all->death_msg == 1)
 		return(1);
-	nbr = all->philo_num;
 	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	if (hunger > 0 && (size_t)hunger > all->time_to_die)
+	if (hunger > 0 && (size_t)hunger >= all->time_to_die)
 	{
 		all->people[nbr - 1].death_time = get_time(all);
 		msg_status(all, nbr, 3);
@@ -55,7 +51,7 @@ void	*the_philo(void *all_th)
 	all_tth = (t_all_th *)all_th; 
 	nbr = all_tth->nbr;
 	all = all_tth->all;
-	while (++i != all->eat_no && check_hunger(all) == 0)
+	while (++i != all->eat_no && check_hunger(all, nbr) == 0)
 	{
 		if (eat_status(all, nbr) == 0)
 			continue;

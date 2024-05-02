@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 13:54:44 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 15:52:20 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	msg_status(t_all *all, int ph_nmb, int opt);
 
 // THREADS
 void	wake_up_philos(t_all *all);
-int		check_hunger(t_all *all);
-int		see_hunger(t_all *all);
+int		check_hunger(t_all *all, int nbr);
+int		see_hunger(t_all *all, int nbr);
 
 // EXTRA
 int		ft_atoi(char *str);
