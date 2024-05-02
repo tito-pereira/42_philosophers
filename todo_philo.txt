@@ -165,3 +165,10 @@ a starvation eu consiga melhorar o funcionamento
 
 transformar starvation em check_hunger antes de cada get_time ou death_msg
 ou isso
+
+- testar tudo;
+- caso de, substituir no github e guardar ja
+- data races
+- valgrind
+- normalmente
+- ver se consigo entregar ja hoje

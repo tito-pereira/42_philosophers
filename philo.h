@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 12:59:26 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 13:54:44 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,21 @@ typedef	struct s_all_sh
 
 
 // ACTIONS
-void		eat_status(t_all *all, int ph_nmb);
-//void		sleep_status(t_all *all, int ph_nmb);
-//void		think_status(t_all *all, int ph_nmb);
-//void		death_status(t_all *all, int ph_nmb);
-void		msg_status(t_all *all, int ph_nmb, int opt);
-int			check_hunger(t_all *all);
-int			see_hunger(t_all *all);
+int		eat_status(t_all *all, int ph_nmb);
+void	msg_status(t_all *all, int ph_nmb, int opt);
 
 // THREADS
-void		wake_up_philos(t_all *all);
+void	wake_up_philos(t_all *all);
+int		check_hunger(t_all *all);
+int		see_hunger(t_all *all);
 
 // EXTRA
-int			ft_atoi(char *str);
+int		ft_atoi(char *str);
+int		create_all(char **av, t_all **all);
 
 // TIMETABLES
-size_t		get_time_s(void);
-size_t		get_time_us(void);
-size_t		get_time(t_all *all);
+size_t	get_time_s(void);
+size_t	get_time_us(void);
+size_t	get_time(t_all *all);
 
 #endif
