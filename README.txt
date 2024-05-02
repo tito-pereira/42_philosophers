@@ -119,3 +119,17 @@ starve to death for a good cause: ensuring proper programming techniques and saf
 This project also teaches that there may be times where a tradeoff between execution speed
 for more safety is necessary and/or preferable, even if it results in the death of some philosophers
 here and there.
+
+-----|  4.0: optimization        |-----
+
+Another classical Computer Science conundrum i encountered was the very simple
+matter of inevitable function and stack overload that would slow down the
+execution of my program to a point where, even if the code and logic was
+correct, over time, similar to the Big O notation in algorithms, the code
+would start to exponencially demand more and more from the CPU and OS that
+it would, at a certain point, not perform as expected due to delays.
+This is one of the core principles of the study of good practices and algorithms
+in CS and certainly one of the big problematics imposed by this project.
+I would consequentially find myself with optimization problems and resorted
+to retrace my logic steps a couple times in order to try and maximize efficiency
+in terms of memory usage and function calling.

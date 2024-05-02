@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/01 18:09:31 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 01:58:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,48 @@ void	wake_up_philos(t_all *all)
 	t_all_th	**all_th;
 
 	i = -1;
+	all_th = (t_all_th **)malloc(all->philo_num * sizeof(t_all_th *));
+	while (++i < all->philo_num)
+	{
+		all->people[i].nbr = i + 1;
+		all_th[i] = malloc(sizeof(t_all_th));
+		all_th[i]->all = all;
+		all_th[i]->nbr = i + 1;
+	}
+	i = -1;
+	all->begin_s = get_time_s();
+	all->begin_us = get_time_us();
+	/*while(++i < all->philo_num)
+	{
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
+		usleep(3000);
+	}*/
+	i = 0;
+	while ((i + 1) <= all->philo_num) {
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
+		i += 2;
+	}
+	i = 1;
+	while ((i + 1) <= all->philo_num) {
+		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
+		i += 2;
+	}
+	i = -1;
+	while (++i < all->philo_num)
+		pthread_join(all->people[i].th, NULL);
+	i = -1;
+	while (++i < all->philo_num)
+		free(all_th[i]);
+	free(all_th);
+}
+
+/*
+void	wake_up_philos(t_all *all)
+{
+	int			i;
+	t_all_th	**all_th;
+
+	i = -1;
 	all->begin_s = get_time_s();
 	all->begin_us = get_time_us();
 	all_th = (t_all_th **)malloc(all->philo_num * sizeof(t_all_th *));
@@ -89,3 +131,4 @@ void	wake_up_philos(t_all *all)
 		free(all_th[i]);
 	free(all_th);
 }
+*/

@@ -1,139 +1,3 @@
-Program name philo
-Turn in files Makefile, *.h, *.c, in directory philo/
-Makefile NAME, all, clean, fclean, re
-Arguments number_of_philosophers time_to_die time_to_eat
-time_to_sleep
-[number_of_times_each_philosopher_must_eat]
-External functs. memset, printf, malloc, free, write,
-usleep, gettimeofday, pthread_create,
-pthread_detach, pthread_join, pthread_mutex_init,
-pthread_mutex_destroy, pthread_mutex_lock,
-pthread_mutex_unlock
-Libft authorized No
-Description Philosophers with threads and mutexes
-
--> NO LIBFT
--> ALL IN PHILO DIRECTORY
-
-..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|
-
-Here are the things you need to know if you want to succeed this assignment:
-• One or more philosophers sit at a round table.
-There is a large bowl of spaghetti in the middle of the table.
-• The philosophers alternatively eat, think, or sleep.
-While they are eating, they are not thinking nor sleeping;
-while thinking, they are not eating nor sleeping;
-and, of course, while sleeping, they are not eating nor thinking.
-• There are also forks on the table. There are as many forks as philosophers.
-• Because serving and eating spaghetti with only one fork is very inconvenient, a
-philosopher takes their right and their left forks to eat, one in each hand.
-• When a philosopher has finished eating, they put their forks back on the table and
-start sleeping. Once awake, they start thinking again. The simulation stops when
-a philosopher dies of starvation.
-• Every philosopher needs to eat and should never starve.
-• Philosophers don’t speak with each other.
-• Philosophers don’t know if another philosopher is about to die.
-• No need to say that philosophers should avoid dying!
-
-You have to write a program for the mandatory part and another one for the bonus part
-(if you decide to do the bonus part). They both have to comply with the following rules:
-• Global variables are forbidden!
-• Your(s) program(s) should take the following arguments:
-number_of_philosophers time_to_die time_to_eat time_to_sleep
-[number_of_times_each_philosopher_must_eat]
-◦ number_of_philosophers: The number of philosophers and also the number
-of forks.
-◦ time_to_die (in milliseconds): If a philosopher didn’t start eating time_to_die
-milliseconds since the beginning of their last meal or the beginning of the simulation, they die.
-◦ time_to_eat (in milliseconds): The time it takes for a philosopher to eat.
-During that time, they will need to hold two forks.
-◦ time_to_sleep (in milliseconds): The time a philosopher will spend sleeping.
-◦ number_of_times_each_philosopher_must_eat (optional argument): If all
-philosophers have eaten at least number_of_times_each_philosopher_must_eat
-times, the simulation stops. If not specified, the simulation stops when a
-philosopher dies.
-• Each philosopher has a number ranging from 1 to number_of_philosophers.
-• Philosopher number 1 sits next to philosopher number number_of_philosophers.
-Any other philosopher number N sits between philosopher number N - 1 and philosopher number N + 1.
-About the logs of your program:
-• Any state change of a philosopher must be formatted as follows:
-◦ timestamp_in_ms X has taken a fork
-◦ timestamp_in_ms X is eating
-◦ timestamp_in_ms X is sleeping
-◦ timestamp_in_ms X is thinking
-◦ timestamp_in_ms X died
-Replace timestamp_in_ms with the current timestamp in milliseconds
-and X with the philosopher number.
-• A displayed state message should not be mixed up with another message.
-• A message announcing a philosopher died should be displayed no more than 10 ms
-after the actual death of the philosopher.
-• Again, philosophers should avoid dying!
-Your program must not have any data races.
-
-The specific rules for the mandatory part are:
-• Each philosopher should be a thread.
-• There is one fork between each pair of philosophers. Therefore, if there are several
-philosophers, each philosopher has a fork on their left side and a fork on their right
-side. If there is only one philosopher, there should be only one fork on the table.
-• To prevent philosophers from duplicating forks, you should protect the forks state
-with a mutex for each of them. 
-
-..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|..|
-
-. round table
-. n° forks == n° philosophers
-. only one action at a time:
-    eat -> sleep -> think
-. eating requires two forks
-
-Philosophers should avoid dying and fullfill the program parameters, however,
-they are unable to "talk" to each other. This probably means that the threads
-that represent them are unable to communicate with each other and only
-with the main thread
-
-. each philosopher is a separate thread
-. main thread has the "shared" parameters for each thread:
-    - number of philosophers / forks / extra threads;
-    - time to eat, sleep, think, n° of times to eat;
-. main thread has the "shared" variables between each thread:
-    - forks available
-(each thread will update the number of available forks, be it +2 or -2, so,
-the number of forks will work like a "global" variable)
-
-the number of available forks will probably be a shared variable between all the
-different threads / philosophers and, as such, will be protected by a mutex
-(if i have the ability to manage the behaviour of said mutex, i will probably
-see which philosophers as been the longest without eating and give him the
-mutex lock)
-
-vai ser mais complicado do que isso:
-• There is one fork between each pair of philosophers. Therefore, if there are several
-philosophers, each philosopher has a fork on their left side and a fork on their right
-side. If there is only one philosopher, there should be only one fork on the table.
-• To prevent philosophers from duplicating forks, you should protect the forks state
-with a mutex for each of them.
-
-.....
-- the function gettimeofday() will probable be used on the status messages when
-we inform about each philosophers actions and to check if they get past the
-allowed time to do the actions like eating, sleeping, thinking, etc
-
-- how to create threads on a loop video (will use this because i will receive
-the number of philosophers as an argument)
-
-Since a thread is represented by a single function, and that each philosopher
-should be represented by a single thread, that means each philosopher
-will be represented by a function.
-Given the looping nature of each philosopher life cycle:
-"eat -> sleep -> think", we can already assume an infinite coding loop that
-will execute these functions until the expected loop number is met:
-◦ number_of_times_each_philosopher_must_eat (optional argument)
-or until they cannot meet the stipulations and they, something, for
-example, like this
-
-.....
-
-/*
 Arguments:
 - av[0] titulo do programa
 - av[1] number_of_philosophers
@@ -164,19 +28,6 @@ ATOMIC OPPS
 
 para garantir uma resposta mais rapida, sugeriram sinchronization
 mechanisms como atomic operations
-
-o meu problema atual vai ser garantir esta resposta rapida e basicamente
-interromper a execucao do life_cycle
-se calhar usar o death status como uma atomic operation para declarar logo
-a morte de um philosopher, enquanto que o life_cycle naturalmente encontra
-o death_status e termina tudo
-
-É o meu grande priblema neste projeto. Eles pedem otimizacao do tempo de
-reacao da morte de um philosopher, mas nao me deixam usar atomic
-operations.. ou deixam?
-
-1714223941
-1714224002
 */
 
 escrever a documentacao so no fim porque pode haver mudancas e coisas que escrevo
@@ -254,6 +105,13 @@ o delay pode ser:
 - delay do pedido da funcao de tempo
 - delay no mutex de printar
 
+Paralellism as a solution for function and I/O overload
+
+- criar threads para ajudar com algo
+- gerir melhor timers com mutexes
+- gerir melhor a questao da retry to eat e evitar aqueles loops infinitos
+(ou se calhar diminuir a carga de funçoes em geral)
+
 DEADLOCK MANAGEMENT?
 
 lembrei-me agora que pode ser a propria maneira como eu faco gestao do
@@ -261,3 +119,46 @@ deadlock que pode fazer com que ninguem morra. se calhar é suposto criar uma
 "ordem" para eles comerem, em vez do mecanismo de pegar/largar ate dar
 no entanto, se assim for, vai contra as proprias regras do enunciado. nenhum
 filosofo pode saber um do outro nem comunicar
+
+---
+(tentei optimizar o processo de criacao de threads para ser tudo o mais
+rapido e simultaneo possivel criando dois loops, um para alocacao, e um
+segundo puramente para thread_crate)
+. varias mensagens de erro seguidas (???)
+. mensagem de eating apos mensagem de morte (verificao de death_msg mesmo
+antes do printf de comer)
+
+a criacao das threads em si nao é muito regular
+threads nao começam na ordem em que as crias
+a funcao usleep em si tambem nao e muito regular
+unica maneira é mesmo criar mecanismos dos philos falarem entre si
+ou haver algum tipo de informacao previa extra sobre ordens de comidas
+
+impares comem primeiro
+pares comem depois
+
+criam todas as threads, esperam, e só depois é que começam todos
+tipo um int *start = len do int *forks
+condicao partida para inicializar threads é todos os starts = 1
+
+int *start;
+start = malloc(all->philo_num + 1 * sizeof(int));
+start[all->philo_num] = '\0';
+int i = -1;
+while (all->start[++i] != '\0')
+    all->start[i] = 0;
+
+void    start_race()
+int go;
+int i;
+go = 0;
+i = -1;
+all->start[philo_num] = 1;
+while (go == 0) {
+    i = -1;
+    while (all->start[i] == 1)
+        ;
+    if ([] == '\0')
+        go = 1;
+    //break;
+}
