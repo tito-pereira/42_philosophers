@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 14:03:27 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:32:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,7 @@ void	msg_status(t_all *all, int ph_nmb, int opt)
 	}
 	else if (opt == 3)
 	{
-		//printf("lets die\n"); //
 		pthread_mutex_lock(&all->mtx_msg[1]);
-		//printf("inside die mutex.\n"); //
-		//printf("see hunger:\n"); //
 		if (all->death_msg == 0)
 		{
 			all->death_msg = 1;

@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 14:02:06 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:33:49 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@ int	see_hunger(t_all *all)
 
 	if (all->death_msg == 1)
 		return(1);
-	//printf("all->death_msg was %d\n", all->death_msg);
 	nbr = all->philo_num;
-	//printf("philo nbr is %d\n", nbr);
 	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	//printf("hunger: %zu, time to die: %zu;\n", hunger, all->time_to_die);
 	if (hunger > 0 && (size_t)hunger > all->time_to_die)
-	{
-		//printf("return 1\n");
 		return(1);
-	}
-	//printf("return 0\n");
 	return(0);
 }
 
@@ -42,7 +35,6 @@ int	check_hunger(t_all *all)
 		return(1);
 	nbr = all->philo_num;
 	hunger = get_time(all) - all->people[nbr - 1].last_ate;
-	//printf("hunger: %ld, time to die: %zu;\n", hunger, all->time_to_die); //
 	if (hunger > 0 && (size_t)hunger > all->time_to_die)
 	{
 		all->people[nbr - 1].death_time = get_time(all);
