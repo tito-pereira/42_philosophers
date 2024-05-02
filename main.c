@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 18:14:40 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/03 00:54:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	manage_forks(t_all *all, int option)
 {
-	int				i;
+	int		i;
 
 	i = -1;
 	if (option == 1)
@@ -74,7 +74,7 @@ void	manage_people(t_all *all, int option)
 		{
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
-			all->people[i].stf = 0;
+			//all->people[i].stf = 0;
 			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_to_eat = -2;

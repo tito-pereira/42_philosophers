@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 18:32:00 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/03 00:49:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*void	ppl_spec_order(t_all *all)
+{
+	int	i;
+
+	i = -1;
+	while (++i < all->philo_num)
+	{
+		all->people[i].even = 0;
+		if ((i % 2) == 0)
+			all->people[i].even = 1;
+		all->people[i].order = 0;
+		if (i == 0)
+			all->people[i].order = 1;
+		else if (i == (all->philo_num - 1))
+			all->people[i].order = 2;
+	}
+}*/
 
 int	create_all(char **av, t_all **all)
 {
@@ -25,6 +43,7 @@ int	create_all(char **av, t_all **all)
 	(*all)->time_to_die = ft_atoi(av[2]);
 	(*all)->time_to_eat = ft_atoi(av[3]);
 	(*all)->time_to_sleep = ft_atoi(av[4]);
+	(*all)->time_to_think = ft_atoi(av[2]) - ft_atoi(av[3]) - ft_atoi(av[4]);
 	(*all)->eat_no = -2;
 	(*all)->global = 0;
 	if (av[5])

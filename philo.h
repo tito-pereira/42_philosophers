@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/02 18:31:40 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/03 00:53:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ typedef struct	s_person
 {
 	pthread_t		th;
 	int				nbr;
-	int				times_to_eat;
-	int				stf;
-	size_t			death_time;
+	int				times_to_eat; //
+	//int				stf;
+	size_t			death_time; //
 	size_t			last_ate;
 	int				*p_frk;
 	int				*f_frk;
@@ -41,6 +41,7 @@ typedef struct	s_all
     size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
+	long			time_to_think;
 	int				eat_no;
 	int				global;
 	pthread_mutex_t	*mtx_frk;
@@ -49,6 +50,7 @@ typedef struct	s_all
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }   t_all;
+//long	time_to_think;
 
 typedef	struct s_all_sh
 {
