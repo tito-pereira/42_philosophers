@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/03 11:55:31 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:09:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,14 @@ int	life_cycle(t_all *all, int nbr)
 	if (check_hunger(all, nbr) == 1)
 		return(0);
 	msg_status(all, nbr, 1);
-	//usleep(all->time_to_sleep * 1000);
-	if (my_usleep(all->time_to_sleep, all, nbr) == 0)
-		return(0);
+	//if (my_usleep(all->time_to_sleep, all, nbr) == 0)
+		//return(0);
+	usleep(all->time_to_sleep * 1000);
 	if (check_hunger(all, nbr) == 1)
 		return(0);
 	msg_status(all, nbr, 2);
-	usleep(1000);
-	//if (my_usleep(all->time_to_think, all, nbr) == 0)
-		//return(0);
+	if (my_usleep(all->tm_think, all, nbr) == 0)
+		return(0);
 	return(1);
 }
 

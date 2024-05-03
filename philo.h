@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/03 11:54:18 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/03 13:05:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-#define	SLEEP_TIMER	3
+#define	SLEEP_TIMER	6
 
 typedef struct	s_person
 {
 	pthread_t		th;
 	int				nbr;
 	int				times_to_eat; //
-	//int				stf;
 	size_t			death_time; //
 	size_t			last_ate;
 	int				*p_frk;
@@ -43,7 +42,7 @@ typedef struct	s_all
     size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	long			time_to_think;
+	long			tm_think;
 	int				eat_no;
 	int				global;
 	pthread_mutex_t	*mtx_frk;
@@ -52,7 +51,6 @@ typedef struct	s_all
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }   t_all;
-//long	time_to_think;
 
 typedef	struct s_all_sh
 {
