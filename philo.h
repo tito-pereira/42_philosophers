@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/03 00:53:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/03 11:54:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <sys/time.h>
+
+#define	SLEEP_TIMER	3
 
 typedef struct	s_person
 {

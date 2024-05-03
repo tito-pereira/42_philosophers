@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/03 01:10:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/03 11:55:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,15 @@ int	life_cycle(t_all *all, int nbr)
 	if (check_hunger(all, nbr) == 1)
 		return(0);
 	msg_status(all, nbr, 1);
+	//usleep(all->time_to_sleep * 1000);
 	if (my_usleep(all->time_to_sleep, all, nbr) == 0)
 		return(0);
 	if (check_hunger(all, nbr) == 1)
 		return(0);
 	msg_status(all, nbr, 2);
-	if (my_usleep(all->time_to_think, all, nbr) == 0)
-		return(0);
+	usleep(1000);
+	//if (my_usleep(all->time_to_think, all, nbr) == 0)
+		//return(0);
 	return(1);
 }
 
@@ -70,12 +72,10 @@ void	*the_philo(void *all_th)
 	all_tth = (t_all_th *)all_th; 
 	nbr = all_tth->nbr;
 	all = all_tth->all;
-	if ((nbr % 2) != 0)
-		//my_usleep(all->time_to_eat, all, nbr);
-		usleep(all->time_to_eat * 1000);
+	/*if ((nbr % 2) != 0)
+		my_usleep(all->time_to_eat, all, nbr);
 	if ((all->philo_num % 2) != 0 && nbr == all->philo_num)
-		//my_usleep(all->time_to_eat, all, nbr);
-		usleep(all->time_to_eat * 1000);
+		my_usleep(all->time_to_eat, all, nbr);*/
 	while (++i != all->eat_no && check_hunger(all, nbr) == 0)
 	{
 		lf = life_cycle(all, nbr);

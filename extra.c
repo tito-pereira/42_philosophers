@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/03 00:49:41 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/03 12:23:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,22 +89,12 @@ int	my_usleep(size_t time, t_all *all, int nbr)
 	{
 		if (check_hunger(all, nbr) == 1)
         	return(0);
-    	usleep(1000);
-		i++;
+    	usleep(SLEEP_TIMER * 1000);
+		i += SLEEP_TIMER;
 	}
+	if (i > time)
+		usleep((i - time) * 1000);
+	if (check_hunger(all, nbr) == 1)
+        return(0);
 	return(1);
 }
-
-/*
-valor de usleep()
-int i = -1;
-while (++i <= value)
-{
-    if (check_hunger(all, nbr) == 1)
-        break;
-    usleep(1000);
-}
-posso experimentar 1 a 1 ou 2 a 2
-+++
-verificar enquanto se espera pela comida (e thinking)
-*/
