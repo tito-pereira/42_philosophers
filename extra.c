@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 11:28:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/04 14:14:30 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,18 @@ int	ft_atoi(char *str)
 int	my_usleep(size_t time, t_all *all, int nbr)
 {
 	size_t	i;
+	size_t	sleep;
 
 	i = 0;
-	if (time < 10)
+	sleep = SLEEP_TIMER;
+	if (time < 12)
+		sleep = 1;
+	while(i <= time)
 	{
-		while(i <= time)
-		{
-			if (check_hunger(all, nbr) == 1)
-				return(0);
-			usleep(1000);
-			i++;
-		}
-	}
-	else
-	{
-		while(i <= time)
-		{
-			if (check_hunger(all, nbr) == 1)
-				return(0);
-			usleep(SLEEP_TIMER * 1000);
-			i += SLEEP_TIMER;
-		}
+		if (check_hunger(all, nbr) == 1)
+			return(0);
+		usleep(sleep * 1000);
+		i += sleep;
 	}
 	if (i > time)
 		usleep((i - time) * 1000);
