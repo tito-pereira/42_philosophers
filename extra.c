@@ -6,11 +6,20 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 14:14:30 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 17:10:54 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+/*int	valid_args(char **av)
+{
+	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0
+		|| ft_atoi(av[4]) <= 0)
+		return(0);
+	if (av[5] && ft_atoi(av[5]) < 0)
+		return(0);
+}*/
 
 int	create_all(char **av, t_all **all)
 {
@@ -69,33 +78,21 @@ int	my_usleep(size_t time, t_all *all, int nbr)
 
 	i = 0;
 	sleep = SLEEP_TIMER;
-	if (time < 12)
-		sleep = 1;
+	if (time < SLEEP_MIN_VALUE)
+		sleep = SLEEP_MIN_TIMER;
 	while(i <= time)
 	{
 		if (check_hunger(all, nbr) == 1)
 			return(0);
 		usleep(sleep * 1000);
 		i += sleep;
+		if (i > time)
+		{
+			i -= (sleep - 1);
+			sleep = 1;
+		}
 	}
-	if (i > time)
-		usleep((i - time) * 1000);
 	if (check_hunger(all, nbr) == 1)
         return(0);
 	return(1);
 }
-
-/*
- < 10 millisseconds condition
-
-if (size_t time < 10)
-{
-	while(i <= time)
-	{
-		if (check_hunger(all, nbr) == 1)
-        	return(0);
-    	usleep(1000);
-		i++;
-	}
-}
-*/

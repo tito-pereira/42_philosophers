@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 14:14:14 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:14:02 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,15 @@
 #include <pthread.h>
 #include <sys/time.h>
 
-#define	SLEEP_TIMER	5
+#define	SLEEP_TIMER	8
+#define	SLEEP_MIN_VALUE	10
+#define	SLEEP_MIN_TIMER	2
 
 typedef struct	s_person
 {
 	pthread_t		th;
 	int				nbr;
-	int				times_to_eat; //
+	int				times_ate;
 	size_t			death_time; //
 	size_t			last_ate;
 	int				*p_frk;
@@ -78,4 +80,27 @@ size_t	get_time_s(void);
 size_t	get_time_us(void);
 size_t	get_time(t_all *all);
 
+// TRYLOCKS
+void	*the_reaper(void *void_all);
+int		satisfaction(int mode, t_all *all, int nbr);
+
 #endif
+
+/*
+testing:
+
+no one dies:
+5 800 200 200
+4 410 200 200
+
+death:
+4 310 200 100 5
+
+death in sleep:
+4 200 150 200 5
+
+death eating:
+4 200 300 100 5
+
+valgrind (memory leaks) || sanitizer (data races)
+*/

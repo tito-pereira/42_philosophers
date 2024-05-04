@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 13:58:43 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 16:33:40 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ int	life_cycle(t_all *all, int nbr)
 	if (check_hunger(all, nbr) == 1)
 		return(0);
 	msg_status(all, nbr, 2);
-	if (my_usleep(all->tm_think, all, nbr) == 0)
-		return(0);
+	//if (my_usleep(all->tm_think, all, nbr) == 0)
+		//return(0);
+	usleep(1000);
 	return(1);
 }
 
@@ -84,18 +85,23 @@ void	*the_philo(void *all_th)
 
 void	create_threads(t_all *all, t_all_th **all_th)
 {
-	int	i;
+	int			i;
+	pthread_t	reaper_th;
 	
 	i = 1;
-	while ((i + 1) <= all->philo_num) {
+	while ((i + 1) <= all->philo_num)
+	{
 		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 		i += 2;
 	}
 	i = 0;
-	while ((i + 1) <= all->philo_num) {
+	while ((i + 1) <= all->philo_num)
+	{
 		pthread_create(&all->people[i].th, NULL, &the_philo, (void *)all_th[i]);
 		i += 2;
 	}
+	pthread_create(&reaper_th, NULL, &the_reaper, (void *)all);
+	pthread_join(reaper_th, NULL);
 }
 
 void	wake_up_philos(t_all *all)
