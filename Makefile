@@ -6,7 +6,7 @@
 #    By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/26 14:35:38 by tibarbos          #+#    #+#              #
-#    Updated: 2024/05/04 15:28:21 by tibarbos         ###   ########.fr        #
+#    Updated: 2024/05/04 18:50:25 by tibarbos         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME= philo
 CC= cc
 CFLAGS= -Wall -Wextra -Werror #-fsanitize=thread
 RM= rm -rf
-SRC= main.c actions.c threads.c extra.c timetables.c trylocks.c
+SRC= main.c actions.c threads.c extra.c timetables.c reaper.c
 OBJ= ${SRC:.c=.o}
 LIB= -pthread
 

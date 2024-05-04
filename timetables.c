@@ -20,7 +20,7 @@ size_t	get_time_s(void)
 
 	gettimeofday(&ct, &tz);
 	s_curr = ct.tv_sec;
-	return(s_curr);
+	return (s_curr);
 }
 
 size_t	get_time_us(void)
@@ -31,7 +31,7 @@ size_t	get_time_us(void)
 
 	gettimeofday(&ct, &tz);
 	us_curr = ct.tv_usec;
-	return(us_curr);
+	return (us_curr);
 }
 
 size_t	get_time(t_all *all)
@@ -40,7 +40,7 @@ size_t	get_time(t_all *all)
 	size_t	s_curr;
 	size_t	diff_us;
 	size_t	sec_passed;
-	
+
 	s_curr = get_time_s();
 	us_curr = get_time_us();
 	sec_passed = s_curr - all->begin_s;

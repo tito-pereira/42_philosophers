@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 17:32:15 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 18:56:36 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	manage_people(t_all *all, int option)
 		free(all->people);
 }
 
-void	manage_messages(t_all *all, int	option)
+void	manage_messages(t_all *all, int option)
 {
 	if (option == 1)
 	{
@@ -115,7 +115,7 @@ int	main(int ac, char **av)
 		{
 			free(all);
 			printf("Invalid arguments.\n");
-			return(0);
+			return (0);
 		}
 		manage_forks(all, 1);
 		manage_people(all, 1);
@@ -128,5 +128,5 @@ int	main(int ac, char **av)
 	}
 	else
 		printf("Wrong number or invalid arguments.\n");
-	return(0);
+	return (0);
 }
