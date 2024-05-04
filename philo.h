@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 18:59:02 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:55:08 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_person
 	pthread_t		th;
 	int				nbr;
 	int				times_ate;
-	size_t			death_time; //
 	size_t			last_ate;
 	int				*p_frk;
 	int				*f_frk;
@@ -44,7 +43,7 @@ typedef struct s_all
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	long			tm_think;
+	//long			tm_think; //
 	int				eat_no;
 	int				global;
 	pthread_mutex_t	*mtx_frk;
@@ -53,6 +52,7 @@ typedef struct s_all
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }	t_all;
+// int	start;
 
 typedef struct s_all_sh
 {
@@ -66,13 +66,13 @@ void	msg_status(t_all *all, int ph_nmb, int opt);
 
 // THREADS
 void	wake_up_philos(t_all *all);
-int		check_hunger(t_all *all, int nbr);
+int		check_hunger(int mode, t_all *all, int nbr);
 int		check_global_death(t_all *all, int source);
 
 // EXTRA
 int		ft_atoi(char *str);
 int		create_all(char **av, t_all **all);
-int		my_usleep(size_t time, t_all *all, int nbr);
+//int		my_usleep(size_t time, t_all *all, int nbr);
 int		check_global_death(t_all *all, int source);
 
 // TIMETABLES
@@ -85,22 +85,3 @@ void	*the_reaper(void *void_all);
 int		satisfaction(int mode, t_all *all, int nbr);
 
 #endif
-
-/*
-testing:
-
-no one dies:
-5 800 200 200
-4 410 200 200
-
-death:
-4 310 200 100 5
-
-death in sleep:
-4 200 150 200 5
-
-death eating:
-4 200 300 100 5
-
-valgrind (memory leaks) || sanitizer (data races)
-*/

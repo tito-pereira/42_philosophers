@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 18:55:16 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 19:40:46 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	create_all(char **av, t_all **all)
 	(*all)->time_to_die = ft_atoi(av[2]);
 	(*all)->time_to_eat = ft_atoi(av[3]);
 	(*all)->time_to_sleep = ft_atoi(av[4]);
-	(*all)->tm_think = (ft_atoi(av[2]) - ft_atoi(av[3]) - ft_atoi(av[4])) / 2;
+	//(*all)->tm_think = (ft_atoi(av[2]) - ft_atoi(av[3]) - ft_atoi(av[4])) / 2;
 	(*all)->eat_no = -2;
 	(*all)->global = 0;
 	if (av[5])
@@ -74,7 +74,7 @@ int	ft_atoi(char *str)
 	return (signal * atoi);
 }
 
-int	my_usleep(size_t time, t_all *all, int nbr)
+/*int	my_usleep(size_t time, t_all *all, int nbr)
 {
 	size_t	i;
 	size_t	sleep;
@@ -98,4 +98,4 @@ int	my_usleep(size_t time, t_all *all, int nbr)
 	if (check_hunger(all, nbr) == 1)
 		return (0);
 	return (1);
-}
+}*/

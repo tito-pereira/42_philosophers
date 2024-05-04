@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 18:56:36 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:04:04 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	manage_people(t_all *all, int option)
 		{
 			all->people[i].th = 0;
 			all->people[i].nbr = i + 1;
-			all->people[i].death_time = 0;
 			all->people[i].last_ate = 0;
 			all->people[i].times_ate = 0;
 		}
@@ -88,11 +87,12 @@ void	manage_messages(t_all *all, int option)
 {
 	if (option == 1)
 	{
-		all->mtx_msg = malloc(4 * sizeof(pthread_mutex_t));
+		all->mtx_msg = malloc(5 * sizeof(pthread_mutex_t));
 		pthread_mutex_init(&all->mtx_msg[0], NULL);
 		pthread_mutex_init(&all->mtx_msg[1], NULL);
 		pthread_mutex_init(&all->mtx_msg[2], NULL);
 		pthread_mutex_init(&all->mtx_msg[3], NULL);
+		pthread_mutex_init(&all->mtx_msg[4], NULL);
 	}
 	else if (option == 2)
 	{
@@ -100,6 +100,7 @@ void	manage_messages(t_all *all, int option)
 		pthread_mutex_destroy(&all->mtx_msg[1]);
 		pthread_mutex_destroy(&all->mtx_msg[2]);
 		pthread_mutex_destroy(&all->mtx_msg[3]);
+		pthread_mutex_destroy(&all->mtx_msg[4]);
 		free(all->mtx_msg);
 	}
 }

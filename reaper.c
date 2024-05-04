@@ -6,7 +6,7 @@
 /*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 15:27:59 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 19:01:36 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/04 20:18:49 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	satisfaction(int mode, t_all *all, int nbr)
 	return (ret);
 }
 
-int	full_satisfaction(t_all *all)
+/*int	full_satisfaction(t_all *all)
 {
 	int	i;
 	int	flag;
@@ -39,27 +39,35 @@ int	full_satisfaction(t_all *all)
 			flag = 0;
 	}
 	return (flag);
-}
+}*/
 
 void	*the_reaper(void *void_all)
 {
 	t_all	*all;
 	int		i;
+	int		all_full;
 
 	all = (t_all *)void_all;
 	i = 1;
+	all_full = 1;
 	while (i <= all->philo_num)
 	{
 		if (satisfaction(2, all, i) == 0)
 		{
-			if (check_hunger(all, i) == 1)
+			all_full = 0;
+			if (check_hunger(2, all, i) == 1)
 				break ;
 		}
-		if (full_satisfaction(all) == 1)
-			break ;
+		//if (full_satisfaction(all) == 1)
+			//break ;
 		i++;
 		if (i == all->philo_num)
+		{
+			if (all_full == 1)
+				break;
 			i = 1;
+			all_full = 1;
+		}
 	}
 	return (NULL);
 }
