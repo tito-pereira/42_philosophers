@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 17:40:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 18:29:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,49 +117,3 @@ int	start_race(int mode, t_all *all)
     return(ret);
 }
 
-/*
-- usada na thread creation com o modo 1 (adicionar)
-- usada no philo num loop com o modo 2 (wait && observe)
-
--> (.h) all->start
--> (main) mtx_msg[5] && (main) all->start = 0;
--> (philo) adicao de um usleep(1000) para threads impares para criar delay
--> (philo) adicao da start_race modo 2
--> (philo) adicao da funcao green_light
--> (create_threads) adicao da start_race modo 1
-
-250 (1 maca, snacks)
-300.(100) (550).(100)
-
-inside create_threads:
-after all thread creation, send a green flag into the start race function
-apenas a start race function vai gerir os begin_times, retirar da
-create_all
-recebe o mode 3, begin time
-*/
-
-/*int	my_usleep(size_t time, t_all *all, int nbr)
-{
-	size_t	i;
-	size_t	sleep;
-
-	i = 0;
-	sleep = SLEEP_TIMER;
-	if (time < SLEEP_MIN_VALUE)
-		sleep = SLEEP_MIN_TIMER;
-	while (i <= time)
-	{
-		if (check_hunger(all, nbr) == 1)
-			return (0);
-		usleep(sleep * 1000);
-		i += sleep;
-		if (i > time)
-		{
-			i -= (sleep - 1);
-			sleep = 1;
-		}
-	}
-	if (check_hunger(all, nbr) == 1)
-		return (0);
-	return (1);
-}*/
