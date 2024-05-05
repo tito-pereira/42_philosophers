@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 20:55:08 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/05 15:08:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ typedef struct s_all
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	//long			tm_think; //
 	int				eat_no;
 	int				global;
+	int				start;
+	int				go_go_go;
 	pthread_mutex_t	*mtx_frk;
 	int				*forks;
 	int				death_msg;
 	pthread_mutex_t	*mtx_msg;
 	t_person		*people;
 }	t_all;
-// int	start;
 
 typedef struct s_all_sh
 {
@@ -74,6 +74,7 @@ int		ft_atoi(char *str);
 int		create_all(char **av, t_all **all);
 //int		my_usleep(size_t time, t_all *all, int nbr);
 int		check_global_death(t_all *all, int source);
+int		start_race(int mode, t_all *all);
 
 // TIMETABLES
 size_t	get_time_s(void);

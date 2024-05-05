@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reaper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 15:27:59 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 20:18:49 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/05 13:48:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	satisfaction(int mode, t_all *all, int nbr)
 {
 	int	ret;
 
-	pthread_mutex_lock(&all->mtx_msg[2]);
+	pthread_mutex_lock(&all->mtx_msg[3]);
 	ret = 0;
 	if (mode == 1)
 		all->people[nbr - 1].times_ate += 1;
 	if (all->people[nbr - 1].times_ate == all->eat_no)
 		ret = 1;
-	pthread_mutex_unlock(&all->mtx_msg[2]);
+	pthread_mutex_unlock(&all->mtx_msg[3]);
 	return (ret);
 }
 
