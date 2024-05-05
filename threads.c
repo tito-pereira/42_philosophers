@@ -6,35 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 13:19:30 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 17:38:50 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:40:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-int	check_hunger(int mode, t_all *all, int nbr)
-{
-	long	hunger;
-	int		ret;
-
-	ret = 0;
-	pthread_mutex_lock(&all->mtx_msg[4]);
-	if (mode == 1)
-		all->people[nbr - 1].last_ate = get_time(all);
-	else if (mode == 2)
-	{
-		hunger = get_time(all) - all->people[nbr - 1].last_ate;
-		if (hunger > 0 && (size_t)hunger > all->time_to_die)
-		{
-			msg_status(all, nbr, 3);
-			ret = 1;
-		}
-	}
-	pthread_mutex_unlock(&all->mtx_msg[4]);
-	if (check_global_death(all, 2) == 1 || ret == 1)
-		return (1);
-	return (0);
-}
 
 int	life_cycle(t_all *all, int nbr)
 {

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 15:11:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:40:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ int	create_all(char **av, t_all **all)
 	if (av[5] && ft_atoi(av[5]) < 0)
 		return (0);
 	(*all)->philo_num = ft_atoi(av[1]);
-	//(*all)->begin_s = 0;
-	//(*all)->begin_us = 0;
 	(*all)->time_to_die = ft_atoi(av[2]);
 	(*all)->time_to_eat = ft_atoi(av[3]);
 	(*all)->time_to_sleep = ft_atoi(av[4]);
@@ -37,6 +35,30 @@ int	create_all(char **av, t_all **all)
 	(*all)->mtx_msg = NULL;
 	(*all)->people = NULL;
 	return (1);
+}
+
+int	check_hunger(int mode, t_all *all, int nbr)
+{
+	long	hunger;
+	int		ret;
+
+	ret = 0;
+	pthread_mutex_lock(&all->mtx_msg[4]);
+	if (mode == 1)
+		all->people[nbr - 1].last_ate = get_time(all);
+	else if (mode == 2)
+	{
+		hunger = get_time(all) - all->people[nbr - 1].last_ate;
+		if (hunger > 0 && (size_t)hunger > all->time_to_die)
+		{
+			msg_status(all, nbr, 3);
+			ret = 1;
+		}
+	}
+	pthread_mutex_unlock(&all->mtx_msg[4]);
+	if (check_global_death(all, 2) == 1 || ret == 1)
+		return (1);
+	return (0);
 }
 
 int	check_global_death(t_all *all, int source)

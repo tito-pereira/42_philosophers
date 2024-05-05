@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:48:12 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 15:08:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:40:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int		check_global_death(t_all *all, int source);
 // EXTRA
 int		ft_atoi(char *str);
 int		create_all(char **av, t_all **all);
-//int		my_usleep(size_t time, t_all *all, int nbr);
+int		check_hunger(int mode, t_all *all, int nbr);
 int		check_global_death(t_all *all, int source);
 int		start_race(int mode, t_all *all);
 
