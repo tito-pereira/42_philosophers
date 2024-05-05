@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/23 16:32:06 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/04 20:10:25 by tibarbos         ###   ########.fr       */
+/*   Updated: 2024/05/05 17:51:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	eat_status(t_all *all, int ph_nmb)
 		if (check_hunger(2, all, ph_nmb) == 0)
 			printf("\033[0;32m%ld %d is eating\033[0m\n", \
 			get_time(all), ph_nmb);
-		//all->people[ph_nmb - 1].last_ate = get_time(all);
 		check_hunger(1, all, ph_nmb);
 		satisfaction(1, all, ph_nmb);
 		pthread_mutex_unlock(&all->mtx_msg[0]);

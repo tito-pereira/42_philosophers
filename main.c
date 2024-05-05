@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 16:47:43 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 17:41:12 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 17:53:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ void	manage_messages(t_all *all, int option)
 {
 	if (option == 1)
 	{
-		all->mtx_msg = malloc(5 * sizeof(pthread_mutex_t));
+		all->mtx_msg = malloc(6 * sizeof(pthread_mutex_t));
 		pthread_mutex_init(&all->mtx_msg[0], NULL);
 		pthread_mutex_init(&all->mtx_msg[1], NULL);
 		pthread_mutex_init(&all->mtx_msg[2], NULL);
 		pthread_mutex_init(&all->mtx_msg[3], NULL);
 		pthread_mutex_init(&all->mtx_msg[4], NULL);
+		pthread_mutex_init(&all->mtx_msg[5], NULL);
 	}
 	else if (option == 2)
 	{
@@ -101,6 +102,7 @@ void	manage_messages(t_all *all, int option)
 		pthread_mutex_destroy(&all->mtx_msg[2]);
 		pthread_mutex_destroy(&all->mtx_msg[3]);
 		pthread_mutex_destroy(&all->mtx_msg[4]);
+		pthread_mutex_destroy(&all->mtx_msg[5]);
 		free(all->mtx_msg);
 	}
 }
