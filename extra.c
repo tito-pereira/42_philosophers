@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 18:29:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/05 19:19:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	create_all(char **av, t_all **all)
 	if (ft_atoi(av[1]) < 1 || ft_atoi(av[2]) <= 0 || ft_atoi(av[3]) <= 0
 		|| ft_atoi(av[4]) <= 0)
 		return (0);
-	if (av[5] && ft_atoi(av[5]) < 0)
+	if (av[5] && ft_atoi(av[5]) <= 0)
 		return (0);
 	(*all)->philo_num = ft_atoi(av[1]);
 	(*all)->time_to_die = ft_atoi(av[2]);
