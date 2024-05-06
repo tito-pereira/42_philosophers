@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extra.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tibarbos <tibarbos@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 15:12:35 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 19:19:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/05/06 11:00:38 by tibarbos         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,20 @@ int	ft_atoi(char *str)
 
 int	start_race(int mode, t_all *all)
 {
-	int ret;
+	int	ret;
 
 	pthread_mutex_lock(&all->mtx_msg[5]);
-    if (mode == 1)
-        (all->start)++;
+	if (mode == 1)
+		(all->start)++;
 	else if (mode == 3)
 	{
 		all->begin_s = get_time_s();
 		all->begin_us = get_time_us();
 		all->go_go_go = 1;
 	}
-    ret = 0;
-    if (all->start == all->philo_num && all->go_go_go == 1)
-        ret = 1;
-    pthread_mutex_unlock(&all->mtx_msg[5]);
-    return(ret);
+	ret = 0;
+	if (all->start == all->philo_num && all->go_go_go == 1)
+		ret = 1;
+	pthread_mutex_unlock(&all->mtx_msg[5]);
+	return (ret);
 }
-
