@@ -1,6 +1,6 @@
 This is 42's version of the classical "Dining Philosophers" problem, regularly
 used in CS to teach about multithreading and it's common problems and good coding practices.
-Like every other 42 project, it had several goals in mind:
+Like every single other 42 project, it had several goals in mind:
 - continued practice of basic C syntax, logic, data types and structures;
 - dynamic data allocation managing;
 - use of tools like GDB and Valgrind to debug, avoid memory leaks and errors;
@@ -18,8 +18,8 @@ Common Core curriculum.
 It was made according to 42's Norm for good code etiquette, which includes rules regarding:
 - correct indentation;
 - maximum line lenght of 81 characters;
-- function maximum size of 25 lines;
-- 5 functions per file;
+- maximum function size of 25 lines;
+- maximum 5 functions per file;
 - mandatory 42 signature file header;
 - forbidden use of "for", "do / while", "switch / case", "goto";
 and many others...
