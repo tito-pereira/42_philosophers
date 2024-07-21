@@ -13,9 +13,9 @@ Synopsis:
 
 This is 42's version of the classical "Dining Philosophers" problem, regularly
 used in CS to teach about multithreading and it's common problems and good coding practices.
-Like every other 42 project, it had several with several goals in mind:
-- continued practice of basic syntax, logic, data types and structs;
-- familiarity with C language and Makefile;
+Like every other 42 project, it had several goals in mind:
+- continued practice of basic C syntax, logic, data types and structs;
+- familiarity with Makefile and compilers;
 - practice the use and manipulation of several threads;
 - practice the use of mutexes;
 - solving data races, circular dependencies and similar issues;
