@@ -6,11 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/04 15:27:59 by tibarbos          #+#    #+#             */
-/*   Updated: 2024/05/05 18:04:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/08/02 14:50:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../include/philo.h"
 
 int	satisfaction(int mode, t_all *all, int nbr)
 {
