@@ -2,7 +2,7 @@ This is 42's version of the classical "Dining Philosophers" problem, regularly
 used in CS to teach about multithreading and it's common problems and good coding practices.
 Like every single other 42 project, it had several goals in mind:
 - continued practice of basic C syntax, logic, data types and structures;
-- dynamic data allocation managing;
+- dynamic memory allocation management;
 - use of tools like GDB and Valgrind to debug, avoid memory leaks and errors;
 - incomplete instructions to promote self learning and error solving;
 - familiarity with Makefile and compilers;
