@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/26 14:35:38 by tibarbos          #+#    #+#              #
-#    Updated: 2024/08/02 16:42:32 by marvin           ###   ########.fr        #
+#    Updated: 2024/08/04 14:55:59 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,17 +33,21 @@ OBJ= $(SRC:%.c=$(OBJDIR)/%.o)
 # Includes
 LIB= -pthread
 
-.PHONY: all bonus clean fclean re
+.PHONY: all test clean fclean re
 
 $(OBJDIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) $(SAN) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	@$(CC) $(CFLAGS) $(SAN) $(OBJ) $(LIB) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIB) -o $(NAME)
 	@echo "$(BLUE)philo: $(GREEN)program compiled$(WHITE)"
 
 all: $(NAME)
+
+test: $(OBJ)
+	@$(CC) $(CFLAGS) $(SAN) $(OBJ) $(LIB) -o $(NAME)
+	@echo "$(BLUE)philo: $(GREEN)thread test program compiled$(WHITE)"
 
 clean:
 	@$(RM) $(OBJDIR)
